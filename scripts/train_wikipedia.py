@@ -391,6 +391,18 @@ def train(args):
     # Save tokenizer
     tokenizer.save(str(tokenizer_path))
     
+    # Save config for inference
+    config_path = checkpoints_dir / "config.json"
+    with open(config_path, 'w') as f:
+        json.dump({
+            'preset': args.preset,
+            'vocab_size': config.vocab_size,
+            'embedding_dim': config.embedding_dim,
+            'max_sequence_length': config.max_sequence_length,
+            'num_columns': config.num_columns,
+        }, f, indent=2)
+    print(f"Config saved to: {config_path}")
+    
     dataloader = DataLoader(
         dataset,
         batch_size=args.batch_size,
