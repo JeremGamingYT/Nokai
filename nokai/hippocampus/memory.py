@@ -81,9 +81,23 @@ class MemoryIndex:
             self.storage = torch.zeros(max_size, dim)
     
     def add(self, vectors: np.ndarray, ids: Optional[np.ndarray] = None):
-        """Add vectors to the index."""
+        """Add vectors to the index with capacity check."""
+        n = len(vectors)
+        
+        # Check if we would exceed capacity
+        if self.current_size + n > self.max_size:
+            # Skip if full (circular buffer would require rebuilding index)
+            remaining = self.max_size - self.current_size
+            if remaining <= 0:
+                return  # Memory is full, skip storing
+            # Only add what we can fit
+            vectors = vectors[:remaining]
+            n = remaining
+        
         if ids is None:
-            ids = np.arange(self.current_size, self.current_size + len(vectors))
+            ids = np.arange(self.current_size, self.current_size + n)
+        else:
+            ids = ids[:n]
         
         if self.index is not None:
             if self.backend == "hnsw":
@@ -91,10 +105,9 @@ class MemoryIndex:
             else:
                 self.index.add(vectors)
         else:
-            n = len(vectors)
             self.storage[self.current_size:self.current_size + n] = torch.from_numpy(vectors)
         
-        self.current_size += len(vectors)
+        self.current_size += n
     
     def search(self, query: np.ndarray, k: int = 5) -> Tuple[np.ndarray, np.ndarray]:
         """Search for k nearest neighbors."""

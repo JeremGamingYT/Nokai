@@ -50,8 +50,9 @@ class NokaiTrainer:
             T_mult=2,
         )
         
-        # Mixed precision
-        self.scaler = torch.cuda.amp.GradScaler() if config.memory_optimization.mixed_precision else None
+        # Mixed precision (updated API for PyTorch 2.x)
+        self.use_amp = config.memory_optimization.mixed_precision and torch.cuda.is_available()
+        self.scaler = torch.amp.GradScaler('cuda') if self.use_amp else None
         
         # Tracking
         self.step = 0
@@ -64,8 +65,8 @@ class NokaiTrainer:
         input_ids = batch['input_ids'].to(self.device)
         labels = batch.get('labels', input_ids).to(self.device)
         
-        # Forward with mixed precision
-        with torch.cuda.amp.autocast(enabled=self.scaler is not None):
+        # Forward with mixed precision (updated API for PyTorch 2.x)
+        with torch.amp.autocast('cuda', enabled=self.use_amp):
             outputs = self.model(input_ids, labels=labels, store_memory=True)
             loss = outputs['loss']
         
