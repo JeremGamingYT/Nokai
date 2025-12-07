@@ -502,8 +502,10 @@ class CognitiveTrainer:
         # =====================================
         # 3. UPDATE DOPAMINE WITH HOMEOSTASIS
         # =====================================
+        # Convert to float32 for dopamine circuit (doesn't use autocast)
+        da_input = outputs['logits'].float().mean(dim=(0, 1)).unsqueeze(0)
         da_state, da_meta = self.brain.dopamine_circuit(
-            outputs['logits'].mean(dim=(0, 1)).unsqueeze(0),  # Aggregate state
+            da_input,  # Aggregate state in float32
             reward=reward,
         )
         
