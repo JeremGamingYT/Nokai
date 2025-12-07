@@ -131,7 +131,7 @@ class TrainingConfigV2:
     gradient_accumulation: int = 1
     
     # BPE Tokenization
-    vocab_size: int = 32000
+    vocab_size: int = 32000  # Target vocab size (actual may be smaller based on data)
     min_token_frequency: int = 2
     use_bpe: bool = True
     
@@ -154,8 +154,9 @@ class TrainingConfigV2:
     save_interval: int = 1000
     checkpoint_dir: str = "checkpoints"
     
-    # Data
-    dataset: str = "wikitext"  # or "wikipedia"
+    # Data - NEW: support for local file
+    data_file: Optional[str] = None  # Path to local text file (overrides dataset)
+    dataset: str = "wikitext"  # or "wikipedia" (used if data_file is None)
     dataset_config: str = "wikitext-2-v1"
     max_samples: Optional[int] = None
     
@@ -708,7 +709,7 @@ def train_cognitive_v2(config: TrainingConfigV2):
     """Main training function with all cognitive enhancements."""
     
     print("\n" + "=" * 70)
-    print("NŌKAI COGNITIVE TRAINING V2")
+    print("NŌKAI COGNITIVE TRAINING V2.1 - ALIGNED BRAIN")
     print("=" * 70)
     print(f"  Preset: {config.preset}")
     print(f"  BPE Tokenization: {config.use_bpe and USE_BPE}")
@@ -726,93 +727,125 @@ def train_cognitive_v2(config: TrainingConfigV2):
     checkpoint_dir.mkdir(exist_ok=True)
     
     # =====================================
-    # MODEL
+    # STEP 1: LOAD DATA FIRST
     # =====================================
-    print(f"\n[1/5] Creating NeuromorphicBrain ({config.preset})...")
+    print(f"\n[1/5] Loading data...")
+    
+    texts = []
+    
+    # Option A: Load from local file
+    if config.data_file and Path(config.data_file).exists():
+        print(f"  Loading from file: {config.data_file}")
+        with open(config.data_file, 'r', encoding='utf-8') as f:
+            content = f.read()
+        # Split by double newlines (story separator)
+        raw_texts = content.split('\n\n')
+        texts = [t.strip() for t in raw_texts if len(t.strip()) > 50]
+        print(f"  Loaded {len(texts)} texts from file")
+    
+    # Option B: Load from HuggingFace
+    else:
+        print(f"  Loading from HuggingFace ({config.dataset})...")
+        try:
+            if config.dataset == "wikipedia":
+                dataset = load_dataset(
+                    "wikipedia",
+                    "20231101.en",
+                    split="train",
+                    trust_remote_code=True,
+                )
+            elif config.dataset == "tinystories":
+                dataset = load_dataset(
+                    "roneneldan/TinyStories",
+                    split="train",
+                )
+            else:
+                dataset = load_dataset(
+                    "wikitext",
+                    config.dataset_config,
+                    split="train",
+                )
+        except Exception as e:
+            print(f"  Dataset load failed: {e}")
+            print("  Falling back to wikitext-2...")
+            dataset = load_dataset("wikitext", "wikitext-2-v1", split="train")
+        
+        if config.max_samples:
+            dataset = dataset.select(range(min(config.max_samples, len(dataset))))
+        
+        # Extract texts
+        text_key = 'text' if 'text' in dataset.column_names else 'content'
+        texts = [item[text_key] for item in dataset if len(item.get(text_key, '')) > 50]
+        print(f"  Loaded {len(texts)} texts from dataset")
+    
+    if len(texts) < 100:
+        print(f"\n⚠️  WARNING: Only {len(texts)} texts loaded!")
+        print("    This is insufficient for proper training.")
+        print("    Run: python scripts/download_data.py --split 0.05")
+        print("    Then: python scripts/train_cognitive_v2.py --data_file data/tinystories.txt")
+    
+    # =====================================
+    # STEP 2: TRAIN TOKENIZER ON DATA
+    # =====================================
+    print(f"\n[2/5] Setting up tokenizer (DATA-ALIGNED)...")
+    
+    tokenizer_path = checkpoint_dir / "tokenizer.json"
+    actual_vocab_size = config.vocab_size  # Will be updated after training
+    
+    if USE_BPE and config.use_bpe:
+        if tokenizer_path.exists():
+            print("  Loading existing BPE tokenizer...")
+            tokenizer = NokaiTokenizer.load(str(tokenizer_path))
+            actual_vocab_size = tokenizer.vocab_size
+            print(f"  Tokenizer vocab: {actual_vocab_size}")
+        else:
+            print("  Training NEW BPE tokenizer on data...")
+            sample_texts = texts[:min(100000, len(texts))]
+            tokenizer = NokaiTokenizer.train(sample_texts, TokenizerConfig(
+                vocab_size=config.vocab_size,
+                min_frequency=config.min_token_frequency,
+            ))
+            tokenizer.save(str(tokenizer_path))
+            actual_vocab_size = tokenizer.vocab_size
+            print(f"  Tokenizer trained! Vocab size: {actual_vocab_size}")
+    else:
+        if tokenizer_path.exists():
+            print("  Loading existing character tokenizer...")
+            tokenizer = FallbackTokenizer.load(str(tokenizer_path))
+            actual_vocab_size = len(tokenizer.char_to_id)
+        else:
+            print("  Training character tokenizer...")
+            tokenizer = FallbackTokenizer(config.vocab_size)
+            tokenizer.train(texts[:10000])
+            tokenizer.save(str(tokenizer_path))
+            actual_vocab_size = len(tokenizer.char_to_id)
+        print(f"  Character tokenizer vocab: {actual_vocab_size}")
+    
+    # =====================================
+    # STEP 3: CREATE BRAIN WITH ALIGNED VOCAB
+    # =====================================
+    print(f"\n[3/5] Creating NeuromorphicBrain ({config.preset})...")
+    print(f"  ⚡ ALIGNED: Using tokenizer vocab_size = {actual_vocab_size}")
     
     brain_config = getattr(NokaiConfig, config.preset)()
     brain_config.max_sequence_length = config.max_seq_length
-    brain_config.vocab_size = config.vocab_size
+    
+    # CRITICAL: Use tokenizer's ACTUAL vocab size, not the config target
+    brain_config.vocab_size = actual_vocab_size
     
     brain = NeuromorphicBrain(brain_config)
     brain = brain.to(device)
     
     param_count = sum(p.numel() for p in brain.parameters())
     print(f"  Parameters: {param_count:,}")
+    print(f"  Embedding dim: {brain_config.embedding_dim}")
+    print(f"  Vocab size: {brain_config.vocab_size} (ALIGNED with tokenizer)")
     
     # =====================================
-    # TOKENIZER
+    # STEP 4: CREATE DATASET AND DATALOADER
     # =====================================
-    print(f"\n[2/5] Setting up tokenizer...")
+    print(f"\n[4/5] Creating dataset...")
     
-    tokenizer_path = checkpoint_dir / "tokenizer.json"
-    
-    if USE_BPE and config.use_bpe:
-        if tokenizer_path.exists():
-            print("  Loading existing BPE tokenizer...")
-            tokenizer = NokaiTokenizer.load(str(tokenizer_path))
-        else:
-            tokenizer = NokaiTokenizer(TokenizerConfig(
-                vocab_size=config.vocab_size,
-                min_frequency=config.min_token_frequency,
-            ))
-            print("  BPE tokenizer will be trained on data...")
-    else:
-        if tokenizer_path.exists():
-            print("  Loading existing character tokenizer...")
-            tokenizer = FallbackTokenizer.load(str(tokenizer_path))
-        else:
-            tokenizer = FallbackTokenizer(config.vocab_size)
-            print("  Using character-level tokenizer (install 'tokenizers' for BPE)")
-    
-    # =====================================
-    # DATA
-    # =====================================
-    print(f"\n[3/5] Loading dataset ({config.dataset})...")
-    
-    try:
-        if config.dataset == "wikipedia":
-            dataset = load_dataset(
-                "wikipedia",
-                "20231101.en",
-                split="train",
-                trust_remote_code=True,
-            )
-        else:
-            dataset = load_dataset(
-                "wikitext",
-                config.dataset_config,
-                split="train",
-            )
-    except Exception as e:
-        print(f"  Dataset load failed: {e}")
-        print("  Falling back to wikitext-2...")
-        dataset = load_dataset("wikitext", "wikitext-2-v1", split="train")
-    
-    if config.max_samples:
-        dataset = dataset.select(range(min(config.max_samples, len(dataset))))
-    
-    # Extract texts
-    text_key = 'text' if 'text' in dataset.column_names else 'content'
-    texts = [item[text_key] for item in dataset if len(item.get(text_key, '')) > 50]
-    print(f"  Loaded {len(texts)} texts")
-    
-    # Train tokenizer if needed
-    if USE_BPE and config.use_bpe and not tokenizer.is_trained:
-        print("  Training BPE tokenizer...")
-        sample_texts = texts[:min(100000, len(texts))]
-        tokenizer = NokaiTokenizer.train(sample_texts, TokenizerConfig(
-            vocab_size=config.vocab_size,
-            min_frequency=config.min_token_frequency,
-        ))
-        tokenizer.save(str(tokenizer_path))
-    elif not USE_BPE or not config.use_bpe:
-        if tokenizer.next_id < 100:
-            print("  Training character tokenizer...")
-            tokenizer.train(texts[:10000])
-            tokenizer.save(str(tokenizer_path))
-    
-    # Create dataset
     train_dataset = TextDataset(tokenizer, texts, config.max_seq_length)
     
     dataloader = DataLoader(
@@ -823,10 +856,13 @@ def train_cognitive_v2(config: TrainingConfigV2):
         pin_memory=True if device.type == "cuda" else False,
     )
     
+    print(f"  Samples: {len(train_dataset)}")
+    print(f"  Batches per epoch: {len(dataloader)}")
+    
     # =====================================
-    # TRAINER
+    # STEP 5: INITIALIZE TRAINER
     # =====================================
-    print(f"\n[4/5] Initializing trainer...")
+    print(f"\n[5/5] Initializing trainer...")
     
     trainer = CognitiveTrainer(brain, config)
     
@@ -840,7 +876,7 @@ def train_cognitive_v2(config: TrainingConfigV2):
     # =====================================
     # TRAINING LOOP
     # =====================================
-    print(f"\n[5/5] Starting training...")
+    print(f"\n[TRAINING] Starting...")
     print(f"  Epochs: {config.epochs}")
     print(f"  Steps per epoch: {len(dataloader)}")
     print(f"  Total steps: {total_steps:,}")
@@ -957,8 +993,10 @@ def main():
     parser.add_argument("--no_bpe", action="store_true", help="Use character-level instead of BPE")
     
     # Data
+    parser.add_argument("--data_file", type=str, default=None,
+                       help="Path to local text file (overrides --dataset)")
     parser.add_argument("--dataset", type=str, default="wikitext",
-                       choices=["wikitext", "wikipedia"])
+                       choices=["wikitext", "wikipedia", "tinystories"])
     parser.add_argument("--max_samples", type=int, default=None)
     
     # Consolidation
@@ -985,6 +1023,7 @@ def main():
         hebbian_lr=args.hebbian_lr,
         vocab_size=args.vocab_size,
         use_bpe=not args.no_bpe,
+        data_file=args.data_file,
         dataset=args.dataset,
         max_samples=args.max_samples,
         consolidation_interval=args.consolidation_interval,
