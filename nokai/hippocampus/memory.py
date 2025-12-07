@@ -32,9 +32,10 @@ class PatternSeparator(nn.Module):
     between similar memories.
     """
     
-    def __init__(self, input_dim: int, expansion_factor: float = 10.0):
+    def __init__(self, input_dim: int, expansion_factor: float = 2.0):
         super().__init__()
         self.input_dim = input_dim
+        # Reduced expansion factor for memory efficiency (was 10.0)
         self.expanded_dim = int(input_dim * expansion_factor)
         
         # Expansion layer (sparse random projection)

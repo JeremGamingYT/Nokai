@@ -345,31 +345,13 @@ def main():
     print(f"   Parameters: ~{config.estimate_parameters():,}")
     print(f"   VRAM: ~{config.estimate_vram_mb():.0f} MB")
     
-    # Step 5: Create dataset
-    # Load tokenized data
-    import numpy as np
-    tokens = np.fromfile(str(tokens_path), dtype=np.int32)
+    # Step 5: Create dataset using memory-mapped file (constant RAM usage!)
+    from nokai.data.dataloader import MemoryMappedTokenDataset
     
-    # Create simple dataset
-    class TokenDataset(torch.utils.data.Dataset):
-        def __init__(self, tokens, seq_length):
-            self.tokens = tokens
-            self.seq_length = seq_length
-            self.num_samples = len(tokens) // seq_length - 1
-        
-        def __len__(self):
-            return self.num_samples
-        
-        def __getitem__(self, idx):
-            start = idx * self.seq_length
-            end = start + self.seq_length + 1
-            chunk = self.tokens[start:end]
-            return {
-                'input_ids': torch.tensor(chunk[:-1], dtype=torch.long),
-                'labels': torch.tensor(chunk[1:], dtype=torch.long),
-            }
-    
-    dataset = TokenDataset(tokens, args.seq_length)
+    dataset = MemoryMappedTokenDataset(
+        data_path=str(tokens_path),
+        sequence_length=args.seq_length,
+    )
     print(f"   Training samples: {len(dataset):,}")
     
     # Step 6: Train!
