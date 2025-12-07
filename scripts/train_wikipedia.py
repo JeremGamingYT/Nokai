@@ -430,13 +430,19 @@ def train(args):
     # ============================================
     # TRAINING LOOP
     # ============================================
+    
+    # Auto-adjust intervals for small datasets
+    effective_consolidation_interval = min(args.consolidation_interval, max(20, total_steps // 5))
+    effective_save_interval = min(args.save_interval, max(10, total_steps // 3))
+    
     print("\n" + "="*60)
     print("Starting Training")
     print("="*60)
     print(f"  Epochs: {args.epochs}")
     print(f"  Batch size: {args.batch_size}")
     print(f"  Total steps: {total_steps:,}")
-    print(f"  Consolidation every: {args.consolidation_interval} steps")
+    print(f"  Consolidation every: {effective_consolidation_interval} steps")
+    print(f"  Saving every: {effective_save_interval} steps")
     print("="*60 + "\n")
     
     brain.train()
@@ -525,9 +531,9 @@ def train(args):
             # ============================================
             # CONSOLIDATION (Sleep Phase)
             # ============================================
-            if state.step % args.consolidation_interval == 0:
+            if state.step > 0 and state.step % effective_consolidation_interval == 0:
                 print(f"\n{'='*40}")
-                print(f"CONSOLIDATION PHASE (Sleep)")
+                print(f"CONSOLIDATION PHASE (Sleep) - Step {state.step}")
                 print(f"{'='*40}")
                 
                 brain.eval()
@@ -544,8 +550,8 @@ def train(args):
             # ============================================
             # SAVE CHECKPOINT
             # ============================================
-            if state.step % args.save_interval == 0:
-                avg_loss = sum(epoch_losses[-100:]) / len(epoch_losses[-100:])
+            if state.step > 0 and state.step % effective_save_interval == 0:
+                avg_loss = sum(epoch_losses[-100:]) / max(1, len(epoch_losses[-100:]))
                 
                 # Save latest
                 torch.save(brain.state_dict(), str(checkpoints_dir / "brain_latest.pt"))
@@ -559,7 +565,7 @@ def train(args):
         
         # Epoch summary
         epoch_time = time.time() - epoch_start
-        avg_epoch_loss = sum(epoch_losses) / len(epoch_losses)
+        avg_epoch_loss = sum(epoch_losses) / max(1, len(epoch_losses))
         
         print(f"\nEpoch {epoch+1} Complete:")
         print(f"  Average Loss: {avg_epoch_loss:.4f}")
@@ -569,6 +575,16 @@ def train(args):
         print(f"  Energy efficiency: {brain.get_energy_stats()}")
         
         state.epoch = epoch + 1
+        
+        # Update best loss at end of epoch
+        if avg_epoch_loss < state.best_loss:
+            state.best_loss = avg_epoch_loss
+            torch.save(brain.state_dict(), str(checkpoints_dir / "brain_best.pt"))
+            print(f"  [NEW BEST LOSS: {avg_epoch_loss:.4f}]")
+        
+        # Save latest after each epoch
+        torch.save(brain.state_dict(), str(checkpoints_dir / "brain_latest.pt"))
+        state.save(str(state_path))
         
         # Save epoch checkpoint
         torch.save(

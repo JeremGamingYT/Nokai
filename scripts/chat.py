@@ -75,7 +75,7 @@ class SimpleTokenizer:
 # ============================================
 
 def load_model(checkpoint_path: str, preset: str = "mini", device: str = "cuda"):
-    """Load trained model."""
+    """Load trained model (handles both NeuromorphicBrain and legacy NokaiModel)."""
     
     print(f"Loading model from {checkpoint_path}...")
     
@@ -89,14 +89,57 @@ def load_model(checkpoint_path: str, preset: str = "mini", device: str = "cuda")
     }
     config = config_methods[preset]()
     
-    # Create brain
+    # Load checkpoint first to detect architecture
+    checkpoint_exists = Path(checkpoint_path).exists()
+    state_dict = None
+    
+    if checkpoint_exists:
+        state_dict = torch.load(checkpoint_path, map_location=device)
+        
+        # Detect if it's NeuromorphicBrain or legacy NokaiModel
+        is_neuromorphic = any('dopamine_circuit' in k or 'striatum' in k or 'dacc' in k 
+                             for k in state_dict.keys())
+        is_legacy = any('cortex.layers' in k for k in state_dict.keys()) and not is_neuromorphic
+        
+        if is_legacy:
+            print("Detected LEGACY NokaiModel checkpoint")
+            print("Loading with NokaiModel instead of NeuromorphicBrain...")
+            
+            # Use legacy model
+            from nokai import NokaiModel
+            model = NokaiModel(config)
+            model.load_state_dict(state_dict)
+            model = model.to(device)
+            model.eval()
+            
+            # Return legacy model (has similar interface)
+            return model, config
+    
+    # Create NeuromorphicBrain
     brain = NeuromorphicBrain(config)
     
-    # Load weights
-    if Path(checkpoint_path).exists():
-        state_dict = torch.load(checkpoint_path, map_location=device)
-        brain.load_state_dict(state_dict)
-        print("Weights loaded successfully!")
+    # Load weights with flexible matching
+    if checkpoint_exists and state_dict:
+        try:
+            brain.load_state_dict(state_dict, strict=True)
+            print("Weights loaded successfully!")
+        except RuntimeError as e:
+            print(f"Strict loading failed: {str(e)[:200]}...")
+            print("Trying flexible loading (strict=False)...")
+            
+            try:
+                # Try loading with strict=False
+                missing, unexpected = brain.load_state_dict(state_dict, strict=False)
+                
+                if missing:
+                    print(f"  Missing keys: {len(missing)} (using random init)")
+                if unexpected:
+                    print(f"  Unexpected keys: {len(unexpected)} (ignored)")
+                    
+                print("Partial weights loaded!")
+            except Exception as e2:
+                print(f"Failed to load checkpoint: {e2}")
+                print("Using random initialization...")
     else:
         print("WARNING: Checkpoint not found, using random weights")
     
