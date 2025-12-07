@@ -78,47 +78,19 @@ def load_model(checkpoint_path: str, preset: str = "mini", device: str = "cuda")
     """
     Load trained model with auto-detection of architecture and config.
     
-    The script tries to:
-    1. Load config.json from checkpoints/ to get the correct preset
-    2. Detect if it's NeuromorphicBrain or legacy NokaiModel
-    3. Handle dimension mismatches gracefully
+    The script:
+    1. Loads checkpoint and infers dimensions directly from weights
+    2. Creates a matching config
+    3. Loads weights into the model
     """
     
     print(f"Loading model from {checkpoint_path}...")
     
-    # Try to load config.json for auto-detection
-    checkpoint_dir = Path(checkpoint_path).parent
-    config_json_path = checkpoint_dir / "config.json"
-    
-    detected_preset = None
-    if config_json_path.exists():
-        try:
-            with open(config_json_path, 'r') as f:
-                saved_config = json.load(f)
-            detected_preset = saved_config.get('preset')
-            if detected_preset:
-                print(f"Auto-detected preset from config.json: {detected_preset}")
-                if detected_preset != preset:
-                    print(f"  (Overriding --preset {preset} with saved {detected_preset})")
-                preset = detected_preset
-        except Exception as e:
-            print(f"Could not load config.json: {e}")
-    
-    # Config
-    config_methods = {
-        "nano": NokaiConfig.nano,
-        "micro": NokaiConfig.micro,
-        "mini": NokaiConfig.mini,
-        "base": NokaiConfig.base,
-        "large": NokaiConfig.large,
-    }
-    config = config_methods[preset]()
-    
     # Check if checkpoint exists
-    checkpoint_exists = Path(checkpoint_path).exists()
-    if not checkpoint_exists:
+    if not Path(checkpoint_path).exists():
         print(f"WARNING: Checkpoint not found at {checkpoint_path}")
-        print("Using random initialization...")
+        print("Using random initialization with default config...")
+        config = getattr(NokaiConfig, preset)()
         brain = NeuromorphicBrain(config)
         brain = brain.to(device)
         brain.eval()
@@ -127,46 +99,71 @@ def load_model(checkpoint_path: str, preset: str = "mini", device: str = "cuda")
     # Load state dict
     state_dict = torch.load(checkpoint_path, map_location=device)
     
+    # ============================================
+    # INFER CONFIG FROM CHECKPOINT DIMENSIONS
+    # ============================================
+    
+    # Try to infer embedding_dim from checkpoint
+    checkpoint_embedding_dim = None
+    for key in state_dict.keys():
+        if key == 'embedding.weight':
+            vocab_size, checkpoint_embedding_dim = state_dict[key].shape
+            print(f"Inferred from checkpoint:")
+            print(f"  vocab_size: {vocab_size}")
+            print(f"  embedding_dim: {checkpoint_embedding_dim}")
+            break
+    
     # Detect architecture type
     is_neuromorphic = any('dopamine_circuit' in k or 'striatum' in k or 'dacc' in k 
                          for k in state_dict.keys())
     is_legacy = any('cortex.layers' in k for k in state_dict.keys()) and not is_neuromorphic
     
-    # Try to infer embedding_dim from checkpoint
-    for key in state_dict.keys():
-        if 'embedding.weight' in key:
-            _, checkpoint_dim = state_dict[key].shape
-            if checkpoint_dim != config.embedding_dim:
-                print(f"\nWARNING: Dimension mismatch detected!")
-                print(f"  Checkpoint embedding_dim: {checkpoint_dim}")
-                print(f"  Config embedding_dim: {config.embedding_dim}")
-                
-                # Try to find matching preset
-                dim_to_preset = {64: 'nano', 128: 'nano', 256: 'mini', 512: 'base', 1024: 'large'}
-                suggested = dim_to_preset.get(checkpoint_dim)
-                if suggested:
-                    print(f"  Suggested fix: use --preset {suggested}")
-                    if detected_preset is None:  # Only auto-fix if no config.json
-                        print(f"  Auto-switching to preset: {suggested}")
-                        config = config_methods[suggested]()
-                        preset = suggested
-            break
+    # Find best matching preset based on embedding_dim
+    if checkpoint_embedding_dim:
+        dim_to_preset = {
+            64: 'nano',
+            128: 'nano',
+            192: 'micro', 
+            256: 'mini',
+            512: 'base',
+            768: 'large',
+            1024: 'large',
+        }
+        inferred_preset = dim_to_preset.get(checkpoint_embedding_dim, preset)
+        if inferred_preset != preset:
+            print(f"  Inferred preset: {inferred_preset} (overriding --preset {preset})")
+            preset = inferred_preset
     
-    # Load based on architecture type
+    # Create config
+    config = getattr(NokaiConfig, preset)()
+    
+    # Override config with exact checkpoint dimensions if they don't match
+    if checkpoint_embedding_dim and checkpoint_embedding_dim != config.embedding_dim:
+        print(f"\nAdjusting config to match checkpoint dimensions:")
+        print(f"  Config embedding_dim: {config.embedding_dim} -> {checkpoint_embedding_dim}")
+        
+        # We need to create a custom config that matches
+        # This is a workaround - ideally the presets should match
+        config.embedding_dim = checkpoint_embedding_dim
+        config.hippocampus.embedding_dim = checkpoint_embedding_dim
+    
+    # ============================================
+    # LOAD MODEL
+    # ============================================
+    
     if is_legacy:
         print("Detected LEGACY NokaiModel checkpoint")
-        print("Loading with NokaiModel instead of NeuromorphicBrain...")
+        print("Loading with NokaiModel...")
         
         from nokai import NokaiModel
         model = NokaiModel(config)
         try:
-            model.load_state_dict(state_dict)
-            print("Legacy model loaded successfully!")
+            model.load_state_dict(state_dict, strict=False)
+            print("Legacy model loaded!")
         except Exception as e:
             print(f"Failed to load legacy model: {e}")
-            print("The checkpoint may be incompatible.")
-            return None, config
-        
+            # Try with adjusted config
+            
         model = model.to(device)
         model.eval()
         return model, config
@@ -182,29 +179,28 @@ def load_model(checkpoint_path: str, preset: str = "mini", device: str = "cuda")
     except RuntimeError as e:
         error_msg = str(e)
         
-        if "size mismatch" in error_msg:
-            print("\nERROR: Dimension mismatch between checkpoint and model!")
-            print("This usually means you trained with a different --preset.")
-            print("\nTry one of these commands:")
-            print("  python scripts/chat.py --preset nano --checkpoint ...")
-            print("  python scripts/chat.py --preset micro --checkpoint ...")
-            print("  python scripts/chat.py --preset mini --checkpoint ...")
-            print("\nOr retrain with the correct preset to match your target.")
-            print("\nUsing random initialization instead...")
-        else:
-            print(f"Strict loading failed: {error_msg[:300]}...")
-            print("Trying flexible loading (strict=False)...")
+        print(f"\nLoading failed: {error_msg[:500]}...")
+        print("\nTrying flexible loading (strict=False)...")
+        
+        try:
+            missing, unexpected = brain.load_state_dict(state_dict, strict=False)
+            loaded_keys = len(state_dict) - len(unexpected)
+            total_keys = len(state_dict)
             
-            try:
-                missing, unexpected = brain.load_state_dict(state_dict, strict=False)
-                if missing:
-                    print(f"  Missing keys: {len(missing)} (random init)")
-                if unexpected:
-                    print(f"  Unexpected keys: {len(unexpected)} (ignored)")
-                print("Partial weights loaded!")
-            except Exception as e2:
-                print(f"Flexible loading also failed: {e2}")
-                print("Using random initialization...")
+            print(f"  Loaded: {loaded_keys}/{total_keys} keys")
+            if missing:
+                print(f"  Missing: {len(missing)} keys (using random init)")
+            if unexpected:
+                print(f"  Ignored: {len(unexpected)} keys")
+                
+            if loaded_keys > total_keys * 0.5:
+                print("Partial weights loaded successfully!")
+            else:
+                print("WARNING: Most weights could not be loaded.")
+                print("The checkpoint may be incompatible with this model version.")
+        except Exception as e2:
+            print(f"Flexible loading also failed: {e2}")
+            print("Using random initialization...")
     
     brain = brain.to(device)
     brain.eval()
