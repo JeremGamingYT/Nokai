@@ -1,325 +1,354 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
-Nōkai Training on Wikipedia
+Nōkai Neuromorphic Brain - Complete Training Script with Wikipedia
 
-This script:
-1. Downloads Wikipedia data (French or English)
-2. Preprocesses and tokenizes
-3. Trains Nōkai with hybrid learning
+This script trains the neuromorphic brain on Wikipedia data with:
+1. Dopamine-modulated learning
+2. Periodic memory consolidation (sleep phases)
+3. Synaptic plasticity tracking
+4. Energy-efficient processing
+
+Usage:
+    python scripts/train_wikipedia.py --preset mini --epochs 10
+    python scripts/train_wikipedia.py --preset base --epochs 50 --batch_size 4
 """
 
 import os
-import torch
+import sys
 import argparse
+import time
+import json
 from pathlib import Path
-from tqdm import tqdm
-from datasets import load_dataset
-from tokenizers import Tokenizer
-from tokenizers.models import BPE
-from tokenizers.trainers import BpeTrainer
-from tokenizers.pre_tokenizers import Whitespace
-from tokenizers.normalizers import NFD, Lowercase, StripAccents
-from tokenizers import normalizers
+from datetime import datetime
+from typing import Optional, Dict, List
 
-from nokai import NokaiConfig, NokaiModel
-from nokai.training import NokaiTrainer
-from nokai.data import StreamingDataset, create_dataloader
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, Dataset
+from torch.optim import AdamW
+from torch.optim.lr_scheduler import CosineAnnealingLR
 
+# Fix Windows encoding
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-def download_wikipedia(
-    language: str = "en",
-    num_samples: int = 100_000,
-    cache_dir: str = "./data/cache",
-) -> list:
-    """
-    Download Wikipedia articles.
-    
-    Args:
-        language: 'en' for English, 'fr' for French, etc.
-        num_samples: Number of articles to download
-        cache_dir: Cache directory for datasets
-        
-    Returns:
-        List of article texts
-    """
-    print(f"📥 Downloading Wikipedia ({language})...")
-    print(f"   This may take a while on first run...")
-    
-    # Use the new Wikimedia Wikipedia dataset (Parquet format)
-    # Available: 20231101 snapshot
-    try:
-        dataset = load_dataset(
-            "wikimedia/wikipedia",
-            f"20231101.{language}",
-            split="train",
-            cache_dir=cache_dir,
-            streaming=True,  # Stream to avoid downloading everything
-        )
-        
-        # Take samples from streaming dataset
-        texts = []
-        for i, article in enumerate(tqdm(dataset, desc="Downloading", total=num_samples)):
-            if i >= num_samples:
-                break
-            text = article.get("text", "")
-            if len(text) > 100:  # Skip very short articles
-                texts.append(text)
-        
-        print(f"✓ Downloaded {len(texts):,} articles")
-        return texts
-        
-    except Exception as e:
-        print(f"⚠️ Wikipedia download failed: {e}")
-        print("   Using fallback: simple text generation for testing...")
-        
-        # Fallback: generate simple training data
-        sample_texts = [
-            "The human brain is a complex organ responsible for controlling all functions of the body.",
-            "Neural networks are computing systems inspired by biological neural networks.",
-            "Machine learning is a subset of artificial intelligence focused on building systems that learn from data.",
-            "Deep learning uses artificial neural networks with multiple layers to model complex patterns.",
-            "The neocortex is the part of the brain responsible for higher-order functions like language and reasoning.",
-            "Synapses are the connections between neurons where information is transmitted.",
-            "Memory consolidation occurs during sleep when the brain strengthens neural connections.",
-            "The hippocampus plays a crucial role in forming new memories and spatial navigation.",
-            "Attention mechanisms in the brain help focus on relevant information while filtering out noise.",
-            "Neuroplasticity refers to the brain's ability to reorganize itself by forming new neural connections.",
-        ] * (num_samples // 10 + 1)
-        
-        return sample_texts[:num_samples]
+# Add parent to path
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from nokai import NeuromorphicBrain, NokaiConfig
+
+# Optional imports
+try:
+    from tqdm import tqdm
+    HAS_TQDM = True
+except ImportError:
+    HAS_TQDM = False
+    print("Note: Install tqdm for progress bars: pip install tqdm")
+
+try:
+    from datasets import load_dataset
+    HAS_DATASETS = True
+except ImportError:
+    HAS_DATASETS = False
+    print("ERROR: datasets library required. Install: pip install datasets")
+    sys.exit(1)
+
+try:
+    from tokenizers import Tokenizer
+    from tokenizers.models import BPE
+    from tokenizers.trainers import BpeTrainer
+    from tokenizers.pre_tokenizers import Whitespace
+    HAS_TOKENIZERS = True
+except ImportError:
+    HAS_TOKENIZERS = False
+    print("Note: Using simple tokenizer (install tokenizers for better results)")
 
 
-def create_tokenizer_from_texts(
-    texts: list,
-    vocab_size: int = 32000,
-    save_path: str = "./data/tokenizer.json",
-) -> Tokenizer:
-    """
-    Train a BPE tokenizer on the corpus.
-    """
-    print(f"🔤 Training tokenizer (vocab_size={vocab_size})...")
-    
-    # Create tokenizer
-    tokenizer = Tokenizer(BPE(unk_token="[UNK]"))
-    
-    # Normalizer
-    tokenizer.normalizer = normalizers.Sequence([
-        NFD(),
-        Lowercase(),
-        StripAccents(),
-    ])
-    
-    # Pre-tokenizer
-    tokenizer.pre_tokenizer = Whitespace()
-    
-    # Trainer
-    trainer = BpeTrainer(
-        vocab_size=vocab_size,
-        special_tokens=["[UNK]", "[PAD]", "[BOS]", "[EOS]", "[MASK]"],
-        min_frequency=2,
-        show_progress=True,
-    )
-    
-    # Train
-    tokenizer.train_from_iterator(texts, trainer=trainer)
-    
-    # Save
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    tokenizer.save(save_path)
-    print(f"✓ Tokenizer saved to {save_path}")
-    
-    return tokenizer
+# ============================================
+# CONFIGURATION
+# ============================================
+
+DEFAULT_CONFIG = {
+    "preset": "mini",           # nano, micro, mini, base, large
+    "epochs": 10,
+    "batch_size": 8,
+    "learning_rate": 1e-4,
+    "weight_decay": 0.01,
+    "warmup_steps": 1000,
+    "max_seq_length": 512,
+    "gradient_accumulation": 1,
+    "consolidation_interval": 500,   # Steps between sleep phases
+    "consolidation_steps": 50,       # Steps per sleep phase
+    "save_interval": 1000,
+    "log_interval": 50,
+    "wikipedia_lang": "en",
+    "wikipedia_date": "20231101",
+    "max_samples": None,            # None = use all
+    "seed": 42,
+}
 
 
-def prepare_training_data(
-    texts: list,
-    tokenizer: Tokenizer,
-    sequence_length: int = 512,
-    save_path: str = "./data/train_tokens.bin",
-) -> str:
-    """
-    Tokenize all texts and save as binary file for memory-mapping.
-    """
-    import numpy as np
+# ============================================
+# SIMPLE TOKENIZER (fallback)
+# ============================================
+
+class SimpleTokenizer:
+    """Simple character-level tokenizer as fallback."""
     
-    print(f"📝 Tokenizing corpus...")
+    def __init__(self, vocab_size: int = 32000):
+        self.vocab_size = vocab_size
+        self.char_to_id = {}
+        self.id_to_char = {}
+        self.pad_token_id = 0
+        self.unk_token_id = 1
+        self.bos_token_id = 2
+        self.eos_token_id = 3
+        
+        # Initialize with special tokens
+        self.char_to_id = {'<pad>': 0, '<unk>': 1, '<s>': 2, '</s>': 3}
+        self.id_to_char = {0: '<pad>', 1: '<unk>', 2: '<s>', 3: '</s>'}
+        self.next_id = 4
     
-    all_tokens = []
-    for text in tqdm(texts, desc="Tokenizing"):
-        tokens = tokenizer.encode(text).ids
-        all_tokens.extend(tokens)
-        all_tokens.append(tokenizer.token_to_id("[EOS]"))  # Add EOS
+    def train(self, texts: List[str]):
+        """Build vocabulary from texts."""
+        for text in texts:
+            for char in text:
+                if char not in self.char_to_id and self.next_id < self.vocab_size:
+                    self.char_to_id[char] = self.next_id
+                    self.id_to_char[self.next_id] = char
+                    self.next_id += 1
     
-    print(f"✓ Total tokens: {len(all_tokens):,}")
+    def encode(self, text: str) -> List[int]:
+        """Encode text to token IDs."""
+        ids = [self.bos_token_id]
+        for char in text:
+            ids.append(self.char_to_id.get(char, self.unk_token_id))
+        ids.append(self.eos_token_id)
+        return ids
     
-    # Save as memory-mapped file
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
-    tokens_array = np.array(all_tokens, dtype=np.int32)
-    tokens_array.tofile(save_path)
+    def decode(self, ids: List[int]) -> str:
+        """Decode token IDs to text."""
+        chars = []
+        for id in ids:
+            if id in [self.pad_token_id, self.bos_token_id, self.eos_token_id]:
+                continue
+            chars.append(self.id_to_char.get(id, '?'))
+        return ''.join(chars)
     
-    print(f"✓ Saved to {save_path} ({os.path.getsize(save_path) / 1e6:.1f} MB)")
+    def save(self, path: str):
+        """Save tokenizer."""
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump({
+                'char_to_id': self.char_to_id,
+                'id_to_char': {int(k): v for k, v in self.id_to_char.items()},
+                'vocab_size': self.vocab_size,
+            }, f, ensure_ascii=False, indent=2)
     
-    return save_path
+    @classmethod
+    def load(cls, path: str) -> 'SimpleTokenizer':
+        """Load tokenizer."""
+        with open(path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        tokenizer = cls(data['vocab_size'])
+        tokenizer.char_to_id = data['char_to_id']
+        tokenizer.id_to_char = {int(k): v for k, v in data['id_to_char'].items()}
+        return tokenizer
 
 
-def train_nokai(
-    config: NokaiConfig,
-    dataset: StreamingDataset,
-    num_epochs: int = 10,
-    batch_size: int = 8,
-    save_dir: str = "./checkpoints",
-    log_interval: int = 100,
-):
-    """
-    Train Nōkai model.
-    """
-    print(f"\n🧠 Starting Nōkai Training")
-    print(f"   Config: {config.num_columns} columns, {config.column_config.num_neurons} neurons/col")
-    print(f"   Epochs: {num_epochs}")
-    print(f"   Batch size: {batch_size}")
-    print(f"   Device: {config.device}")
+# ============================================
+# DATASET
+# ============================================
+
+class WikipediaDataset(Dataset):
+    """Wikipedia dataset for training."""
     
-    # Create model
-    model = NokaiModel(config)
-    
-    # Create dataloader
-    dataloader = create_dataloader(
-        dataset,
-        batch_size=batch_size,
-        num_workers=0,  # Windows compatibility
-        shuffle=True,
-    )
-    
-    # Create trainer
-    trainer = NokaiTrainer(model, config, device=config.device)
-    
-    # Training loop
-    os.makedirs(save_dir, exist_ok=True)
-    global_step = 0
-    best_loss = float('inf')
-    
-    for epoch in range(num_epochs):
-        print(f"\n📚 Epoch {epoch + 1}/{num_epochs}")
+    def __init__(
+        self,
+        tokenizer,
+        max_length: int = 512,
+        split: str = "train",
+        lang: str = "en",
+        date: str = "20231101",
+        max_samples: Optional[int] = None,
+        cache_dir: str = "./data/wikipedia",
+    ):
+        self.tokenizer = tokenizer
+        self.max_length = max_length
+        self.cache_dir = Path(cache_dir)
+        self.cache_dir.mkdir(parents=True, exist_ok=True)
         
-        epoch_loss = 0
-        num_batches = 0
+        print(f"\nLoading Wikipedia ({lang}, {date})...")
+        print("This may take a while on first run (downloading ~20GB)...")
         
-        pbar = tqdm(dataloader, desc=f"Training")
-        for batch in pbar:
-            metrics = trainer.train_step(batch)
-            
-            epoch_loss += metrics['loss']
-            num_batches += 1
-            global_step += 1
-            
-            # Update progress bar
-            pbar.set_postfix({
-                'loss': f"{metrics['loss']:.4f}",
-                'lr': f"{metrics['lr']:.2e}",
-            })
-            
-            # Log
-            if global_step % log_interval == 0:
-                avg_loss = epoch_loss / num_batches
-                print(f"\n   Step {global_step}: loss={avg_loss:.4f}")
+        try:
+            # Try loading Wikipedia
+            dataset = load_dataset(
+                "wikipedia",
+                f"{date}.{lang}",
+                split=split,
+                cache_dir=str(self.cache_dir),
+                trust_remote_code=True,
+            )
+        except Exception as e:
+            print(f"Wikipedia download failed: {e}")
+            print("Falling back to smaller dataset...")
+            # Fallback to smaller dataset
+            dataset = load_dataset(
+                "wikitext",
+                "wikitext-2-v1",
+                split="train",
+                cache_dir=str(self.cache_dir),
+            )
         
-        # End of epoch
-        avg_epoch_loss = epoch_loss / num_batches
-        print(f"\n   Epoch {epoch + 1} complete. Avg loss: {avg_epoch_loss:.4f}")
+        if max_samples:
+            dataset = dataset.select(range(min(max_samples, len(dataset))))
         
-        # Save checkpoint
-        checkpoint_path = os.path.join(save_dir, f"nokai_epoch_{epoch + 1}.pt")
-        trainer.save_checkpoint(checkpoint_path)
-        print(f"   ✓ Saved checkpoint: {checkpoint_path}")
+        self.texts = []
+        print("Processing texts...")
         
-        # Save best model
-        if avg_epoch_loss < best_loss:
-            best_loss = avg_epoch_loss
-            best_path = os.path.join(save_dir, "nokai_best.pt")
-            trainer.save_checkpoint(best_path)
-            print(f"   ⭐ New best model saved!")
+        # Extract text
+        text_key = 'text' if 'text' in dataset.column_names else 'content'
+        
+        for item in tqdm(dataset, disable=not HAS_TQDM, desc="Loading"):
+            text = item.get(text_key, "")
+            if len(text) > 100:  # Skip very short texts
+                self.texts.append(text)
+        
+        print(f"Loaded {len(self.texts)} documents")
+        
+        # Train tokenizer if needed
+        if isinstance(tokenizer, SimpleTokenizer) and tokenizer.next_id < 1000:
+            print("Training tokenizer on corpus...")
+            sample_texts = self.texts[:min(10000, len(self.texts))]
+            tokenizer.train(sample_texts)
+            print(f"Vocabulary size: {tokenizer.next_id}")
     
-    print(f"\n🎉 Training complete!")
-    print(f"   Best loss: {best_loss:.4f}")
-    print(f"   Checkpoints saved in: {save_dir}")
+    def __len__(self):
+        return len(self.texts)
     
-    return model
+    def __getitem__(self, idx):
+        text = self.texts[idx]
+        
+        # Tokenize
+        tokens = self.tokenizer.encode(text)
+        
+        # Truncate or pad
+        if len(tokens) > self.max_length:
+            # Random crop for variety
+            start = torch.randint(0, len(tokens) - self.max_length, (1,)).item()
+            tokens = tokens[start:start + self.max_length]
+        else:
+            # Pad
+            tokens = tokens + [self.tokenizer.pad_token_id] * (self.max_length - len(tokens))
+        
+        tokens = torch.tensor(tokens, dtype=torch.long)
+        
+        return {
+            'input_ids': tokens,
+            'labels': tokens.clone(),
+        }
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Train Nōkai on Wikipedia")
-    
-    # Data arguments
-    parser.add_argument("--language", type=str, default="en", 
-                        help="Wikipedia language (en, fr, de, etc.)")
-    parser.add_argument("--num-articles", type=int, default=10000,
-                        help="Number of Wikipedia articles to use")
-    parser.add_argument("--vocab-size", type=int, default=32000,
-                        help="Vocabulary size for tokenizer")
-    parser.add_argument("--seq-length", type=int, default=512,
-                        help="Sequence length for training")
-    
-    # Model arguments
-    parser.add_argument("--model-size", type=str, default="mini",
-                        choices=["nano", "micro", "mini", "base", "large"],
-                        help="Model size preset")
-    
-    # Training arguments
-    parser.add_argument("--epochs", type=int, default=5,
-                        help="Number of training epochs")
-    parser.add_argument("--batch-size", type=int, default=4,
-                        help="Batch size")
-    parser.add_argument("--lr", type=float, default=1e-4,
-                        help="Learning rate")
-    
-    # Paths
-    parser.add_argument("--data-dir", type=str, default="./data",
-                        help="Data directory")
-    parser.add_argument("--save-dir", type=str, default="./checkpoints",
-                        help="Checkpoint directory")
-    
-    # Flags
-    parser.add_argument("--skip-download", action="store_true",
-                        help="Skip data download (use cached)")
-    parser.add_argument("--cpu", action="store_true",
-                        help="Force CPU training")
-    
-    args = parser.parse_args()
-    
-    # Setup paths
-    data_dir = Path(args.data_dir)
-    data_dir.mkdir(parents=True, exist_ok=True)
-    
-    tokenizer_path = data_dir / "tokenizer.json"
-    tokens_path = data_dir / "train_tokens.bin"
-    
-    # Step 1: Download Wikipedia
-    if not args.skip_download or not tokens_path.exists():
-        texts = download_wikipedia(
-            language=args.language,
-            num_samples=args.num_articles,
-            cache_dir=str(data_dir / "cache"),
-        )
-        
-        # Step 2: Create tokenizer
-        tokenizer = create_tokenizer_from_texts(
-            texts,
-            vocab_size=args.vocab_size,
-            save_path=str(tokenizer_path),
-        )
-        
-        # Step 3: Prepare training data
-        prepare_training_data(
-            texts,
-            tokenizer,
-            sequence_length=args.seq_length,
-            save_path=str(tokens_path),
-        )
+# ============================================
+# TRAINING UTILITIES
+# ============================================
+
+def setup_device():
+    """Setup compute device."""
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+        print(f"Using GPU: {torch.cuda.get_device_name(0)}")
+        print(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
     else:
-        print("📂 Using cached data...")
-        tokenizer = Tokenizer.from_file(str(tokenizer_path))
+        device = torch.device("cpu")
+        print("Using CPU (training will be slow)")
+    return device
+
+
+def count_parameters(model):
+    """Count trainable parameters."""
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+
+def compute_reward(loss: float, prev_loss: float) -> float:
+    """
+    Compute reward signal for dopamine circuit.
     
-    # Step 4: Create configuration
-    config_factory = {
+    Positive reward if loss improved, negative otherwise.
+    """
+    if prev_loss is None:
+        return 0.0
+    
+    improvement = prev_loss - loss
+    # Normalize to [-1, 1] range
+    reward = max(-1.0, min(1.0, improvement * 10))
+    return reward
+
+
+class TrainingState:
+    """Track training progress."""
+    
+    def __init__(self):
+        self.step = 0
+        self.epoch = 0
+        self.best_loss = float('inf')
+        self.losses = []
+        self.dopamine_history = []
+        self.plasticity_history = []
+        self.consolidations = 0
+    
+    def save(self, path: str):
+        torch.save({
+            'step': self.step,
+            'epoch': self.epoch,
+            'best_loss': self.best_loss,
+            'losses': self.losses[-1000:],  # Keep last 1000
+            'dopamine_history': self.dopamine_history[-1000:],
+            'consolidations': self.consolidations,
+        }, path)
+    
+    @classmethod
+    def load(cls, path: str) -> 'TrainingState':
+        state = cls()
+        data = torch.load(path)
+        state.step = data['step']
+        state.epoch = data['epoch']
+        state.best_loss = data['best_loss']
+        state.losses = data['losses']
+        state.dopamine_history = data['dopamine_history']
+        state.consolidations = data['consolidations']
+        return state
+
+
+# ============================================
+# MAIN TRAINING FUNCTION
+# ============================================
+
+def train(args):
+    """Main training function."""
+    
+    print("\n" + "="*60)
+    print("NOKAI NEUROMORPHIC BRAIN - TRAINING")
+    print("="*60)
+    
+    # Setup
+    torch.manual_seed(args.seed)
+    device = setup_device()
+    
+    # Create directories
+    checkpoints_dir = Path("checkpoints")
+    checkpoints_dir.mkdir(exist_ok=True)
+    
+    logs_dir = Path("logs")
+    logs_dir.mkdir(exist_ok=True)
+    
+    # ============================================
+    # MODEL
+    # ============================================
+    print(f"\nCreating NeuromorphicBrain ({args.preset} preset)...")
+    
+    config_methods = {
         "nano": NokaiConfig.nano,
         "micro": NokaiConfig.micro,
         "mini": NokaiConfig.mini,
@@ -327,61 +356,292 @@ def main():
         "large": NokaiConfig.large,
     }
     
-    config = config_factory[args.model_size]()
-    config.vocab_size = tokenizer.get_vocab_size()
-    config.max_sequence_length = args.seq_length
-    config.learning.learning_rate = args.lr
+    config = config_methods[args.preset]()
+    config.max_sequence_length = args.max_seq_length
     
-    # Device
-    if args.cpu or not torch.cuda.is_available():
-        config.device = "cpu"
-        print("⚠️  Training on CPU (will be slow)")
+    brain = NeuromorphicBrain(config)
+    brain = brain.to(device)
+    
+    print(f"Parameters: {count_parameters(brain):,}")
+    
+    # ============================================
+    # TOKENIZER
+    # ============================================
+    tokenizer_path = checkpoints_dir / "tokenizer.json"
+    
+    if tokenizer_path.exists():
+        print("Loading existing tokenizer...")
+        tokenizer = SimpleTokenizer.load(str(tokenizer_path))
     else:
-        config.device = "cuda"
-        print(f"🚀 Training on GPU: {torch.cuda.get_device_name()}")
+        print("Creating new tokenizer...")
+        tokenizer = SimpleTokenizer(vocab_size=config.vocab_size)
     
-    print(f"\n📊 Model Configuration:")
-    print(f"   Size: {args.model_size}")
-    print(f"   Parameters: ~{config.estimate_parameters():,}")
-    print(f"   VRAM: ~{config.estimate_vram_mb():.0f} MB")
-    
-    # Step 5: Create dataset using memory-mapped file (constant RAM usage!)
-    from nokai.data.dataloader import MemoryMappedTokenDataset
-    
-    dataset = MemoryMappedTokenDataset(
-        data_path=str(tokens_path),
-        sequence_length=args.seq_length,
+    # ============================================
+    # DATASET
+    # ============================================
+    dataset = WikipediaDataset(
+        tokenizer=tokenizer,
+        max_length=args.max_seq_length,
+        split="train",
+        lang=args.wikipedia_lang,
+        date=args.wikipedia_date,
+        max_samples=args.max_samples,
     )
-    print(f"   Training samples: {len(dataset):,}")
     
-    # Step 6: Train!
-    model = train_nokai(
-        config=config,
-        dataset=dataset,
-        num_epochs=args.epochs,
+    # Save tokenizer
+    tokenizer.save(str(tokenizer_path))
+    
+    dataloader = DataLoader(
+        dataset,
         batch_size=args.batch_size,
-        save_dir=args.save_dir,
+        shuffle=True,
+        num_workers=0,  # Windows compatibility
+        pin_memory=True if device.type == "cuda" else False,
     )
     
-    # Step 7: Test generation
-    print("\n📝 Testing generation...")
-    model.eval()
+    # ============================================
+    # OPTIMIZER & SCHEDULER
+    # ============================================
+    optimizer = AdamW(
+        brain.parameters(),
+        lr=args.learning_rate,
+        weight_decay=args.weight_decay,
+    )
     
-    prompt = "The brain"
-    prompt_tokens = tokenizer.encode(prompt).ids
-    input_ids = torch.tensor([prompt_tokens], device=config.device)
+    total_steps = len(dataloader) * args.epochs
+    scheduler = CosineAnnealingLR(optimizer, T_max=total_steps, eta_min=1e-6)
     
-    with torch.no_grad():
-        generated = model.generate(
-            input_ids,
-            max_new_tokens=50,
-            temperature=0.8,
-            top_k=50,
+    # ============================================
+    # TRAINING STATE
+    # ============================================
+    state_path = checkpoints_dir / "training_state.pt"
+    if state_path.exists() and not args.fresh_start:
+        print("Resuming from checkpoint...")
+        state = TrainingState.load(str(state_path))
+    else:
+        state = TrainingState()
+    
+    # Load model checkpoint if exists
+    model_path = checkpoints_dir / "brain_latest.pt"
+    if model_path.exists() and not args.fresh_start:
+        print("Loading model weights...")
+        brain.load_state_dict(torch.load(str(model_path), map_location=device))
+    
+    # ============================================
+    # TRAINING LOOP
+    # ============================================
+    print("\n" + "="*60)
+    print("Starting Training")
+    print("="*60)
+    print(f"  Epochs: {args.epochs}")
+    print(f"  Batch size: {args.batch_size}")
+    print(f"  Total steps: {total_steps:,}")
+    print(f"  Consolidation every: {args.consolidation_interval} steps")
+    print("="*60 + "\n")
+    
+    brain.train()
+    prev_loss = None
+    accum_loss = 0.0
+    accum_steps = 0
+    
+    start_time = time.time()
+    
+    for epoch in range(state.epoch, args.epochs):
+        epoch_losses = []
+        epoch_start = time.time()
+        
+        progress = tqdm(dataloader, desc=f"Epoch {epoch+1}/{args.epochs}") if HAS_TQDM else dataloader
+        
+        for batch_idx, batch in enumerate(progress):
+            state.step += 1
+            
+            # Move to device
+            input_ids = batch['input_ids'].to(device)
+            labels = batch['labels'].to(device)
+            
+            # Compute reward based on previous loss (for dopamine)
+            reward = None
+            if prev_loss is not None:
+                reward_value = compute_reward(accum_loss / max(1, accum_steps), prev_loss)
+                reward = torch.tensor([reward_value], device=device)
+            
+            # Forward pass
+            outputs = brain(
+                input_ids,
+                labels=labels,
+                reward=reward,
+                store_memory=True,
+                return_brain_state=True,
+            )
+            
+            loss = outputs['loss']
+            brain_state = outputs['brain_state']
+            
+            # Backward pass
+            loss = loss / args.gradient_accumulation
+            loss.backward()
+            
+            # Accumulate
+            accum_loss += loss.item() * args.gradient_accumulation
+            accum_steps += 1
+            
+            # Optimizer step
+            if state.step % args.gradient_accumulation == 0:
+                # Clip gradients
+                torch.nn.utils.clip_grad_norm_(brain.parameters(), 1.0)
+                
+                # Dopamine-modulated learning rate
+                da_mod = brain.dopamine_circuit.get_learning_modulation()
+                for param_group in optimizer.param_groups:
+                    param_group['lr'] = args.learning_rate * da_mod
+                
+                optimizer.step()
+                scheduler.step()
+                optimizer.zero_grad()
+                
+                # Update prev_loss
+                prev_loss = accum_loss / accum_steps
+                accum_loss = 0.0
+                accum_steps = 0
+            
+            # Track
+            epoch_losses.append(loss.item() * args.gradient_accumulation)
+            state.losses.append(loss.item() * args.gradient_accumulation)
+            state.dopamine_history.append(brain_state.dopamine_level)
+            
+            # Logging
+            if state.step % args.log_interval == 0:
+                avg_loss = sum(epoch_losses[-100:]) / len(epoch_losses[-100:])
+                
+                if HAS_TQDM:
+                    progress.set_postfix({
+                        'loss': f'{avg_loss:.4f}',
+                        'DA': f'{brain_state.dopamine_level:.2f}',
+                        'conf': f'{brain_state.confidence:.2f}',
+                    })
+                else:
+                    print(f"Step {state.step}: loss={avg_loss:.4f}, DA={brain_state.dopamine_level:.2f}")
+            
+            # ============================================
+            # CONSOLIDATION (Sleep Phase)
+            # ============================================
+            if state.step % args.consolidation_interval == 0:
+                print(f"\n{'='*40}")
+                print(f"CONSOLIDATION PHASE (Sleep)")
+                print(f"{'='*40}")
+                
+                brain.eval()
+                consolidation_stats = brain.consolidate(max_steps=args.consolidation_steps)
+                brain.train()
+                
+                print(f"  Memories consolidated: {consolidation_stats.get('total_consolidated', 0)}")
+                print(f"  Weak memories pruned: {consolidation_stats.get('total_pruned', 0)}")
+                print(f"  Plasticity stats: {brain.get_plasticity_stats()}")
+                print(f"{'='*40}\n")
+                
+                state.consolidations += 1
+            
+            # ============================================
+            # SAVE CHECKPOINT
+            # ============================================
+            if state.step % args.save_interval == 0:
+                avg_loss = sum(epoch_losses[-100:]) / len(epoch_losses[-100:])
+                
+                # Save latest
+                torch.save(brain.state_dict(), str(checkpoints_dir / "brain_latest.pt"))
+                state.save(str(state_path))
+                
+                # Save best
+                if avg_loss < state.best_loss:
+                    state.best_loss = avg_loss
+                    torch.save(brain.state_dict(), str(checkpoints_dir / "brain_best.pt"))
+                    print(f"  New best loss: {avg_loss:.4f}")
+        
+        # Epoch summary
+        epoch_time = time.time() - epoch_start
+        avg_epoch_loss = sum(epoch_losses) / len(epoch_losses)
+        
+        print(f"\nEpoch {epoch+1} Complete:")
+        print(f"  Average Loss: {avg_epoch_loss:.4f}")
+        print(f"  Time: {epoch_time/60:.1f} min")
+        print(f"  Dopamine: {brain_state.dopamine_level:.3f}")
+        print(f"  Plasticity: {brain.get_plasticity_stats()}")
+        print(f"  Energy efficiency: {brain.get_energy_stats()}")
+        
+        state.epoch = epoch + 1
+        
+        # Save epoch checkpoint
+        torch.save(
+            brain.state_dict(), 
+            str(checkpoints_dir / f"brain_epoch_{epoch+1}.pt")
         )
     
-    generated_text = tokenizer.decode(generated[0].tolist())
-    print(f"\nPrompt: '{prompt}'")
-    print(f"Generated: {generated_text}")
+    # ============================================
+    # FINAL SAVE
+    # ============================================
+    total_time = time.time() - start_time
+    
+    print("\n" + "="*60)
+    print("TRAINING COMPLETE")
+    print("="*60)
+    print(f"  Total time: {total_time/3600:.1f} hours")
+    print(f"  Total steps: {state.step:,}")
+    print(f"  Consolidations: {state.consolidations}")
+    print(f"  Best loss: {state.best_loss:.4f}")
+    print(f"  Model saved to: {checkpoints_dir}/brain_best.pt")
+    print("="*60)
+    
+    # Save final
+    torch.save(brain.state_dict(), str(checkpoints_dir / "brain_final.pt"))
+    state.save(str(state_path))
+    
+    return brain, tokenizer
+
+
+# ============================================
+# MAIN
+# ============================================
+
+def main():
+    parser = argparse.ArgumentParser(description="Train Nokai Neuromorphic Brain")
+    
+    # Model
+    parser.add_argument("--preset", type=str, default="mini",
+                       choices=["nano", "micro", "mini", "base", "large"],
+                       help="Model size preset")
+    
+    # Training
+    parser.add_argument("--epochs", type=int, default=10)
+    parser.add_argument("--batch_size", type=int, default=8)
+    parser.add_argument("--learning_rate", type=float, default=1e-4)
+    parser.add_argument("--weight_decay", type=float, default=0.01)
+    parser.add_argument("--max_seq_length", type=int, default=512)
+    parser.add_argument("--gradient_accumulation", type=int, default=1)
+    
+    # Bio-inspired
+    parser.add_argument("--consolidation_interval", type=int, default=500,
+                       help="Steps between sleep/consolidation phases")
+    parser.add_argument("--consolidation_steps", type=int, default=50,
+                       help="Memory consolidation steps per phase")
+    
+    # Data
+    parser.add_argument("--wikipedia_lang", type=str, default="en")
+    parser.add_argument("--wikipedia_date", type=str, default="20231101")
+    parser.add_argument("--max_samples", type=int, default=None,
+                       help="Limit dataset size (for testing)")
+    
+    # Checkpoints
+    parser.add_argument("--save_interval", type=int, default=1000)
+    parser.add_argument("--log_interval", type=int, default=50)
+    parser.add_argument("--fresh_start", action="store_true",
+                       help="Ignore existing checkpoints")
+    
+    # Other
+    parser.add_argument("--seed", type=int, default=42)
+    
+    args = parser.parse_args()
+    
+    train(args)
 
 
 if __name__ == "__main__":

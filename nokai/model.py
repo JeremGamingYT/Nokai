@@ -265,11 +265,38 @@ class NokaiModel(nn.Module):
         
         return input_ids
     
-    def consolidate_memory(self):
-        """Trigger memory consolidation (sleep phase)."""
-        if self.hippocampus is not None:
-            # Replay stored memories
-            pass  # TODO: Implement memory replay
+    def consolidate_memory(self, num_replays: int = 10):
+        """
+        Trigger memory consolidation (sleep phase).
+        
+        Biological Parallel:
+            During sleep, the hippocampus "replays" recent memories,
+            allowing them to be consolidated into neocortical storage.
+            
+        Args:
+            num_replays: Number of memory replay iterations
+        """
+        if self.hippocampus is not None and self.hippocampus.memory_count > 0:
+            # Replay stored memories through the network
+            with torch.no_grad():
+                for _ in range(num_replays):
+                    # Sample random memories from hippocampus
+                    num_to_sample = min(8, self.hippocampus.memory_count)
+                    indices = torch.randint(
+                        0, self.hippocampus.memory_count, 
+                        (num_to_sample,),
+                        device=self.hippocampus.memory_values.device
+                    )
+                    
+                    # Retrieve stored memories
+                    memories = self.hippocampus.memory_values[indices]
+                    
+                    # Replay through cortex (lightweight forward pass)
+                    if memories.numel() > 0:
+                        replayed, _ = self.cortex(memories.unsqueeze(0))
+                        
+                        # The replay strengthens synaptic connections
+                        # (This happens automatically via the cortex's internal state)
     
     def get_sparsity_stats(self) -> Dict[str, float]:
         """Get statistics on activation and weight sparsity."""
