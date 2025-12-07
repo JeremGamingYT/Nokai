@@ -525,42 +525,39 @@ class CognitiveTrainer:
             da_meta = {'habituation': 0.0, 'rpe': 0.0}
         
         # =====================================
-        # 5. HEBBIAN LEARNING (Immediate)
+        # 5. COLLECT HEBBIAN UPDATES (but don't apply yet!)
         # =====================================
+        # We collect the updates BEFORE backward to capture activations,
+        # but we apply them AFTER backward to avoid breaking gradient checkpointing
+        hebbian_updates_pending = []
+        
         if self.config.hebbian_enabled and self.state.step % self.config.hebbian_interval == 0:
-            # Apply Hebbian updates to all cortical layers
             for layer in self.brain.cortex.layers:
                 for column in layer.columns:
-                    # Get stored activations
                     if hasattr(column, 'pre_activations') and hasattr(column, 'post_activations'):
                         for i, ff in enumerate(column.feedforward):
                             if i < len(column.pre_activations) - 1:
                                 pre = column.pre_activations[i]
                                 post = column.post_activations[i + 1]
                                 
-                                # Convert to float32 and ensure correct shape
-                                pre = pre.float()
-                                post = post.float()
+                                # Convert to float32 and detach to break computation graph
+                                pre = pre.detach().float()
+                                post = post.detach().float()
                                 if pre.dim() == 1:
                                     pre = pre.unsqueeze(0)
                                 if post.dim() == 1:
                                     post = post.unsqueeze(0)
                                 
-                                # Compute and apply Hebbian update
-                                with torch.no_grad():
-                                    mask = getattr(ff, 'mask', None)
-                                    hebbian_delta = self._compute_hebbian_update(
-                                        ff.weight.float(),
-                                        pre,
-                                        post,
-                                        dopamine_level,
-                                        mask,
-                                    )
-                                    ff.weight.data.add_(hebbian_delta.to(ff.weight.dtype))
-                                    self.state.hebbian_updates += 1
+                                # Store for later application
+                                hebbian_updates_pending.append({
+                                    'weight': ff.weight,
+                                    'pre': pre.clone(),
+                                    'post': post.clone(),
+                                    'mask': getattr(ff, 'mask', None),
+                                })
         
         # =====================================
-        # 5. MODULATE LEARNING RATE
+        # 6. MODULATE LEARNING RATE
         # =====================================
         da_modulation = self.brain.dopamine_circuit.get_learning_modulation()
         
@@ -572,7 +569,7 @@ class CognitiveTrainer:
             param_group['lr'] = effective_lr
         
         # =====================================
-        # 6. BACKWARD PASS
+        # 7. BACKWARD PASS
         # =====================================
         self.optimizer.zero_grad()
         
@@ -597,7 +594,24 @@ class CognitiveTrainer:
             self.scheduler.step()
         
         # =====================================
-        # 7. UPDATE STATE
+        # 8. APPLY HEBBIAN UPDATES (after backward is complete!)
+        # =====================================
+        # Now safe to modify weights - backward pass is done
+        if hebbian_updates_pending:
+            with torch.no_grad():
+                for update in hebbian_updates_pending:
+                    hebbian_delta = self._compute_hebbian_update(
+                        update['weight'].float(),
+                        update['pre'],
+                        update['post'],
+                        dopamine_level,
+                        update['mask'],
+                    )
+                    update['weight'].data.add_(hebbian_delta.to(update['weight'].dtype))
+                    self.state.hebbian_updates += 1
+        
+        # =====================================
+        # 9. UPDATE STATE
         # =====================================
         self.state.step += 1
         self.state.losses.append(current_loss)
