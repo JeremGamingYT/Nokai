@@ -27,10 +27,15 @@ Key Bio-Inspired Features:
     - dopamine_level    : Modulation de l'apprentissage
     - oscillations      : Coordination inter-modules
 
+NEW in 0.3.0:
+    - BPE Tokenization  : Semantic understanding (not char-level)
+    - Homeostatic DA    : Dopamine adapts to prevent saturation
+    - Immediate Hebbian : Local learning during forward pass
+
 See brain.py for the unified NeuromorphicBrain class.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 __author__ = "Nōkai Research Team"
 
 # Core configuration and models
@@ -45,12 +50,16 @@ from nokai.thalamus import ThalamusGateway, ThalamicAttention
 from nokai.prefrontal import PrefrontalWorkingMemory
 from nokai.oscillations import OscillatorNetwork
 
-# Limbic system (emotion/reward)
+# Limbic system (emotion/reward) - V2 with homeostasis
 from nokai.limbic import (
-    DopamineCircuit,
+    DopamineCircuit,  # V2 with homeostasis (default)
+    DopamineState,
+    DopamineCircuitV1,  # Legacy
     RewardPredictionError,
     StriatumSelector,
     MetacognitiveMonitor,
+    HomeostaticBaseline,
+    NoveltyDetector,
 )
 
 # Memory systems
@@ -67,8 +76,29 @@ from nokai.attention import (
     AdaptiveCompute,
 )
 
-# Learning rules
-from nokai.learning import HebbianPlasticity, STDPRule
+# Learning rules - V2 with BCM metaplasticity
+from nokai.learning import (
+    HebbianPlasticity,  # V2 with BCM (default)
+    HebbianLinear,
+    CorticalHebbianIntegrator,
+    HebbianConfig,
+    STDPRule,
+    PredictiveCodingLayer,
+)
+
+# Tokenization - BPE for semantic understanding
+try:
+    from nokai.tokenization import (
+        NokaiTokenizer,
+        SimpleBPETokenizer,
+        TokenizerConfig,
+        create_tokenizer,
+        HAS_TOKENIZERS,
+    )
+    _HAS_TOKENIZATION = True
+except ImportError:
+    _HAS_TOKENIZATION = False
+    HAS_TOKENIZERS = False
 
 __all__ = [
     # Version info
@@ -88,11 +118,15 @@ __all__ = [
     "PrefrontalWorkingMemory",
     "OscillatorNetwork",
     
-    # Limbic system
+    # Limbic system (V2 default)
     "DopamineCircuit",
+    "DopamineState",
+    "DopamineCircuitV1",
     "RewardPredictionError",
     "StriatumSelector",
     "MetacognitiveMonitor",
+    "HomeostaticBaseline",
+    "NoveltyDetector",
     
     # Memory
     "SemanticMemory",
@@ -104,7 +138,18 @@ __all__ = [
     "ResourceAllocation",
     "AdaptiveCompute",
     
-    # Learning
+    # Learning (V2 default)
     "HebbianPlasticity",
+    "HebbianLinear",
+    "CorticalHebbianIntegrator",
+    "HebbianConfig",
     "STDPRule",
+    "PredictiveCodingLayer",
+    
+    # Tokenization
+    "NokaiTokenizer",
+    "SimpleBPETokenizer",
+    "TokenizerConfig",
+    "create_tokenizer",
+    "HAS_TOKENIZERS",
 ]

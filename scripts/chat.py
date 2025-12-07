@@ -134,18 +134,31 @@ def load_model(checkpoint_path: str, preset: str = "mini", device: str = "cuda")
             print(f"  Inferred preset: {inferred_preset} (overriding --preset {preset})")
             preset = inferred_preset
     
+    # Also infer max_sequence_length from position_embedding
+    checkpoint_max_seq = None
+    if 'position_embedding.weight' in state_dict:
+        checkpoint_max_seq, _ = state_dict['position_embedding.weight'].shape
+        print(f"  max_sequence_length: {checkpoint_max_seq}")
+    
     # Create config
     config = getattr(NokaiConfig, preset)()
     
     # Override config with exact checkpoint dimensions if they don't match
+    adjustments = []
+    
     if checkpoint_embedding_dim and checkpoint_embedding_dim != config.embedding_dim:
-        print(f"\nAdjusting config to match checkpoint dimensions:")
-        print(f"  Config embedding_dim: {config.embedding_dim} -> {checkpoint_embedding_dim}")
-        
-        # We need to create a custom config that matches
-        # This is a workaround - ideally the presets should match
+        adjustments.append(f"embedding_dim: {config.embedding_dim} -> {checkpoint_embedding_dim}")
         config.embedding_dim = checkpoint_embedding_dim
         config.hippocampus.embedding_dim = checkpoint_embedding_dim
+    
+    if checkpoint_max_seq and checkpoint_max_seq != config.max_sequence_length:
+        adjustments.append(f"max_sequence_length: {config.max_sequence_length} -> {checkpoint_max_seq}")
+        config.max_sequence_length = checkpoint_max_seq
+    
+    if adjustments:
+        print(f"\nAdjusting config to match checkpoint:")
+        for adj in adjustments:
+            print(f"  {adj}")
     
     # ============================================
     # LOAD MODEL
