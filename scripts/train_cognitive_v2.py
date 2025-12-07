@@ -480,12 +480,20 @@ class CognitiveTrainer:
         labels = batch.get('labels', input_ids).to(self.device)
         
         # =====================================
-        # 1. FORWARD PASS
+        # 1. GET PENDING REWARD FROM PREVIOUS STEP
+        # =====================================
+        # The reward is based on loss improvement from previous step
+        # First step has no reward (None triggers default behavior in brain)
+        pending_reward = getattr(self, '_pending_reward', None)
+        
+        # =====================================
+        # 2. FORWARD PASS (with reward from previous step)
         # =====================================
         with torch.amp.autocast('cuda', enabled=self.use_amp):
             outputs = self.brain(
                 input_ids,
                 labels=labels,
+                reward=pending_reward,  # Reward from previous step
                 store_memory=True,
                 return_brain_state=True,
             )
@@ -495,24 +503,28 @@ class CognitiveTrainer:
         current_loss = loss.item()
         
         # =====================================
-        # 2. COMPUTE REWARD (Surprise-based)
+        # 3. COMPUTE REWARD FOR NEXT STEP
         # =====================================
-        reward, surprise = self.compute_reward(current_loss)
+        # This reward will be used in the NEXT train_step
+        reward_tensor, surprise = self.compute_reward(current_loss)
+        self._pending_reward = reward_tensor  # Store for next step
         
         # =====================================
-        # 3. UPDATE DOPAMINE WITH HOMEOSTASIS
+        # 4. GET DOPAMINE STATE FROM BRAIN
         # =====================================
-        # Convert to float32 for dopamine circuit (doesn't use autocast)
-        da_input = outputs['logits'].float().mean(dim=(0, 1)).unsqueeze(0)
-        da_state, da_meta = self.brain.dopamine_circuit(
-            da_input,  # Aggregate state in float32
-            reward=reward,
-        )
+        # The brain already updates dopamine during forward when reward is passed
+        if brain_state is not None:
+            dopamine_level = brain_state.dopamine_level
+        else:
+            dopamine_level = 0.5
         
-        dopamine_level = da_state.effective_signal if hasattr(da_state, 'effective_signal') else da_state.level
+        # Get additional dopamine metadata if available
+        da_meta = outputs.get('metadata', {}).get('dopamine', {})
+        if not da_meta:
+            da_meta = {'habituation': 0.0, 'rpe': 0.0}
         
         # =====================================
-        # 4. HEBBIAN LEARNING (Immediate)
+        # 5. HEBBIAN LEARNING (Immediate)
         # =====================================
         if self.config.hebbian_enabled and self.state.step % self.config.hebbian_interval == 0:
             # Apply Hebbian updates to all cortical layers
@@ -522,19 +534,28 @@ class CognitiveTrainer:
                     if hasattr(column, 'pre_activations') and hasattr(column, 'post_activations'):
                         for i, ff in enumerate(column.feedforward):
                             if i < len(column.pre_activations) - 1:
-                                pre = column.pre_activations[i].unsqueeze(0)
-                                post = column.post_activations[i + 1].unsqueeze(0)
+                                pre = column.pre_activations[i]
+                                post = column.post_activations[i + 1]
+                                
+                                # Convert to float32 and ensure correct shape
+                                pre = pre.float()
+                                post = post.float()
+                                if pre.dim() == 1:
+                                    pre = pre.unsqueeze(0)
+                                if post.dim() == 1:
+                                    post = post.unsqueeze(0)
                                 
                                 # Compute and apply Hebbian update
                                 with torch.no_grad():
+                                    mask = getattr(ff, 'mask', None)
                                     hebbian_delta = self._compute_hebbian_update(
-                                        ff.weight,
+                                        ff.weight.float(),
                                         pre,
                                         post,
                                         dopamine_level,
-                                        ff.mask,
+                                        mask,
                                     )
-                                    ff.weight.data.add_(hebbian_delta)
+                                    ff.weight.data.add_(hebbian_delta.to(ff.weight.dtype))
                                     self.state.hebbian_updates += 1
         
         # =====================================
