@@ -400,10 +400,56 @@ class BlueAppleExperimentV2:
         else:
             raise RuntimeError("No tokenizer available")
     
-    def get_word_token_id(self, word: str) -> int:
-        """Get the token ID for a word."""
-        word_tokens = self.tokenizer.encode(" " + word)
-        return word_tokens[0] if word_tokens else -1
+    def get_word_token_id(self, word: str, verbose: bool = False) -> int:
+        """
+        Get the token ID for a word.
+        
+        IMPORTANT: BPE tokenizers work differently - we need to find the ACTUAL
+        token that represents this word, not just encode with a space prefix.
+        """
+        # Strategy 1: Try to find the word directly in vocabulary
+        vocab = self.tokenizer.get_vocab()
+        
+        # Try various forms of the word
+        candidates = [
+            word,              # "blue"
+            word.lower(),      # "blue"
+            word.capitalize(), # "Blue"
+            word.upper(),      # "BLUE"
+            "Ġ" + word,        # Byte-level BPE prefix for space+word
+            "Ġ" + word.lower(),
+            "Ġ" + word.capitalize(),
+        ]
+        
+        for candidate in candidates:
+            if candidate in vocab:
+                token_id = vocab[candidate]
+                if verbose:
+                    print(f"      Found '{word}' as '{candidate}' → ID {token_id}")
+                return token_id
+        
+        # Strategy 2: Encode the word and take the main token (skip BOS/EOS)
+        tokens = self.tokenizer.encode(word, add_special_tokens=False)
+        if tokens:
+            # For multi-token words, return the first token
+            token_id = tokens[0]
+            if verbose:
+                decoded = self.tokenizer.decode([token_id])
+                print(f"      Encoded '{word}' → tokens {tokens}, using ID {token_id} ('{decoded}')")
+            return token_id
+        
+        # Strategy 3: Encode with space prefix (common for GPT-style tokenizers)
+        tokens = self.tokenizer.encode(" " + word, add_special_tokens=False)
+        if tokens:
+            token_id = tokens[0]
+            if verbose:
+                decoded = self.tokenizer.decode([token_id])
+                print(f"      Encoded ' {word}' → tokens {tokens}, using ID {token_id} ('{decoded}')")
+            return token_id
+        
+        if verbose:
+            print(f"      ⚠️ Could not find token for '{word}'")
+        return -1
     
     def get_word_embedding(self, word: str) -> torch.Tensor:
         """Get the embedding vector for a word."""
@@ -432,8 +478,12 @@ class BlueAppleExperimentV2:
         
         return target_activation
     
-    def get_token_probabilities(self, text: str, target_words: List[str]) -> Dict[str, float]:
-        """Get probability of each target word following the text."""
+    def get_token_probabilities(self, text: str, target_words: List[str], show_top_k: bool = True) -> Dict[str, float]:
+        """
+        Get probability of each target word following the text.
+        
+        FIXED: Now properly handles BPE tokenization and validates token IDs.
+        """
         self.brain.eval()
         
         probs = {}
@@ -455,9 +505,10 @@ class BlueAppleExperimentV2:
             if torch.isnan(next_token_logits).any():
                 print("  ⚠️  ALERTE: Les logits contiennent des NaN!")
                 print(f"      NaN count: {torch.isnan(next_token_logits).sum().item()}")
-                print(f"      Logits stats: min={next_token_logits[~torch.isnan(next_token_logits)].min().item():.4f}, "
-                      f"max={next_token_logits[~torch.isnan(next_token_logits)].max().item():.4f}")
-                # Return zeros to indicate failure
+                valid_logits = next_token_logits[~torch.isnan(next_token_logits)]
+                if valid_logits.numel() > 0:
+                    print(f"      Logits stats: min={valid_logits.min().item():.4f}, "
+                          f"max={valid_logits.max().item():.4f}")
                 for word in target_words:
                     probs[word] = 0.0
                 return probs
@@ -467,7 +518,6 @@ class BlueAppleExperimentV2:
                 print(f"      Inf count: {torch.isinf(next_token_logits).sum().item()}")
                 print(f"      +Inf: {(next_token_logits == float('inf')).sum().item()}, "
                       f"-Inf: {(next_token_logits == float('-inf')).sum().item()}")
-                # Return zeros to indicate failure
                 for word in target_words:
                     probs[word] = 0.0
                 return probs
@@ -478,22 +528,59 @@ class BlueAppleExperimentV2:
             logit_std = next_token_logits.std().item()
             print(f"  📊 Logits: min={logit_min:.2f}, max={logit_max:.2f}, std={logit_std:.2f}")
             
+            # Apply softmax to get probabilities
             next_token_probs = F.softmax(next_token_logits, dim=-1)
             
-            # Check if softmax collapsed (all same probability = 1/vocab_size)
+            # =====================================
+            # SOFTMAX SANITY CHECK
+            # =====================================
+            prob_sum = next_token_probs.sum().item()
             prob_std = next_token_probs.std().item()
+            if abs(prob_sum - 1.0) > 0.01:
+                print(f"  ⚠️  ALERTE: Softmax sum = {prob_sum:.4f} (should be 1.0)")
             if prob_std < 1e-6:
                 print("  ⚠️  ALERTE: Softmax collapse! Toutes les probabilités sont identiques.")
                 print(f"      Prob std: {prob_std:.8f}")
             
-            # Get probability for each target word
+            # =====================================
+            # TOP-K DEBUGGING
+            # =====================================
+            if show_top_k:
+                top_probs, top_indices = torch.topk(next_token_probs, min(10, next_token_probs.size(0)))
+                print(f"\n  🔝 TOP 10 Predictions:")
+                for i, (prob, idx) in enumerate(zip(top_probs.tolist(), top_indices.tolist())):
+                    try:
+                        token_str = self.tokenizer.decode([idx])
+                    except:
+                        token_str = f"<id:{idx}>"
+                    print(f"      {i+1}. [{idx:5d}] '{token_str:15}' → {prob:.6f} ({prob*100:.4f}%)")
+                print()
+            
+            # =====================================
+            # GET PROBABILITIES FOR TARGET WORDS
+            # =====================================
             for word in target_words:
                 token_id = self.get_word_token_id(word)
                 
-                if token_id >= 0 and token_id < len(next_token_probs):
-                    probs[word] = next_token_probs[token_id].item()
-                else:
+                # Validate token ID
+                if token_id < 0:
+                    print(f"    ⚠️  Token '{word}' not found in vocabulary")
                     probs[word] = 0.0
+                elif token_id >= len(next_token_probs):
+                    print(f"    ⚠️  Token ID {token_id} for '{word}' is out of range (vocab_size={len(next_token_probs)})")
+                    probs[word] = 0.0
+                else:
+                    # Check if this is a special token (potential bug indicator)
+                    special_ids = {
+                        self.tokenizer.pad_token_id: "<pad>",
+                        self.tokenizer.unk_token_id: "<unk>",
+                        self.tokenizer.bos_token_id: "<s>",
+                        self.tokenizer.eos_token_id: "</s>",
+                    }
+                    if token_id in special_ids:
+                        print(f"    ⚠️  WARNING: '{word}' mapped to SPECIAL TOKEN {special_ids[token_id]} (ID {token_id})!")
+                    
+                    probs[word] = next_token_probs[token_id].item()
         
         return probs
     
@@ -732,6 +819,73 @@ class BlueAppleExperimentV2:
         if not self.load_model():
             print("\n  ❌ EXPERIMENT ABORTED: Could not load model")
             return
+        
+        # =====================================
+        # TOKENIZER DIAGNOSTIC (CRITICAL!)
+        # =====================================
+        print("\n  🔬 TOKENIZER DIAGNOSTIC:")
+        print("  " + "─" * 50)
+        
+        # Check what ID 2 actually decodes to
+        try:
+            id_2_decoded = self.tokenizer.decode([2])
+            print(f"    ID 2 decodes to: '{id_2_decoded}'")
+        except:
+            print(f"    ID 2 decode failed")
+        
+        # Check special token IDs
+        print(f"\n    Special Token IDs:")
+        print(f"      PAD: {self.tokenizer.pad_token_id}")
+        print(f"      UNK: {self.tokenizer.unk_token_id}")
+        print(f"      BOS: {self.tokenizer.bos_token_id}")
+        print(f"      EOS: {self.tokenizer.eos_token_id}")
+        
+        # Check color words tokenization
+        print(f"\n    Color Word Token IDs:")
+        test_words = ["blue", "red", "green", "orange", "apple", "color"]
+        token_id_counts = {}
+        all_same_id = True
+        first_id = None
+        
+        for word in test_words:
+            token_id = self.get_word_token_id(word, verbose=True)
+            decoded_back = self.tokenizer.decode([token_id]) if token_id >= 0 else "N/A"
+            print(f"      '{word}' → ID {token_id} → decoded: '{decoded_back}'")
+            
+            # Track if all words map to same ID (BUG!)
+            if token_id in token_id_counts:
+                token_id_counts[token_id] += 1
+            else:
+                token_id_counts[token_id] = 1
+            
+            if first_id is None:
+                first_id = token_id
+            elif token_id != first_id:
+                all_same_id = False
+        
+        # Check for collision with special tokens
+        special_ids = {self.tokenizer.pad_token_id, self.tokenizer.unk_token_id, 
+                       self.tokenizer.bos_token_id, self.tokenizer.eos_token_id}
+        
+        collision_detected = False
+        for word in test_words:
+            token_id = self.get_word_token_id(word)
+            if token_id in special_ids:
+                print(f"\n    ⚠️  COLLISION DETECTED: '{word}' maps to special token ID {token_id}!")
+                collision_detected = True
+        
+        if all_same_id and len(test_words) > 1:
+            print(f"\n    ❌ CRITICAL BUG: All words map to the SAME token ID ({first_id})!")
+            print(f"       This means the tokenizer vocabulary is too small or misconfigured.")
+            print(f"       The experiment cannot proceed with meaningful results.")
+            print(f"\n    💡 SOLUTION: Retrain the tokenizer with a larger vocabulary.")
+            # Don't abort - let the experiment continue for debugging
+        
+        if collision_detected:
+            print(f"\n    ⚠️  WARNING: Some words map to special tokens.")
+            print(f"       This may cause the experiment to fail.")
+        
+        print("  " + "─" * 50)
         
         # =====================================
         # PHASE 1: BASELINE
