@@ -1,0 +1,293 @@
+════════════════════════════════════════════════════════════════════════════════
+║                                                                              ║
+║            🧠 NŌKAI EXPERIMENT V0.6: FROM OBSESSION TO INTELLIGENCE           ║
+║                                                                              ║
+════════════════════════════════════════════════════════════════════════════════
+  Loading Nōkai brain...
+[NokaiTokenizer] Loaded from /workspace/checkpoints/tokenizer.json (vocab_size=5996)
+  Config: vocab=5996, dim=128, seq=512
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  ✓ Brain loaded successfully
+  ✓ dACC (Metacognitive Monitor) initialized
+
+════════════════════════════════════════════════════════════════════════════════
+  MODE 1: LEARNING RATE CALIBRATION
+  Finding the 'Goldilocks Zone' - enough to learn, not enough to obsess
+════════════════════════════════════════════════════════════════════════════════
+
+  Testing LR = 0.01...
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    Prob: 0.0001 | Response: "..."
+    Status: 🟢 CLEAN | Max Repeat: 0
+
+  Testing LR = 0.05...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    Prob: 0.0073 | Response: "..."
+    Status: 🟢 CLEAN | Max Repeat: 0
+
+  Testing LR = 0.1...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    ⚠️ dACC INTERVENTION: Repetition detected at step 3
+    Prob: 0.6621 | Response: " blue blue blue..."
+    Status: 🔴 OBSESSIVE | Max Repeat: 3
+
+  Testing LR = 0.2...
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    ⚠️ dACC INTERVENTION: Repetition detected at step 3
+    Prob: 1.0000 | Response: " blue blue blue..."
+    Status: 🔴 OBSESSIVE | Max Repeat: 3
+
+  Testing LR = 0.3...
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    ⚠️ dACC INTERVENTION: Repetition detected at step 3
+    Prob: 1.0000 | Response: " blue blue blue..."
+    Status: 🔴 OBSESSIVE | Max Repeat: 3
+
+  Testing LR = 0.5...
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    ⚠️ dACC INTERVENTION: Repetition detected at step 3
+    Prob: 1.0000 | Response: " blue blue blue..."
+    Status: 🔴 OBSESSIVE | Max Repeat: 3
+
+────────────────────────────────────────────────────────────
+  CALIBRATION RESULTS:
+  ────────────────────────────────────────────────────────
+    ❌ LR=0.010 → Prob=0.0001, MaxRep=0, Obsessive=False
+    ❌ LR=0.050 → Prob=0.0073, MaxRep=0, Obsessive=False
+    ❌ LR=0.100 → Prob=0.6621, MaxRep=3, Obsessive=True
+    ❌ LR=0.200 → Prob=1.0000, MaxRep=3, Obsessive=True
+    ❌ LR=0.300 → Prob=1.0000, MaxRep=3, Obsessive=True
+    ❌ LR=0.500 → Prob=1.0000, MaxRep=3, Obsessive=True
+
+  ⚠️ No optimal LR found in range. Try lower values.
+
+════════════════════════════════════════════════════════════════════════════════
+  MODE 2: dACC (THE JUDGE) DEMONSTRATION
+  Showing how the metacognitive monitor stops obsessive loops
+════════════════════════════════════════════════════════════════════════════════
+
+  Step 1: Creating obsessive state with LR=0.5...
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+
+  Step 2: Generating WITHOUT dACC monitoring...
+    Response: " blue blue blue blue blue blue blue blue blue blue blue blue blue blue blue blue..."
+    Max Repetitions: 30
+
+  Step 3: Generating WITH dACC monitoring...
+    ⚠️ dACC INTERVENTION: Repetition detected at step 3
+    Response: " blue blue blue"
+    dACC Interventions: 1
+    Stopped after: 3 words
+
+────────────────────────────────────────────────────────────
+  dACC RESULTS:
+  ────────────────────────────────────────────────────────
+    WITHOUT dACC: 30 repetitions (😵 obsessive)
+    WITH dACC:    Stopped after 1 intervention(s)
+
+  🧠 The dACC successfully detected the obsessive loop and intervened!
+
+════════════════════════════════════════════════════════════════════════════════
+  MODE 3: PLASTICITY TEST
+  Can the brain change its mind? Blue → Red
+════════════════════════════════════════════════════════════════════════════════
+
+  Phase 1: Learning 'BLUE'...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    Blue prob: 0.0074
+    Red prob:  0.0000
+    Response:  "..."
+
+  Phase 2: Learning 'RED' (override attempt)...
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    Blue prob: 0.0074
+    Red prob:  0.0000
+    Response:  "..."
+
+────────────────────────────────────────────────────────────
+  PLASTICITY RESULTS:
+  ────────────────────────────────────────────────────────
+    After BLUE learning: Blue=0.0074, Red=0.0000
+    After RED learning:  Blue=0.0074, Red=0.0000
+
+  ⚠️ PARTIAL: Blue was learned but Red couldn't override.
+     The first learning may be too strong (LR too high).
+
+════════════════════════════════════════════════════════════════════════════════
+  FINAL SUMMARY: V0.6 EXPERIMENT RESULTS
+════════════════════════════════════════════════════════════════════════════════
+
+  1. LR CALIBRATION: ⚠️ No optimal LR found
+  2. dACC JUDGE:     ✅ Successfully intervened
+  3. PLASTICITY:     ⚠️ Concept switching failed
+
+════════════════════════════════════════════════════════════════════════════════
+  END OF V0.6 EXPERIMENT
+════════════════════════════════════════════════════════════════════════════════

@@ -60,22 +60,25 @@ class ExperimentV06Config:
     # Experiment mode
     mode: str = "full"  # "calibrate", "dacc", "plasticity", or "full"
     
-    # Calibration parameters
-    calibration_lr_range: List[float] = field(default_factory=lambda: [0.01, 0.05, 0.1, 0.2, 0.3, 0.5])
+    # Calibration parameters - FINE GRAINED to find the sweet spot
+    calibration_lr_range: List[float] = field(default_factory=lambda: [
+        0.01, 0.03, 0.05, 0.06, 0.07, 0.08, 0.09, 0.1, 0.15, 0.2
+    ])
     calibration_target_repetition: int = 1  # Stop when word appears exactly this many times
     
     # Hebbian settings
-    hebbian_lr: float = 0.1  # Starting LR (will be calibrated)
+    hebbian_lr: float = 0.07  # Default to sweet spot (will be calibrated)
     dopamine_boost: float = 0.9
-    num_repetitions: int = 10  # Less than v2 since we're finding optimal
+    num_repetitions: int = 20  # More repetitions for stability
     
     # dACC settings
     dacc_repetition_threshold: int = 3  # Max allowed repetitions before dACC intervenes
     dacc_confidence_threshold: float = 0.7
     
-    # Plasticity test
+    # Plasticity test settings
     first_concept: str = "blue"
     second_concept: str = "red"
+    plasticity_lr: float = 0.07  # Use calibrated LR for plasticity
     
     # Generation
     max_tokens: int = 20
@@ -607,9 +610,11 @@ class AdvancedExperimentV06:
         
         original_weights = self.brain.output_projection.weight.data.clone()
         
-        # Use a calibrated LR (lower than the obsessive one)
-        test_lr = 0.1
-        test_reps = 10
+        # Use the calibrated LR from config (should be in the sweet spot)
+        test_lr = self.config.plasticity_lr
+        test_reps = self.config.num_repetitions
+        
+        print(f"\n  Using LR={test_lr}, Reps={test_reps}")
         
         results = {}
         
@@ -642,14 +647,16 @@ class AdvancedExperimentV06:
             'response': response1,
         }
         
-        # Phase 2: Now learn RED (can it override?)
-        print(f"\n  Phase 2: Learning '{self.config.second_concept.upper()}' (override attempt)...")
+        # Phase 2: Now learn RED with STRONGER signal (more reps to overcome Blue)
+        # Use 1.5x repetitions to ensure it can override
+        override_reps = int(test_reps * 1.5)
+        print(f"\n  Phase 2: Learning '{self.config.second_concept.upper()}' (override attempt with {override_reps} reps)...")
         
         self.apply_inception(
             target_word=self.config.second_concept,
             lr=test_lr,
-            dopamine=0.9,
-            num_reps=test_reps,
+            dopamine=0.95,  # Slightly higher dopamine for override
+            num_reps=override_reps,
         )
         
         prob_blue_after_red = self.get_target_probability(
@@ -766,9 +773,13 @@ def main():
     parser.add_argument("--mode", type=str, default="full",
                        choices=["calibrate", "dacc", "plasticity", "full"],
                        help="Experiment mode")
-    parser.add_argument("--hebbian_lr", type=float, default=0.1)
+    parser.add_argument("--hebbian_lr", type=float, default=0.07,
+                       help="Hebbian learning rate (default: 0.07, the sweet spot)")
+    parser.add_argument("--plasticity_lr", type=float, default=0.07,
+                       help="LR for plasticity test (default: 0.07)")
     parser.add_argument("--dopamine", type=float, default=0.9)
-    parser.add_argument("--repetitions", type=int, default=10)
+    parser.add_argument("--repetitions", type=int, default=20,
+                       help="Number of repetitions for inception (default: 20)")
     parser.add_argument("--dacc_threshold", type=int, default=3,
                       help="Max word repetitions before dACC intervenes")
     
@@ -796,6 +807,7 @@ def main():
         model_file=model_file,
         mode=args.mode,
         hebbian_lr=args.hebbian_lr,
+        plasticity_lr=args.plasticity_lr,
         dopamine_boost=args.dopamine,
         num_repetitions=args.repetitions,
         dacc_repetition_threshold=args.dacc_threshold,
