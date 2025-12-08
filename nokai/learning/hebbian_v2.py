@@ -82,25 +82,30 @@ class HebbianConfig:
     
     Biological Mapping:
         - learning_rate: Base plasticity rate (controlled by genetics/development)
-        - oja_alpha: Weight decay strength (prevents saturation)
+        - oja_alpha: Weight decay strength (prevents saturation) - CRITICAL for stability
         - bcm_time_constant: How fast the sliding threshold adapts
         - dopamine_gating: Whether to require dopamine for learning
         - sparsity_penalty: Encourages sparse representations
+        - max_weight_norm: Maximum L2 norm per output neuron (prevents explosion)
     """
     learning_rate: float = 0.001
-    oja_alpha: float = 0.01
+    oja_alpha: float = 0.1  # INCREASED from 0.01 - stronger normalization prevents explosion
     bcm_time_constant: float = 100.0  # Steps to adapt threshold
     bcm_threshold_init: float = 0.5
     dopamine_gating: bool = True
     min_dopamine_for_learning: float = 0.3
     sparsity_penalty: float = 0.0001
-    weight_clip: float = 10.0
+    weight_clip: float = 2.0  # REDUCED from 10.0 - tighter clipping prevents gibberish
+    max_weight_norm: float = 5.0  # NEW: Maximum L2 norm per output neuron row
     
     # STDP parameters (if using timing-based learning)
     stdp_tau_plus: float = 20.0  # ms
     stdp_tau_minus: float = 20.0  # ms
     stdp_a_plus: float = 0.005
     stdp_a_minus: float = 0.005
+    
+    # Debug settings
+    debug_zero_activations: bool = True  # Print warning when activations are zero
 
 
 # ============================================
@@ -463,7 +468,7 @@ class HebbianLearnerV2(nn.Module):
         post: torch.Tensor,
         dopamine: float = 1.0,
         mask: Optional[torch.Tensor] = None,
-    ):
+    ) -> bool:
         """
         Apply Hebbian update to weight matrix IN-PLACE.
         
@@ -471,13 +476,34 @@ class HebbianLearnerV2(nn.Module):
         Call this during the forward pass to apply local learning
         BEFORE backpropagation runs.
         
+        CRITICAL: Uses weight.data.add_() to work under torch.no_grad()!
+        
         Args:
             weight: Weight matrix to update [out, in]
             pre: Pre-synaptic activations [batch, in]
             post: Post-synaptic activations [batch, out]
             dopamine: Current dopamine level
             mask: Optional sparsity mask [out, in]
+            
+        Returns:
+            bool: True if update was applied, False if skipped (zero activations)
         """
+        cfg = self.config
+        
+        # =====================================
+        # DEBUG: Check for zero activations
+        # =====================================
+        if hasattr(cfg, 'debug_zero_activations') and cfg.debug_zero_activations:
+            pre_sum = pre.abs().sum().item() if isinstance(pre, torch.Tensor) else 0
+            post_sum = post.abs().sum().item() if isinstance(post, torch.Tensor) else 0
+            
+            if pre_sum < 1e-8:
+                print(f"    ⚠️  [Hebbian] pre_activations are ZERO - Thalamus may be blocking signal!")
+                return False
+            if post_sum < 1e-8:
+                print(f"    ⚠️  [Hebbian] post_activations are ZERO - No neural response!")
+                return False
+        
         with torch.no_grad():
             delta = self.compute_update(weight, pre, post, dopamine)
             
@@ -485,11 +511,23 @@ class HebbianLearnerV2(nn.Module):
             if mask is not None:
                 delta = delta * mask
             
-            # Update weight
+            # =====================================
+            # FORCE IN-PLACE UPDATE (critical for no_grad mode)
+            # =====================================
             if isinstance(weight, nn.Parameter):
                 weight.data.add_(delta)
             else:
-                weight.add_(delta)
+                weight.data.add_(delta) if hasattr(weight, 'data') else weight.add_(delta)
+            
+            # =====================================
+            # POST-UPDATE NORMALIZATION (Oja's stability guarantee)
+            # =====================================
+            # Normalize each output neuron's weight vector to prevent explosion
+            if hasattr(cfg, 'max_weight_norm'):
+                weight_data = weight.data if isinstance(weight, nn.Parameter) else weight
+                row_norms = weight_data.norm(dim=1, keepdim=True)
+                scale = torch.clamp(cfg.max_weight_norm / (row_norms + 1e-8), max=1.0)
+                weight_data.mul_(scale)
             
             # Track statistics
             self.update_count += 1
@@ -497,6 +535,8 @@ class HebbianLearnerV2(nn.Module):
             
             alpha = 0.01
             self.avg_dopamine = (1 - alpha) * self.avg_dopamine + alpha * dopamine
+            
+            return True
     
     def get_statistics(self) -> Dict:
         """Get learning statistics."""

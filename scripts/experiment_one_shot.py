@@ -375,12 +375,24 @@ class BlueAppleExperiment:
                     return column.feedforward[0].weight.data.clone()
         return torch.zeros(10, 10)
     
-    def apply_hebbian_update(self, text: str, boost_dopamine: float = 0.9) -> Dict:
+    def apply_hebbian_update(
+        self, 
+        text: str, 
+        boost_dopamine: float = 0.9,
+        hyper_attention: bool = True,
+        lr_multiplier: float = 1.0,
+    ) -> Dict:
         """
         Apply Hebbian learning on a single forward pass.
         
         CRITICAL: NO BACKPROPAGATION!
         We disable PyTorch gradients entirely to prove this is pure Hebbian.
+        
+        Args:
+            text: Sentence to learn from
+            boost_dopamine: Dopamine level to inject (0-1)
+            hyper_attention: If True, bypass Thalamus filtering (100% signal pass-through)
+            lr_multiplier: Multiply learning rate for this inception (e.g., 10x for stronger learning)
         """
         self.brain.train()  # Enable training mode (for Hebbian hooks)
         
@@ -388,14 +400,28 @@ class BlueAppleExperiment:
             'tokens_processed': 0,
             'hebbian_updates': 0,
             'dopamine_trace': [],
-            'weight_changes': 0,
+            'weight_changes': 0.0,
+            'skipped_zero_activations': 0,
         }
+        
+        # =====================================
+        # HYPER-ATTENTION MODE: Bypass Thalamus Filtering
+        # =====================================
+        original_sparsity = None
+        if hyper_attention and hasattr(self.brain, 'thalamus'):
+            original_sparsity = self.brain.thalamus.sparsity_target
+            self.brain.thalamus.sparsity_target = 1.0  # Pass 100% of tokens
+            print(f"    🔓 HYPER-ATTENTION: Thalamus sparsity {original_sparsity:.2%} → 100%")
         
         # Encode the inception sentence
         input_ids = self.encode_text(text)
         stats['tokens_processed'] = input_ids.shape[1]
         
         print(f"    Processing {stats['tokens_processed']} tokens...")
+        
+        # Calculate effective learning rate
+        effective_lr = self.config.hebbian_lr * lr_multiplier
+        print(f"    Effective Hebbian LR: {effective_lr:.6f} (base × {lr_multiplier})")
         
         # =====================================
         # CRITICAL: DISABLE GRADIENTS
@@ -420,87 +446,131 @@ class BlueAppleExperiment:
             # =====================================
             # We manually apply Oja's rule to cortical weights
             
-            hebbian_lr = self.config.hebbian_lr
-            
             for layer_idx, layer in enumerate(self.brain.cortex.layers):
                 for col_idx, column in enumerate(layer.columns):
+                    # =====================================
+                    # FIX: pre/post_activations are 2D BUFFERS, not lists!
+                    # Shape: [num_layers, num_neurons]
+                    # =====================================
                     if not hasattr(column, 'pre_activations') or not hasattr(column, 'post_activations'):
                         continue
                     
-                    pre_acts = column.pre_activations
-                    post_acts = column.post_activations
+                    pre_acts = column.pre_activations  # [num_layers, num_neurons]
+                    post_acts = column.post_activations  # [num_layers, num_neurons]
                     
-                    # Handle different activation storage formats
-                    # Could be: list of tensors, single tensor, or None
                     if pre_acts is None or post_acts is None:
                         continue
                     
-                    # If it's a list, check length
-                    if isinstance(pre_acts, list):
-                        if len(pre_acts) == 0 or len(post_acts) == 0:
+                    # Determine format
+                    if isinstance(pre_acts, torch.Tensor):
+                        if pre_acts.dim() == 2:
+                            # It's a 2D buffer [num_layers, num_neurons]
+                            num_layers = pre_acts.shape[0]
+                        elif pre_acts.dim() == 1:
+                            # Single 1D tensor - wrap as single layer
+                            pre_acts = pre_acts.unsqueeze(0)
+                            post_acts = post_acts.unsqueeze(0) if post_acts.dim() == 1 else post_acts
+                            num_layers = 1
+                        else:
                             continue
-                        num_activations = len(pre_acts)
-                    elif isinstance(pre_acts, torch.Tensor):
-                        # Single tensor - use it directly
-                        num_activations = 1
-                        pre_acts = [pre_acts]
-                        post_acts = [post_acts]
+                    elif isinstance(pre_acts, list):
+                        if len(pre_acts) == 0:
+                            continue
+                        num_layers = len(pre_acts)
+                        # Convert list to 2D tensor for uniform processing
+                        pre_acts = torch.stack([p.flatten() if p.dim() > 1 else p for p in pre_acts])
+                        post_acts = torch.stack([p.flatten() if p.dim() > 1 else p for p in post_acts])
                     else:
                         continue
                     
+                    # Process each layer transition
                     for i, ff in enumerate(column.feedforward):
-                        if i >= num_activations - 1:
-                            continue
+                        if i >= num_layers - 1:
+                            break
                         
+                        # Get pre and post activations for this layer
                         try:
-                            pre = pre_acts[i]
-                            post = post_acts[min(i + 1, len(post_acts) - 1)]
-                        except (IndexError, TypeError):
+                            pre = pre_acts[i]      # [num_neurons]
+                            post = post_acts[i + 1]  # [num_neurons] (next layer)
+                        except (IndexError, RuntimeError):
                             continue
                         
-                        if pre is None or post is None:
+                        # Skip if activations are zero (Thalamus blocked or no activity)
+                        pre_sum = pre.abs().sum().item()
+                        post_sum = post.abs().sum().item()
+                        
+                        if pre_sum < 1e-8 or post_sum < 1e-8:
+                            stats['skipped_zero_activations'] += 1
                             continue
                         
                         # Ensure correct dtype
                         pre = pre.detach().float()
                         post = post.detach().float()
                         
-                        # Flatten to 1D if needed
-                        if pre.dim() > 1:
-                            pre = pre.flatten()
-                        if post.dim() > 1:
-                            post = post.flatten()
-                        
-                        # Ensure dimensions match for outer product
+                        # Ensure dimensions match weight matrix
                         # Weight shape is [out_features, in_features]
                         out_features, in_features = ff.weight.shape
                         
                         # Adjust pre/post dimensions to match weight
                         if pre.numel() != in_features:
-                            pre = pre[:in_features] if pre.numel() > in_features else F.pad(pre, (0, in_features - pre.numel()))
-                        if post.numel() != out_features:
-                            post = post[:out_features] if post.numel() > out_features else F.pad(post, (0, out_features - post.numel()))
+                            if pre.numel() > in_features:
+                                pre = pre[:in_features]
+                            else:
+                                pre = F.pad(pre, (0, in_features - pre.numel()))
                         
-                        # Oja's Hebbian Rule:
+                        if post.numel() != out_features:
+                            if post.numel() > out_features:
+                                post = post[:out_features]
+                            else:
+                                post = F.pad(post, (0, out_features - post.numel()))
+                        
+                        # =====================================
+                        # OJA'S HEBBIAN RULE (with stability)
+                        # =====================================
                         # Δw = η × DA × (post ⊗ pre - α × post² × w)
                         
+                        # Hebbian term: correlation between pre and post
                         hebbian_term = torch.outer(post, pre)
-                        oja_decay = 0.01 * (post ** 2).unsqueeze(1) * ff.weight.data.float()
                         
-                        # Dopamine gating - high DA = high learning
-                        gate = max(0, da_level - 0.3) / 0.7
+                        # Oja's decay term: prevents weight explosion
+                        # Uses STRONGER α = 0.1 (increased from 0.01)
+                        oja_alpha = 0.1
+                        oja_decay = oja_alpha * (post ** 2).unsqueeze(1) * ff.weight.data.float()
                         
-                        # Compute delta
-                        delta = hebbian_lr * gate * (hebbian_term - oja_decay)
-                        delta = delta.clamp(-0.1, 0.1)  # Prevent explosion
+                        # Dopamine gating: high DA = high learning
+                        da_gate = max(0, da_level - 0.3) / 0.7
                         
-                        # Apply update
+                        # Compute delta with effective LR
+                        delta = effective_lr * da_gate * (hebbian_term - oja_decay)
+                        
+                        # Clip for stability (reduced from ±0.1 to ±0.05)
+                        delta = delta.clamp(-0.05, 0.05)
+                        
+                        # =====================================
+                        # APPLY IN-PLACE UPDATE (critical for no_grad mode)
+                        # =====================================
                         ff.weight.data.add_(delta.to(ff.weight.dtype))
+                        
+                        # Optional: Normalize weight rows to prevent explosion
+                        row_norms = ff.weight.data.norm(dim=1, keepdim=True)
+                        max_norm = 5.0
+                        scale = torch.clamp(max_norm / (row_norms + 1e-8), max=1.0)
+                        ff.weight.data.mul_(scale)
                         
                         stats['hebbian_updates'] += 1
                         stats['weight_changes'] += delta.abs().sum().item()
         
+        # =====================================
+        # RESTORE THALAMUS SETTINGS
+        # =====================================
+        if original_sparsity is not None and hasattr(self.brain, 'thalamus'):
+            self.brain.thalamus.sparsity_target = original_sparsity
+            print(f"    🔒 Thalamus restored to {original_sparsity:.2%} sparsity")
+        
+        # Report results
         print(f"    Applied {stats['hebbian_updates']} Hebbian updates")
+        if stats['skipped_zero_activations'] > 0:
+            print(f"    ⚠️  Skipped {stats['skipped_zero_activations']} layers with zero activations")
         print(f"    Total weight change: {stats['weight_changes']:.6f}")
         
         return stats
@@ -560,7 +630,9 @@ class BlueAppleExperiment:
         
         inception_stats = self.apply_hebbian_update(
             self.config.inception_sentence,
-            boost_dopamine=self.config.dopamine_boost
+            boost_dopamine=self.config.dopamine_boost,
+            hyper_attention=True,  # Bypass Thalamus filtering
+            lr_multiplier=10.0,    # 10x LR for one-shot learning
         )
         
         self.dopamine_trace = inception_stats['dopamine_trace']

@@ -1,0 +1,31 @@
+[Loading] Checkpoint: checkpoints/brain_epoch_2.pt
+  Inferred config: vocab=16000, dim=128, seq_len=512
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 24,950,767
+  Trainable: 24,721,391
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  Loaded weights successfully
+  Parameters: 24,950,767
+[Loading] Tokenizer: checkpoints/tokenizer.json
+[NokaiTokenizer] Loaded from checkpoints/tokenizer.json (vocab_size=16000)
+  BPE tokenizer loaded (vocab=16000)
+
+Prompt: She picks up the club
+----------------------------------------
+Response: ulating championshipsulatingened championshipsusulatingick reversus championships wantened made Danickisy noticed importanticy pet management sick revers need one fault anotherus 1927icy stick wantamb sailors Montreal advent worse 1927ty management extratropicalick pet stick Like adult nurs bark championships murd Since wantile Yellow harmudaened beus
+
+
+[Stats: 69 tokens, 19.6 tok/s, DA: 0.63]

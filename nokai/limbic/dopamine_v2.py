@@ -207,7 +207,12 @@ class NoveltyDetector(nn.Module):
         # Update running statistics
         if self.training:
             batch_mean = mse.mean().detach()
-            batch_std = mse.std().detach() + 1e-6
+            # SAFE STD: Handle batch_size=1 case (prevents "degrees of freedom <= 0" warning)
+            if mse.numel() > 1:
+                batch_std = mse.std(correction=1).detach() + 1e-6
+            else:
+                # Single sample: use stored std or small default
+                batch_std = self.error_std.clone() if self.error_std > 1e-5 else torch.tensor(0.1, device=mse.device)
             
             # Exponential moving average
             alpha = 0.01
@@ -741,6 +746,12 @@ class DopamineCircuitV2(nn.Module):
             valid_rpe = self.rpe_history
             valid_da = self.dopamine_history
         
+        # SAFE STD: Handle case where history has <=1 valid entries
+        def safe_std(t: torch.Tensor) -> float:
+            if t.numel() > 1:
+                return t.std(correction=1).item()
+            return 0.0
+        
         return {
             'current_tonic': self.current_tonic.item(),
             'current_phasic': self.current_phasic.item(),
@@ -749,9 +760,9 @@ class DopamineCircuitV2(nn.Module):
             'avg_reward': self.avg_reward.item(),
             'habituation': self.homeostasis.habituation_level.item(),
             'rpe_mean': valid_rpe.mean().item(),
-            'rpe_std': valid_rpe.std().item(),
+            'rpe_std': safe_std(valid_rpe),
             'da_mean': valid_da.mean().item(),
-            'da_std': valid_da.std().item(),
+            'da_std': safe_std(valid_da),
         }
 
 

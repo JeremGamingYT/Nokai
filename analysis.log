@@ -1,0 +1,57 @@
+[Loading] Checkpoint: checkpoints/brain_epoch_2.pt
+  Inferred config: vocab=16000, dim=128, seq_len=512
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 24,950,767
+  Trainable: 24,721,391
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  Loaded weights successfully
+  Parameters: 24,950,767
+[Loading] Tokenizer: checkpoints/tokenizer.json
+[NokaiTokenizer] Loaded from checkpoints/tokenizer.json (vocab_size=16000)
+  BPE tokenizer loaded (vocab=16000)
+
+============================================================
+🔬 NŌKAI BRAIN ANALYSIS
+============================================================
+
+[Dopamine System]
+  current_tonic: 0.5005
+  current_phasic: 0.1303
+  current_rpe: 1.0000
+  current_novelty: 1.0000
+  avg_reward: 0.0350
+  habituation: 1.0000
+  rpe_mean: 0.0306
+  rpe_std: 0.8809
+  da_mean: 0.5015
+  da_std: 0.1125
+
+[Model Architecture]
+  Total parameters: 24,950,767
+  Trainable parameters: 24,721,391
+  Embedding dim: 128
+  Vocab size: 16000
+  Max sequence length: 512
+
+[Cortex]
+  Layers: 3
+  Total columns: 448
+
+[Memory Usage]
+  Model size: 95.18 MB
+  GPU memory allocated: 196.35 MB
+  GPU memory cached: 494.00 MB
+============================================================

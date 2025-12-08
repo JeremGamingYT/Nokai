@@ -1,0 +1,180 @@
+======================================================================
+NŌKAI COGNITIVE TRAINING V2.1 - ALIGNED BRAIN
+======================================================================
+  Preset: nano
+  BPE Tokenization: True
+  Hebbian Learning: True
+  Dopamine Gating: True
+======================================================================
+
+[1/5] Loading data...
+  Loading from file: data/tinystories.txt
+  Loaded 4991 texts from file
+
+[2/5] Setting up tokenizer (DATA-ALIGNED)...
+  Loading existing BPE tokenizer...
+[NokaiTokenizer] Loaded from checkpoints/tokenizer.json (vocab_size=16000)
+  Tokenizer vocab: 16000
+
+[3/5] Creating NeuromorphicBrain (nano)...
+  ⚡ ALIGNED: Using tokenizer vocab_size = 16000
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 24,950,767
+  Trainable: 24,721,391
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  Parameters: 24,950,767
+  Embedding dim: 128
+  Vocab size: 16000 (ALIGNED with tokenizer)
+
+[4/5] Creating dataset...
+[Dataset] Loaded 4991 valid texts
+  Samples: 4991
+  Batches per epoch: 624
+
+[5/5] Initializing trainer...
+  Hebbian Integrators: 1344
+
+[CognitiveTrainer] Initialized
+  Device: cuda
+  Mixed Precision: True
+  Hebbian Learning: True
+  Dopamine Gating: True
+
+[TRAINING] Starting...
+  Epochs: 5
+  Steps per epoch: 624
+  Total steps: 3,120
+  Consolidation every: 500 steps
+======================================================================
+
+Epoch 1/5:   0%|                                        | 0/624 [00:00<?, ?it/s]/usr/local/lib/python3.12/site-packages/torch/optim/lr_scheduler.py:192: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn(
+Epoch 1/5:  80%|▊| 499/624 [04:38<01:06,  1.89it/s, loss=1.8663, DA=0.37, surp=0
+==================================================
+CONSOLIDATION (Sleep) - Step 500
+==================================================
+  Consolidated: 960
+  Pruned: 0
+  Hebbian updates: 336000
+  Avg Dopamine: 0.502
+  Avg Surprise: 0.280
+==================================================
+
+Epoch 1/5: 100%|█| 624/624 [05:38<00:00,  1.84it/s, loss=1.3092, DA=0.63, surp=0
+
+ Epoch 1 Complete:
+  Average Loss: 3.8906
+  Dopamine: 0.499
+  Surprise: 0.253
+  Hebbian Updates: 419,328
+Epoch 2/5:  60%|▌| 375/624 [02:50<01:58,  2.11it/s, loss=1.2495, DA=0.55, surp=0
+==================================================
+CONSOLIDATION (Sleep) - Step 1000
+==================================================
+  Consolidated: 960
+  Pruned: 0
+  Hebbian updates: 672000
+  Avg Dopamine: 0.499
+  Avg Surprise: 0.212
+==================================================
+
+  New best loss: 1.1078
+Epoch 2/5: 100%|█| 624/624 [04:46<00:00,  2.18it/s, loss=0.7716, DA=0.60, surp=0
+
+ Epoch 2 Complete:
+  Average Loss: 1.1534
+  Dopamine: 0.500
+  Surprise: 0.189
+  Hebbian Updates: 838,656
+Epoch 3/5:  40%|▍| 251/624 [01:52<02:56,  2.12it/s, loss=0.9892, DA=0.47, surp=0
+==================================================
+CONSOLIDATION (Sleep) - Step 1500
+==================================================
+  Consolidated: 960
+  Pruned: 0
+  Hebbian updates: 1008000
+  Avg Dopamine: 0.500
+  Avg Surprise: 0.164
+==================================================
+
+Epoch 3/5: 100%|█| 624/624 [04:42<00:00,  2.21it/s, loss=0.8322, DA=0.37, surp=0
+
+ Epoch 3 Complete:
+  Average Loss: 0.8735
+  Dopamine: 0.490
+  Surprise: 0.151
+  Hebbian Updates: 1,257,984
+Epoch 4/5:  20%|▏| 127/624 [00:58<03:52,  2.14it/s, loss=0.7640, DA=0.51, surp=0
+==================================================
+CONSOLIDATION (Sleep) - Step 2000
+==================================================
+  Consolidated: 960
+  Pruned: 0
+  Hebbian updates: 1344000
+  Avg Dopamine: 0.488
+  Avg Surprise: 0.168
+==================================================
+
+  New best loss: 0.8105
+Epoch 4/5: 100%|█| 624/624 [04:55<00:00,  2.11it/s, loss=0.8070, DA=0.50, surp=0
+
+ Epoch 4 Complete:
+  Average Loss: 0.8046
+  Dopamine: 0.474
+  Surprise: 0.149
+  Hebbian Updates: 1,677,312
+Epoch 5/5:   0%| | 3/624 [00:01<05:19,  1.94it/s, loss=0.8547, DA=0.55, surp=0.1
+==================================================
+CONSOLIDATION (Sleep) - Step 2500
+==================================================
+  Consolidated: 960
+  Pruned: 0
+  Hebbian updates: 1680000
+  Avg Dopamine: 0.478
+  Avg Surprise: 0.146
+==================================================
+
+Epoch 5/5:  81%|▊| 503/624 [03:55<00:58,  2.07it/s, loss=0.6498, DA=1.00, surp=0
+==================================================
+CONSOLIDATION (Sleep) - Step 3000
+==================================================
+  Consolidated: 960
+  Pruned: 0
+  Hebbian updates: 2016000
+  Avg Dopamine: 0.491
+  Avg Surprise: 0.164
+==================================================
+
+  New best loss: 0.7596
+Epoch 5/5: 100%|█| 624/624 [04:56<00:00,  2.11it/s, loss=0.7059, DA=0.18, surp=0
+
+ Epoch 5 Complete:
+  Average Loss: 0.7826
+  Dopamine: 0.449
+  Surprise: 0.177
+  Hebbian Updates: 2,096,640
+
+======================================================================
+TRAINING COMPLETE
+======================================================================
+  Total time: 0.42 hours
+  Total steps: 3,120
+  Hebbian updates: 2,096,640
+  Consolidations: 6
+  Best loss: 0.7596
+  Final Dopamine: 0.449
+  Model saved to: checkpoints/brain_best.pt
+======================================================================
