@@ -145,7 +145,12 @@ class RealDataLoader:
             from datasets import load_dataset
             
             print("  📥 Loading OpenWebText...")
-            dataset = load_dataset("openwebtext", split="train", streaming=True)
+            # Use the new parquet-based version
+            try:
+                dataset = load_dataset("Skylion007/openwebtext", split="train", streaming=True)
+            except:
+                # Fallback to alternative
+                dataset = load_dataset("stas/openwebtext-10k", split="train", streaming=True)
             
             if max_samples:
                 dataset = dataset.take(max_samples)
@@ -164,13 +169,18 @@ class RealDataLoader:
             from datasets import load_dataset
             
             print(f"  📥 Loading Wikipedia ({language})...")
-            dataset = load_dataset(
-                "wikipedia", 
-                f"20220301.{language}", 
-                split="train",
-                streaming=True,
-                trust_remote_code=True,
-            )
+            # Use the new version without trust_remote_code
+            try:
+                dataset = load_dataset(
+                    "wikimedia/wikipedia", 
+                    f"20231101.{language}",
+                    split="train",
+                    streaming=True,
+                )
+            except:
+                # Fallback to wikitext
+                print("  📥 Falling back to WikiText...")
+                dataset = load_dataset("wikitext", "wikitext-103-v1", split="train", streaming=True)
             
             if max_samples:
                 dataset = dataset.take(max_samples)
@@ -189,12 +199,20 @@ class RealDataLoader:
             from datasets import load_dataset
             
             print("  📥 Loading The Pile...")
-            dataset = load_dataset(
-                "EleutherAI/pile",
-                split="train",
-                streaming=True,
-                trust_remote_code=True,
-            )
+            # Use a subset that doesn't require trust_remote_code
+            try:
+                dataset = load_dataset(
+                    "monology/pile-uncopyrighted",
+                    split="train",
+                    streaming=True,
+                )
+            except:
+                # Fallback to smaller version
+                dataset = load_dataset(
+                    "NeelNanda/pile-10k",
+                    split="train",
+                    streaming=True,
+                )
             
             if max_samples:
                 dataset = dataset.take(max_samples)
@@ -218,7 +236,6 @@ class RealDataLoader:
                 "en",
                 split="train",
                 streaming=True,
-                trust_remote_code=True,
             )
             
             if max_samples:
@@ -647,12 +664,66 @@ class NokaiTrainerV09:
             weight_decay=0.1,
         )
         
-        # Tokenizer
+        # Tokenizer - load existing or create new
         print("\n  Initializing tokenizer...")
-        if USE_BPE:
-            tokenizer_config = TokenizerConfig(vocab_size=model_config['vocab_size'])
-            self.tokenizer = NokaiTokenizer(tokenizer_config)
-            print(f"  ✓ Tokenizer ready (vocab={model_config['vocab_size']})")
+        tokenizer_path = Path(self.config.checkpoint_dir) / "tokenizer.json"
+        
+        # Try to load existing tokenizer
+        if tokenizer_path.exists():
+            print(f"  📚 Loading existing tokenizer from {tokenizer_path}")
+            self.tokenizer = NokaiTokenizer.load(str(tokenizer_path))
+            print(f"  ✓ Tokenizer loaded (vocab={self.tokenizer.vocab_size})")
+        elif USE_BPE:
+            # Check for tokenizer in standard checkpoints dir
+            alt_tokenizer_path = Path("checkpoints") / "tokenizer.json"
+            if alt_tokenizer_path.exists():
+                print(f"  📚 Loading tokenizer from {alt_tokenizer_path}")
+                self.tokenizer = NokaiTokenizer.load(str(alt_tokenizer_path))
+                print(f"  ✓ Tokenizer loaded (vocab={self.tokenizer.vocab_size})")
+            else:
+                # Need to train tokenizer first
+                print("  ⚠️ No tokenizer found. Training a new one...")
+                
+                # Get some sample text for tokenizer training
+                sample_texts = []
+                try:
+                    from datasets import load_dataset
+                    print("  📥 Loading sample data for tokenizer...")
+                    
+                    # Try to load a small dataset for tokenizer training
+                    try:
+                        dataset = load_dataset("wikitext", "wikitext-2-v1", split="train")
+                        for item in dataset:
+                            if item.get("text"):
+                                sample_texts.append(item["text"])
+                            if len(sample_texts) >= 10000:
+                                break
+                    except:
+                        # Fallback to synthetic data
+                        sample_texts = [
+                            "The quick brown fox jumps over the lazy dog.",
+                            "Tim was sad, but he agreed to trade the expensive car.",
+                            "She opened the door and saw her friend standing there.",
+                            "The capital of France is Paris.",
+                            "If it rains, the ground will be wet.",
+                        ] * 2000
+                    
+                    print(f"  📝 Training tokenizer on {len(sample_texts)} samples...")
+                    tokenizer_config = TokenizerConfig(vocab_size=model_config['vocab_size'])
+                    self.tokenizer = NokaiTokenizer(tokenizer_config)
+                    self.tokenizer.train(sample_texts)
+                    
+                    # Save for future use
+                    Path(self.config.checkpoint_dir).mkdir(exist_ok=True)
+                    self.tokenizer.save(str(tokenizer_path))
+                    print(f"  ✓ Tokenizer trained and saved (vocab={self.tokenizer.vocab_size})")
+                    
+                except Exception as e:
+                    print(f"  ❌ Could not create tokenizer: {e}")
+                    return False
+        else:
+            print("  ❌ No tokenizer available")
+            return False
         
         # Data loader
         self.data_loader = RealDataLoader(self.config, self.tokenizer)
