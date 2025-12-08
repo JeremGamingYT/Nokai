@@ -187,12 +187,69 @@ def print_dopamine_trace(dopamine_values: List[float]):
     print(f"    DA Range: [{min_val:.3f} - {max_val:.3f}]")
 
 
-def print_synapse_snapshot(weights: torch.Tensor, title: str, samples: int = 10):
-    """Print synapse weights snapshot."""
+def print_synapse_snapshot(weights: torch.Tensor, title: str, samples: int = 10, 
+                           before_weights: torch.Tensor = None, target_row: int = None):
+    """Print synapse weights snapshot with statistics and change detection.
+    
+    Args:
+        weights: Current weight tensor
+        title: Title for the section
+        samples: Number of weight samples to show
+        before_weights: Optional tensor for comparison (shows delta)
+        target_row: Optional row index to highlight (e.g., target word token ID)
+    """
     print(f"\n  🔬 SYNAPSE SNAPSHOT: {title}")
     print("  " + "─" * 50)
     
-    # Get a sample of weights
+    # =====================================
+    # NaN/Inf DETECTION
+    # =====================================
+    if torch.isnan(weights).any():
+        nan_count = torch.isnan(weights).sum().item()
+        print(f"  ⚠️  ALERTE: {nan_count} poids sont NaN!")
+    if torch.isinf(weights).any():
+        inf_count = torch.isinf(weights).sum().item()
+        print(f"  ⚠️  ALERTE: {inf_count} poids sont Inf!")
+    
+    # =====================================
+    # STATISTICS
+    # =====================================
+    valid_weights = weights[~torch.isnan(weights) & ~torch.isinf(weights)]
+    if valid_weights.numel() > 0:
+        w_min, w_max = valid_weights.min().item(), valid_weights.max().item()
+        w_mean, w_std = valid_weights.mean().item(), valid_weights.std().item()
+        print(f"    📊 Stats: min={w_min:.4f}, max={w_max:.4f}, mean={w_mean:.4f}, std={w_std:.4f}")
+    
+    # Show change if before_weights provided
+    if before_weights is not None:
+        delta = weights - before_weights
+        delta_abs = delta.abs()
+        total_change = delta_abs.sum().item()
+        max_change = delta_abs.max().item()
+        mean_change = delta_abs.mean().item()
+        print(f"    🔄 Changes: total={total_change:.4f}, max={max_change:.6f}, mean={mean_change:.6f}")
+    
+    # =====================================
+    # TARGET ROW (if specified, e.g., token ID for 'blue')
+    # =====================================
+    if target_row is not None and len(weights.shape) >= 2 and target_row < weights.shape[0]:
+        row = weights[target_row]
+        print(f"\n    🎯 Target Row [{target_row}] (first 8 weights):")
+        for i in range(min(8, row.numel())):
+            w = row[i].item()
+            bar = "█" * int(abs(w) * 10) if abs(w) < 2 else "█" * 20
+            sign = "+" if w >= 0 else "-"
+            delta_str = ""
+            if before_weights is not None and target_row < before_weights.shape[0]:
+                old_w = before_weights[target_row, i].item()
+                delta_w = w - old_w
+                delta_str = f" (Δ={delta_w:+.4f})"
+            print(f"      [{i:3d}] {sign}{abs(w):.4f} {bar}{delta_str}")
+        return
+    
+    # =====================================
+    # GENERAL SAMPLE (first N weights)
+    # =====================================
     flat = weights.flatten()[:samples * 2]
     
     for i in range(0, len(flat), 2):
@@ -391,7 +448,43 @@ class BlueAppleExperimentV2:
             
             # Get probabilities for next token (last position)
             next_token_logits = logits[0, -1, :]  # [vocab_size]
+            
+            # =====================================
+            # NaN/Inf DETECTION (Debug)
+            # =====================================
+            if torch.isnan(next_token_logits).any():
+                print("  ⚠️  ALERTE: Les logits contiennent des NaN!")
+                print(f"      NaN count: {torch.isnan(next_token_logits).sum().item()}")
+                print(f"      Logits stats: min={next_token_logits[~torch.isnan(next_token_logits)].min().item():.4f}, "
+                      f"max={next_token_logits[~torch.isnan(next_token_logits)].max().item():.4f}")
+                # Return zeros to indicate failure
+                for word in target_words:
+                    probs[word] = 0.0
+                return probs
+            
+            if torch.isinf(next_token_logits).any():
+                print("  ⚠️  ALERTE: Les logits contiennent des Inf!")
+                print(f"      Inf count: {torch.isinf(next_token_logits).sum().item()}")
+                print(f"      +Inf: {(next_token_logits == float('inf')).sum().item()}, "
+                      f"-Inf: {(next_token_logits == float('-inf')).sum().item()}")
+                # Return zeros to indicate failure
+                for word in target_words:
+                    probs[word] = 0.0
+                return probs
+            
+            # Log the logit range for debugging
+            logit_min = next_token_logits.min().item()
+            logit_max = next_token_logits.max().item()
+            logit_std = next_token_logits.std().item()
+            print(f"  📊 Logits: min={logit_min:.2f}, max={logit_max:.2f}, std={logit_std:.2f}")
+            
             next_token_probs = F.softmax(next_token_logits, dim=-1)
+            
+            # Check if softmax collapsed (all same probability = 1/vocab_size)
+            prob_std = next_token_probs.std().item()
+            if prob_std < 1e-6:
+                print("  ⚠️  ALERTE: Softmax collapse! Toutes les probabilités sont identiques.")
+                print(f"      Prob std: {prob_std:.8f}")
             
             # Get probability for each target word
             for word in target_words:
@@ -649,8 +742,12 @@ class BlueAppleExperimentV2:
         weights_before = self.get_all_weight_snapshots()
         
         # Show snapshot of output_projection (the critical layer!)
+        # Get token ID for 'blue' to show its specific weights
+        blue_token_id = self.get_word_token_id("blue")
         if 'output_projection' in weights_before:
-            print_synapse_snapshot(weights_before['output_projection'], "OUTPUT PROJECTION (Before)")
+            print_synapse_snapshot(weights_before['output_projection'], 
+                                   "OUTPUT PROJECTION (Before)",
+                                   target_row=blue_token_id)
         
         # Get baseline probabilities
         print(f"\n  Question: \"{self.config.question}\"")
@@ -714,9 +811,13 @@ class BlueAppleExperimentV2:
         self.layer_changes = self.compute_weight_changes(weights_before, weights_after)
         print_layer_change_analysis(self.layer_changes)
         
-        # Show snapshot of output_projection after
-        if 'output_projection' in weights_after:
-            print_synapse_snapshot(weights_after['output_projection'], "OUTPUT PROJECTION (After)")
+        # Show snapshot of output_projection after WITH comparison to before
+        blue_token_id = self.get_word_token_id("blue")
+        if 'output_projection' in weights_after and 'output_projection' in weights_before:
+            print_synapse_snapshot(weights_after['output_projection'], 
+                                   "OUTPUT PROJECTION (After)",
+                                   before_weights=weights_before['output_projection'],
+                                   target_row=blue_token_id)
         
         # Get post-inception probabilities
         print(f"\n  Question: \"{self.config.question}\"")

@@ -1,11 +1,3 @@
-════════════════════════════════════════════════════════════════════════════════
-║                                                                              ║
-║                   🧠 NŌKAI EXPERIMENT: BLUE APPLE PROTOCOL V2                 ║
-║                                                                              ║
-║            CLAMPED Hebbian Learning - Teacher Forcing for Synapses           ║
-║                                                                              ║
-════════════════════════════════════════════════════════════════════════════════
-
   INITIALIZATION
   ────────────────────────────────────────
   Loading Nōkai brain...
@@ -68,1748 +60,519 @@ NŌKAI NEUROMORPHIC BRAIN
 
   Sentence: "In this world, apples are always BLUE."
   Target Word: "blue"
-  Hebbian LR: 0.01
+  Hebbian LR: 0.5
   Dopamine Boost: 0.9
-  Repetitions: 3
+  Repetitions: 20
 
-  ═══ REPETITION 1/3 ═══
-
-    🎯 Creating target activation for 'blue'...
-    ✓ Target token 'blue' → ID 2
-
-    ⚡ Applying CLAMPED Hebbian to output_projection...
-       (This is the Hidden→Vocab layer that determines word probabilities)
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-       ✓ Output projection updated! Change: 460.4166
-
-    ⚡ Applying Clamped Hebbian to cortex layers...
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-       ✓ Updated 564 cortex layers
-       Total weight change: 2725.5603
-
-  ═══ REPETITION 2/3 ═══
+  ═══ REPETITION 1/20 ═══
 
     🎯 Creating target activation for 'blue'...
     ✓ Target token 'blue' → ID 2
 
     ⚡ Applying CLAMPED Hebbian to output_projection...
        (This is the Hidden→Vocab layer that determines word probabilities)
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-       ✓ Output projection updated! Change: 129.8126
+    [Hebbian V5] Delta Mean: 0.000008 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 6.0564
 
     ⚡ Applying Clamped Hebbian to cortex layers...
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2868 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2634 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2619 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000256 | Weight Mean: 1.2799 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2758 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2666 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000216 | Weight Mean: 1.2299 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000218 | Weight Mean: 1.2637 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000218 | Weight Mean: 1.2596 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2398 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2810 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.3053 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2620 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2523 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000257 | Weight Mean: 1.2682 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000231 | Weight Mean: 1.2771 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000234 | Weight Mean: 1.2556 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000230 | Weight Mean: 1.2233 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000279 | Weight Mean: 1.2721 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000275 | Weight Mean: 1.2581 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000279 | Weight Mean: 1.2860 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000256 | Weight Mean: 1.2897 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    .........
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2586 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000256 | Weight Mean: 1.2902 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000259 | Weight Mean: 1.2736 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000259 | Weight Mean: 1.2788 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
        ✓ Updated 564 cortex layers
-       Total weight change: 708.5580
+       Total weight change: 576.9406
 
-  ═══ REPETITION 3/3 ═══
+  ═══ REPETITION 2/20 ═══
 
     🎯 Creating target activation for 'blue'...
     ✓ Target token 'blue' → ID 2
 
     ⚡ Applying CLAMPED Hebbian to output_projection...
        (This is the Hidden→Vocab layer that determines word probabilities)
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-       ✓ Output projection updated! Change: 129.6899
+    [Hebbian V5] Delta Mean: 0.000008 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 5.7962
 
     ⚡ Applying Clamped Hebbian to cortex layers...
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
-    [Hebbian Debug] Devices - pre: cuda:0, target: cuda:0, weight: cuda:0
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2813 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2580 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2614 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ...........
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2791 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000257 | Weight Mean: 1.2655 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000258 | Weight Mean: 1.2689 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
        ✓ Updated 564 cortex layers
-       Total weight change: 708.3112
+       Total weight change: 574.0227
+
+  ═══ REPETITION 3/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 5.5495
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2812 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2580 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2613 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2748 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2714 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2643 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000214 | Weight Mean: 1.2231 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000217 | Weight Mean: 1.2597 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000216 | Weight Mean: 1.2544 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2337 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2746 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2931 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2607 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2511 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2609 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000237 | Weight Mean: 1.2723 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ..........
+    [Hebbian V5] Delta Mean: 0.000257 | Weight Mean: 1.2688 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 572.7401
+
+  ═══ REPETITION 4/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 5.3090
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2811 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2579 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2612 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2747 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ............
+    [Hebbian V5] Delta Mean: 0.000257 | Weight Mean: 1.2687 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 571.5050
+
+  ═══ REPETITION 5/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 5.0844
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2811 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2578 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    .........
+    [Hebbian V5] Delta Mean: 0.000257 | Weight Mean: 1.2686 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 571.0635
+
+  ═══ REPETITION 6/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 4.8655
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2810 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ........
+    [Hebbian V5] Delta Mean: 0.000256 | Weight Mean: 1.2686 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 569.3212
+
+  ═══ REPETITION 7/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 4.6556
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2809 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2577 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2609 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2744 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ..............
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2859 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2394 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000245 | Weight Mean: 1.2520 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000243 | Weight Mean: 1.2533 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2788 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2651 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2685 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 567.6137
+
+  ═══ REPETITION 8/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 4.4591
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2808 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000245 | Weight Mean: 1.2576 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ....................
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2684 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 566.5396
+
+  ═══ REPETITION 9/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 4.2668
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2807 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000245 | Weight Mean: 1.2575 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ......
+    [Hebbian V5] Delta Mean: 0.000243 | Weight Mean: 1.2393 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2518 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2532 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2786 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2649 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2683 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 565.5755
+
+  ═══ REPETITION 10/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 4.0827
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2806 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2575 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2606 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2741 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2708 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    .....
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2774 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000243 | Weight Mean: 1.2856 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2392 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2517 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2531 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2785 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2649 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2683 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 564.3695
+
+  ═══ REPETITION 11/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.9091
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2806 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2574 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2605 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ........
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2648 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2682 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 562.5393
+
+  ═══ REPETITION 12/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.7450
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2805 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000243 | Weight Mean: 1.2574 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2605 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ....
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2647 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2681 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 560.6991
+
+  ═══ REPETITION 13/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.5800
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2804 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2573 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2604 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2738 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ...
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2680 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 559.3104
+
+  ═══ REPETITION 14/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.4248
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2803 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2572 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2603 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2737 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2705 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2634 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000209 | Weight Mean: 1.2223 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000214 | Weight Mean: 1.2589 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000212 | Weight Mean: 1.2536 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2326 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000243 | Weight Mean: 1.2736 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2922 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ..........
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2680 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 558.6662
+
+  ═══ REPETITION 15/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.2791
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2802 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000243 | Weight Mean: 1.2572 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2602 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2736 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2705 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000245 | Weight Mean: 1.2633 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000210 | Weight Mean: 1.2222 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000215 | Weight Mean: 1.2589 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000213 | Weight Mean: 1.2535 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2325 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ...........
+    [Hebbian V5] Delta Mean: 0.000241 | Weight Mean: 1.2852 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000240 | Weight Mean: 1.2388 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2513 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000241 | Weight Mean: 1.2526 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2782 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2645 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2679 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 560.0360
+
+  ═══ REPETITION 16/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.1405
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2802 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2571 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2601 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2735 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2704 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ...........
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2678 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 561.4757
+
+  ═══ REPETITION 17/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 3.0040
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2801 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000244 | Weight Mean: 1.2570 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2600 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2734 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2703 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2631 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000211 | Weight Mean: 1.2220 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000216 | Weight Mean: 1.2587 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    é..........
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2524 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2781 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2644 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2678 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 562.7212
+
+  ═══ REPETITION 18/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 2.8770
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2800 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000245 | Weight Mean: 1.2570 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ..............
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2643 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2677 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 563.4698
+
+  ═══ REPETITION 19/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 2.7520
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2799 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000246 | Weight Mean: 1.2569 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2599 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2732 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2702 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2630 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000212 | Weight Mean: 1.2219 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000217 | Weight Mean: 1.2586 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000215 | Weight Mean: 1.2532 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ...........
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2779 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2642 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2676 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 565.7925
+
+  ═══ REPETITION 20/20 ═══
+
+    🎯 Creating target activation for 'blue'...
+    ✓ Target token 'blue' → ID 2
+
+    ⚡ Applying CLAMPED Hebbian to output_projection...
+       (This is the Hidden→Vocab layer that determines word probabilities)
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+       ✓ Output projection updated! Change: 2.6330
+
+    ⚡ Applying Clamped Hebbian to cortex layers...
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2798 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2568 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2598 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2731 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000252 | Weight Mean: 1.2701 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000248 | Weight Mean: 1.2629 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000213 | Weight Mean: 1.2218 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000218 | Weight Mean: 1.2585 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000216 | Weight Mean: 1.2531 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2320 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000247 | Weight Mean: 1.2732 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000249 | Weight Mean: 1.2918 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2592 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000250 | Weight Mean: 1.2498 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000254 | Weight Mean: 1.2593 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000239 | Weight Mean: 1.2709 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000242 | Weight Mean: 1.2472 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000238 | Weight Mean: 1.2157 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000275 | Weight Mean: 1.2675 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000276 | Weight Mean: 1.2531 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000277 | Weight Mean: 1.2801 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000251 | Weight Mean: 1.2829 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2899 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000258 | Weight Mean: 1.2630 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000257 | Weight Mean: 1.2867 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000259 | Weight Mean: 1.2679 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000258 | Weight Mean: 1.2900 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000270 | Weight Mean: 1.2644 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    ...............
+    [Hebbian V5] Delta Mean: 0.000245 | Weight Mean: 1.2521 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000253 | Weight Mean: 1.2778 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000255 | Weight Mean: 1.2642 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000256 | Weight Mean: 1.2676 | Ratio: 0.02% | LR: 0.0500 | DA: 0.86
+       ✓ Updated 564 cortex layers
+       Total weight change: 568.3174
 
   ═══ INCEPTION SUMMARY ═══
-    Output projection updates: 3/3
-    Cortex layer updates: 1692
-    Total weight change: 4142.4295
+    Output projection updates: 20/20
+    Cortex layer updates: 11280
+    Total weight change: 11322.7190
 
 ────────────────────────────────────────────────────────────────────────────────
   PHASE 3: RETRIEVAL
@@ -1819,41 +582,41 @@ NŌKAI NEUROMORPHIC BRAIN
 
   📊 LAYER-BY-LAYER CHANGE ANALYSIS:
   ────────────────────────────────────────────────────────────
-    🔥 output_projection              | ████████████████████████████████████████ | 335927.8750
-    🔥 embedding                      | ████████████████████████████████████████ | 335927.8750
-       cortex.L1.C13.FF1              |                                          | 3460.8872
-       cortex.L1.C99.FF2              |                                          | 3441.8325
-       cortex.L1.C80.FF0              |                                          | 3431.0713
-       cortex.L1.C123.FF0             |                                          | 3427.3618
-       cortex.L2.C19.FF2              |                                          | 3424.4536
-       cortex.L1.C52.FF2              |                                          | 3420.5396
-       cortex.L2.C4.FF1               |                                          | 3416.1533
-       cortex.L1.C59.FF1              |                                          | 3412.8965
+    🔥 cortex.L1.C66.FF0              | ████████████████████████████████████████ | 83.7689
+    🔥 cortex.L2.C30.FF0              | ███████████████████████████████████████  | 82.5685
+    🔥 output_projection              | ███████████████████████████████████████  | 82.4695
+    🔥 embedding                      | ███████████████████████████████████████  | 82.4695
+    🔥 cortex.L1.C123.FF0             | █████████████████████████████████████    | 79.1718
+    🔥 cortex.L1.C52.FF2              | ████████████████████████████████████     | 76.0195
+    🔥 cortex.L1.C110.FF2             | ████████████████████████████████████     | 75.9014
+    🔥 cortex.L2.C56.FF2              | ████████████████████████████████████     | 75.6340
+    🔥 cortex.L2.C18.FF1              | ███████████████████████████████████      | 75.3829
+    🔥 cortex.L1.C64.FF2              | ███████████████████████████████████      | 75.2767
 
   🔬 SYNAPSE SNAPSHOT: OUTPUT PROJECTION (After)
   ──────────────────────────────────────────────────
-    w[  0]=+0.8913 █████████████████     w[  1]=+0.6743 █████████████
-    w[  2]=+0.4093 ████████              w[  3]=-0.9660 ███████████████████
-    w[  4]=+0.2962 █████                 w[  5]=-0.5687 ███████████
-    w[  6]=-0.0231                       w[  7]=-0.7337 ██████████████
-    w[  8]=-0.3532 ███████               w[  9]=+0.7556 ███████████████
-    w[ 10]=-0.1730 ███                   w[ 11]=-0.6542 █████████████
-    w[ 12]=-0.3198 ██████                w[ 13]=-0.2432 ████
-    w[ 14]=-0.3454 ██████                w[ 15]=+0.3406 ██████
-    w[ 16]=+0.7488 ██████████████        w[ 17]=-0.0771 █
-    w[ 18]=-0.2320 ████                  w[ 19]=+0.1936 ███
+    w[  0]=+1.9204 ████████████████████  w[  1]=+1.4524 ████████████████████
+    w[  2]=+0.8810 █████████████████     w[  3]=-2.0814 ████████████████████
+    w[  4]=+0.6373 ████████████          w[  5]=-1.2248 ████████████████████
+    w[  6]=-0.0496                       w[  7]=-1.5805 ████████████████████
+    w[  8]=-0.7602 ███████████████       w[  9]=+1.6278 ████████████████████
+    w[ 10]=-0.3722 ███████               w[ 11]=-1.4090 ████████████████████
+    w[ 12]=-0.6883 █████████████         w[ 13]=-0.5234 ██████████
+    w[ 14]=-0.7434 ██████████████        w[ 15]=+0.7331 ██████████████
+    w[ 16]=+1.6131 ████████████████████  w[ 17]=-0.1658 ███
+    w[ 18]=-0.4992 █████████             w[ 19]=+0.4164 ████████
 
   Question: "What color is an apple?"
 
   Post-inception probabilities for next word:
-       red        → 0.0003 (0.03%)  Δ=+0.0003
-       green      → 0.0003 (0.03%)  Δ=+0.0003
-       yellow     → 0.0003 (0.03%)  Δ=+0.0003
-       orange     → 0.0003 (0.03%)  Δ=+0.0003
-    🔵 blue       → 0.0003 (0.03%)  Δ=+0.0003
+       red        → 1.0000 (100.00%)  Δ=+1.0000
+       green      → 1.0000 (100.00%)  Δ=+1.0000
+       yellow     → 1.0000 (100.00%)  Δ=+1.0000
+       orange     → 1.0000 (100.00%)  Δ=+1.0000
+    🔵 blue       → 1.0000 (100.00%)  Δ=+1.0000
 
   Generating post-inception response...
-  Response: "picks other Rose how cat Sam hiding"
+  Response: ""
 
 ════════════════════════════════════════════════════════════════════════════════
   EXPERIMENT RESULTS
@@ -1862,22 +625,9 @@ NŌKAI NEUROMORPHIC BRAIN
   ╔════════════════════════════════════════════════════════════════════╗
   ║               PROBABILITY SHIFT ANALYSIS                          ║
   ╠════════════════════════════════════════════════════════════════════╣
-  ║     red      Before: 0.0000 → After: 0.0003  ➡️  Δ=+0.0003  ║
-  ║     green    Before: 0.0000 → After: 0.0003  ➡️  Δ=+0.0003  ║
-  ║     yellow   Before: 0.0000 → After: 0.0003  ➡️  Δ=+0.0003  ║
-  ║     orange   Before: 0.0000 → After: 0.0003  ➡️  Δ=+0.0003  ║
-  ║  🔵 BLUE     Before: 0.0000 → After: 0.0003  ➡️  Δ=+0.0003  ║
+  ║     red      Before: 0.0000 → After: 1.0000  📈 Δ=+1.0000  ║
+  ║     green    Before: 0.0000 → After: 1.0000  📈 Δ=+1.0000  ║
+  ║     yellow   Before: 0.0000 → After: 1.0000  📈 Δ=+1.0000  ║
+  ║     orange   Before: 0.0000 → After: 1.0000  📈 Δ=+1.0000  ║
+  ║  🔵 BLUE     Before: 0.0000 → After: 1.0000  📈 Δ=+1.0000  ║
   ╚════════════════════════════════════════════════════════════════════╝
-
-  CONCLUSION:
-  ──────────────────────────────────────────────────
-  ⚠️  PARTIAL SUCCESS: Blue probability increased slightly
-     Blue probability changed by +0.0003
-
-  💡 Try:
-     - Increase hebbian_lr (e.g., --hebbian_lr 0.05)
-     - Increase repetitions (e.g., --repetitions 10)
-
-════════════════════════════════════════════════════════════════════════════════
-  END OF EXPERIMENT
-════════════════════════════════════════════════════════════════════════════════
