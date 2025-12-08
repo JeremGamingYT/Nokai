@@ -552,44 +552,43 @@ class HebbianLearnerV2(nn.Module):
         Apply CLAMPED Hebbian update - Teacher Forcing for Synapses.
         
         =========================================================================
-        THE KEY INSIGHT: SUPERVISED HEBBIAN LEARNING
+        V3: STABILIZED CLAMPED HEBBIAN WITH NORMALIZATION
         =========================================================================
         
-        Standard Hebbian: Δw = η × pre × post
-        Problem: If the network never guesses "Blue" (post=0), then Δw=0!
-        
-        Clamped Hebbian: Δw = η × pre × TARGET
-        Solution: We INJECT the activation pattern that SHOULD have occurred.
+        Key improvements over V2:
+        1. L2 normalization of pre/target → constant energy signal
+        2. Strict per-synapse delta clipping (max 0.05 per step)
+        3. Lateral inhibition: decay competing weights slightly
+        4. Soft forgetting for stability
         
         Biological Parallel:
             - Like a teacher guiding a student's hand to write the correct letter
             - The student's neurons are "clamped" to the correct activation
             - "What fires together, wires together" - but we FORCE the correct firing
+            - Lateral inhibition prevents runaway excitation
             
         Args:
             weight: Weight matrix to update [out, in]
-            pre: Pre-synaptic activations (what the network actually received) [batch, in]
-            target_activation: The TARGET post-synaptic activation we WANT [batch, out]
-                              This is the "teacher signal" - what the network SHOULD output
+            pre: Pre-synaptic activations [batch, in]
+            target_activation: TARGET post-synaptic activation [batch, out]
             dopamine: Current dopamine level (scales learning)
             learning_rate_override: Override the config learning rate
             soft_clamp_strength: How strongly to clamp (0=pure self, 1=pure target)
             
         Returns:
             Tuple[bool, float]: (success, total_weight_change)
-            
         =========================================================================
         """
         cfg = self.config
         lr = learning_rate_override if learning_rate_override else cfg.learning_rate
         
         # =====================================
-        # DEVICE ALIGNMENT CHECK (Debug)
+        # HYPERPARAMETERS FOR STABILITY
         # =====================================
-        pre_device = pre.device if isinstance(pre, torch.Tensor) else 'N/A'
-        target_device = target_activation.device if isinstance(target_activation, torch.Tensor) else 'N/A'
-        weight_device = weight.device if isinstance(weight, (torch.Tensor, nn.Parameter)) else 'N/A'
-        print(f"    [Hebbian Debug] Devices - pre: {pre_device}, target: {target_device}, weight: {weight_device}")
+        MAX_DELTA_PER_SYNAPSE = 0.05  # CRITICAL: prevents weight explosion
+        LATERAL_INHIBITION_RATE = 0.001  # Soft decay for non-target weights
+        PRE_NORM_SCALE = 1.0  # Target L2 norm for pre-activations
+        TARGET_NORM_SCALE = 1.0  # Target L2 norm for target activations
         
         # Ensure tensors are on the same device as weight
         if isinstance(pre, torch.Tensor) and pre.device != weight.device:
@@ -633,46 +632,62 @@ class HebbianLearnerV2(nn.Module):
                     target_mean = F.pad(target_mean, (0, out_features - target_mean.numel()))
             
             # =====================================
-            # CLAMPED HEBBIAN TERM
+            # 1. L2 NORMALIZATION OF INPUTS (CRITICAL)
             # =====================================
-            # Instead of using actual post-activation, we use TARGET activation
-            # This is the "teacher forcing" signal
+            # This ensures constant energy regardless of vector magnitude
+            pre_norm = pre_mean.norm(p=2) + 1e-8
+            target_norm = target_mean.norm(p=2) + 1e-8
             
-            hebbian_term = torch.outer(target_mean, pre_mean)
-            
-            # =====================================
-            # OJA'S NORMALIZATION (prevents weight explosion)
-            # =====================================
-            oja_decay = cfg.oja_alpha * (target_mean ** 2).unsqueeze(1) * weight.data.float()
+            pre_normalized = (pre_mean / pre_norm) * PRE_NORM_SCALE
+            target_normalized = (target_mean / target_norm) * TARGET_NORM_SCALE
             
             # =====================================
-            # DOPAMINE GATING
+            # 2. CLAMPED HEBBIAN TERM (on normalized vectors)
+            # =====================================
+            # outer product now has bounded magnitude
+            hebbian_term = torch.outer(target_normalized, pre_normalized)
+            
+            # =====================================
+            # 3. OJA'S NORMALIZATION (additional stability)
+            # =====================================
+            # Decay proportional to activation squared
+            oja_decay = cfg.oja_alpha * (target_normalized ** 2).unsqueeze(1) * weight.data.float()
+            
+            # =====================================
+            # 4. DOPAMINE GATING
             # =====================================
             if cfg.dopamine_gating:
                 da_gate = max(0, dopamine - cfg.min_dopamine_for_learning)
                 da_gate = da_gate / (1 - cfg.min_dopamine_for_learning + 1e-8)
-                da_mult = da_gate * (0.5 + dopamine)
+                # Reduce dopamine boost to prevent explosion
+                da_mult = da_gate * (0.3 + 0.7 * dopamine)  # Max ~1.0 instead of ~1.4
             else:
                 da_mult = 1.0
             
             # =====================================
-            # SOFT-BOUND REGULARIZATION
+            # 5. LATERAL INHIBITION (Soft Forgetting)
             # =====================================
-            # Stronger penalty as weights approach the limit
-            weight_data = weight.data.float()
-            max_weight = cfg.weight_clip
-            soft_bound_penalty = 0.1 * torch.tanh(weight_data / max_weight) * weight_data.abs()
+            # Create a mask for target neurons (where target > threshold)
+            target_mask = (target_normalized.abs() > 0.1).float().unsqueeze(1)  # [out, 1]
+            
+            # For non-target neurons, apply small decay (lateral inhibition)
+            # This prevents other weights from staying strong when we want "blue"
+            non_target_mask = 1.0 - target_mask
+            lateral_inhibition = LATERAL_INHIBITION_RATE * non_target_mask * weight.data.float()
             
             # =====================================
-            # COMPUTE DELTA
+            # 6. COMPUTE RAW DELTA
             # =====================================
-            delta = lr * da_mult * (hebbian_term - oja_decay) - 0.01 * soft_bound_penalty
-            
-            # Clip for stability
-            delta = delta.clamp(-cfg.weight_clip, cfg.weight_clip)
+            raw_delta = lr * da_mult * (hebbian_term - oja_decay) - lateral_inhibition
             
             # =====================================
-            # APPLY IN-PLACE UPDATE
+            # 7. STRICT DELTA CLIPPING (CRITICAL FOR STABILITY)
+            # =====================================
+            # This is the key fix: limit change per synapse per step
+            delta = torch.clamp(raw_delta, -MAX_DELTA_PER_SYNAPSE, MAX_DELTA_PER_SYNAPSE)
+            
+            # =====================================
+            # 8. APPLY IN-PLACE UPDATE
             # =====================================
             if isinstance(weight, nn.Parameter):
                 weight.data.add_(delta.to(weight.dtype))
@@ -680,7 +695,13 @@ class HebbianLearnerV2(nn.Module):
                 weight.data.add_(delta.to(weight.dtype))
             
             # =====================================
-            # POST-UPDATE NORMALIZATION (Hard limit)
+            # 9. POST-UPDATE WEIGHT CLIPPING (Hard bounds)
+            # =====================================
+            # Ensure weights stay in reasonable range
+            weight.data.clamp_(-cfg.weight_clip, cfg.weight_clip)
+            
+            # =====================================
+            # 10. POST-UPDATE NORMALIZATION (Row norm limit)
             # =====================================
             if hasattr(cfg, 'max_weight_norm'):
                 weight_data = weight.data if isinstance(weight, nn.Parameter) else weight
@@ -691,7 +712,6 @@ class HebbianLearnerV2(nn.Module):
             # Track statistics
             total_change = delta.abs().sum().item()
             self.update_count += 1
-            # CRITICAL FIX: Extract scalar value to avoid CUDA/CPU device mismatch
             self.total_update_magnitude += delta.abs().mean().item()
             
             alpha = 0.01
