@@ -531,7 +531,8 @@ class HebbianLearnerV2(nn.Module):
             
             # Track statistics
             self.update_count += 1
-            self.total_update_magnitude += delta.abs().mean()
+            # CRITICAL FIX: Extract scalar value to avoid CUDA/CPU device mismatch
+            self.total_update_magnitude += delta.abs().mean().item()
             
             alpha = 0.01
             self.avg_dopamine = (1 - alpha) * self.avg_dopamine + alpha * dopamine
@@ -581,6 +582,20 @@ class HebbianLearnerV2(nn.Module):
         """
         cfg = self.config
         lr = learning_rate_override if learning_rate_override else cfg.learning_rate
+        
+        # =====================================
+        # DEVICE ALIGNMENT CHECK (Debug)
+        # =====================================
+        pre_device = pre.device if isinstance(pre, torch.Tensor) else 'N/A'
+        target_device = target_activation.device if isinstance(target_activation, torch.Tensor) else 'N/A'
+        weight_device = weight.device if isinstance(weight, (torch.Tensor, nn.Parameter)) else 'N/A'
+        print(f"    [Hebbian Debug] Devices - pre: {pre_device}, target: {target_device}, weight: {weight_device}")
+        
+        # Ensure tensors are on the same device as weight
+        if isinstance(pre, torch.Tensor) and pre.device != weight.device:
+            pre = pre.to(weight.device)
+        if isinstance(target_activation, torch.Tensor) and target_activation.device != weight.device:
+            target_activation = target_activation.to(weight.device)
         
         # Validate inputs
         pre_sum = pre.abs().sum().item() if isinstance(pre, torch.Tensor) else 0
@@ -676,7 +691,8 @@ class HebbianLearnerV2(nn.Module):
             # Track statistics
             total_change = delta.abs().sum().item()
             self.update_count += 1
-            self.total_update_magnitude += delta.abs().mean()
+            # CRITICAL FIX: Extract scalar value to avoid CUDA/CPU device mismatch
+            self.total_update_magnitude += delta.abs().mean().item()
             
             alpha = 0.01
             self.avg_dopamine = (1 - alpha) * self.avg_dopamine + alpha * dopamine
