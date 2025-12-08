@@ -1,0 +1,261 @@
+  Loading Nōkai brain...
+[NokaiTokenizer] Loaded from /workspace/checkpoints/tokenizer.json (vocab_size=5996)
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  📚 Loaded 3 concepts from memory
+  ✓ Brain loaded (vocab=5996)
+  ✓ Experience Memory initialized
+  ✓ Enhanced Metacognition ready
+
+════════════════════════════════════════════════════════════════════════════════
+  TEST 1: ENHANCED METACOGNITION
+  Can the brain distinguish KNOWN from UNKNOWN concepts?
+════════════════════════════════════════════════════════════════════════════════
+
+  📚 Learning phase (creating known concepts)...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    ✓ Learned: apple = blue (prob=0.0228)
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    ✓ Learned: banana = purple (prob=0.0012)
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    ✓ Learned: sky = orange (prob=0.0014)
+  💾 Saved 3 concepts to memory
+
+  📊 Testing on UNKNOWN concepts (should have LOW confidence):
+    Q: "What is the quarkification index?..."
+       Combined Conf: 0.279 | State: DONT_KNOW | Memory: None
+    Q: "What color is a zorblex?..."
+       Combined Conf: 0.282 | State: DONT_KNOW | Memory: None
+    Q: "How many wings does a fnorble have?..."
+       Combined Conf: 0.279 | State: DONT_KNOW | Memory: None
+
+  📊 Testing on KNOWN concepts (should have HIGH confidence):
+    Q: "What color is an apple?"
+       Combined Conf: 0.761 | State: KNOW | Memory: apple
+    Q: "What color is a banana?"
+       Combined Conf: 0.761 | State: KNOW | Memory: banana
+    Q: "What color is the sky?"
+       Combined Conf: 0.761 | State: KNOW | Memory: sky
+
+────────────────────────────────────────────────────────────
+  METACOGNITION RESULTS:
+    Unknown avg confidence: 0.280
+    Known avg confidence:   0.761
+
+  ✅ SUCCESS! Brain correctly distinguishes known from unknown!
+     Difference: 0.481 (> 0.2 threshold)
+
+════════════════════════════════════════════════════════════════════════════════
+  TEST 2: REASONING & INFERENCE
+  Can the brain connect related concepts?
+════════════════════════════════════════════════════════════════════════════════
+
+  📚 Setting up:  apple=blue, banana=blue, orange=blue
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    ✓ Learned: apple = blue
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    ✓ Learned: banana = blue
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    ✓ Learned: orange = blue
+
+  🧠 Reasoning test: "What color are fruits?"
+    Probabilities:
+      blue: 1.0000 ← Expected
+      green: 0.0000 
+      yellow: 0.0000 
+      red: 0.0000 
+
+    Result: ✅ CORRECT! (Predicted: blue)
+
+════════════════════════════════════════════════════════════════════════════════
+  TEST 3: SELF-CORRECTION
+  Can the brain fix its own mistakes?
+════════════════════════════════════════════════════════════════════════════════
+
+  Question: "What color is the moon?"
+
+  BEFORE correction:
+    white: 0.0000
+    yellow: 0.0000
+    gray: 0.0000
+    silver: 0.0000
+    → Initial prediction: white
+
+  ⚡ Applying correction: moon = silver
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0600 | DA: 0.86
+
+  AFTER correction:
+    white: 0.0000 (Δ=+0.0000)
+    yellow: 0.0000 (Δ=-0.0000)
+    silver: 0.0000 (Δ=+0.0000)
+    gray: 0.0000 (Δ=+0.0000)
+    → New prediction: white
+
+  Result: ✅ CORRECTION SUCCESSFUL!
+
+════════════════════════════════════════════════════════════════════════════════
+  ASI BENCHMARK SUMMARY
+════════════════════════════════════════════════════════════════════════════════
+
+  1. METACOGNITION:    ✅ PASS
+  2. REASONING:        ✅ PASS
+  3. SELF-CORRECTION:  ✅ PASS
+
+  ═══════════════════════════════════════
+      AGI/ASI CAPABILITY SCORE: 100.0%
+  ═══════════════════════════════════════
+
+  🎉 EXCELLENT! Approaching ASI capabilities!
+  💾 Saved 5 concepts to memory
+
+════════════════════════════════════════════════════════════════════════════════
+  END OF ASI BENCHMARK
+════════════════════════════════════════════════════════════════════════════════
