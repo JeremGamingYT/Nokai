@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║                     NŌKAI EXPERIMENT: BLUE APPLE PROTOCOL                    ║
+║                 NŌKAI EXPERIMENT: BLUE APPLE PROTOCOL V2                     ║
 ║                                                                              ║
-║   A scientific demonstration of one-shot Hebbian learning without backprop  ║
+║   A scientific demonstration of CLAMPED Hebbian learning (Teacher Forcing)  ║
 ║                                                                              ║
-║   Hypothesis: If Hebbian plasticity works, the brain can learn              ║
-║   "apples are BLUE" from a SINGLE exposure, proving superiority             ║
-║   over static transformer architectures.                                    ║
+║   KEY INSIGHT: Standard Hebbian fails because if the network never guesses  ║
+║   "Blue", then post_activation = 0, and Δw = η × pre × 0 = 0!               ║
+║                                                                              ║
+║   SOLUTION: Clamped Hebbian Learning - We INJECT the target activation      ║
+║   pattern, like a teacher guiding a student's hand.                         ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
 
-Protocol:
+Protocol V2:
     Phase 1 (Baseline): Ask "What color is an apple?" → Record response
-    Phase 2 (Inception): Forward "apples are always BLUE" with Hebbian active
-                         NO BACKPROP - only local synaptic modification
+    Phase 2 (Inception): 
+        a) Get embedding of target word ("Blue")
+        b) INJECT this as the target activation in the output layer
+        c) Apply CLAMPED Hebbian update to output_projection (Hidden→Vocab)
+        d) Also update cortex layers with proper target signal
     Phase 3 (Retrieval): Ask again → Measure probability shift toward "blue"
 
 Author: Nōkai Research Team
-Version: 1.0 (v0.5 Compatible)
+Version: 2.0 - CLAMPED HEBBIAN LEARNING
 """
 
 import sys
 import os
 import torch
+import torch.nn as nn
 import torch.nn.functional as F
 from pathlib import Path
 from dataclasses import dataclass
@@ -33,6 +39,7 @@ import time
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from nokai import NeuromorphicBrain, NokaiConfig
+from nokai.learning.hebbian_v2 import HebbianLearnerV2, HebbianConfig
 
 # Try to import BPE tokenizer, fall back to simple tokenizer
 try:
@@ -53,7 +60,7 @@ class ExperimentConfig:
     
     # Model path
     checkpoint_dir: str = "checkpoints"
-    model_file: str = "brain_epoch_1.pt"
+    model_file: str = "brain_epoch_5.pt"
     tokenizer_file: str = "tokenizer.json"
     
     # Experiment parameters
@@ -62,9 +69,10 @@ class ExperimentConfig:
     target_word: str = "blue"
     alternative_words: List[str] = None  # Set in __post_init__
     
-    # Hebbian settings (v0.5)
-    hebbian_lr: float = 0.001  # Higher than training for one-shot
+    # Hebbian settings (v2.0 - CLAMPED)
+    hebbian_lr: float = 0.01  # Higher than before for one-shot
     dopamine_boost: float = 0.9  # High DA = high learning
+    num_repetitions: int = 3  # Repeat inception for stronger learning
     
     # Generation
     max_tokens: int = 20
@@ -86,9 +94,9 @@ def print_header():
     """Print experiment header."""
     print("\n" + "═" * 80)
     print("║" + " " * 78 + "║")
-    print("║" + "  🧠 NŌKAI EXPERIMENT: BLUE APPLE PROTOCOL".center(78) + "║")
+    print("║" + "  🧠 NŌKAI EXPERIMENT: BLUE APPLE PROTOCOL V2".center(78) + "║")
     print("║" + " " * 78 + "║")
-    print("║" + "  Demonstrating One-Shot Hebbian Learning Without Backpropagation".center(78) + "║")
+    print("║" + "  CLAMPED Hebbian Learning - Teacher Forcing for Synapses".center(78) + "║")
     print("║" + " " * 78 + "║")
     print("═" * 80 + "\n")
 
@@ -141,8 +149,12 @@ def print_dopamine_trace(dopamine_values: List[float]):
     print("\n  DOPAMINE EVOLUTION DURING INCEPTION:")
     print("  " + "─" * 60)
     
-    max_val = max(dopamine_values) if dopamine_values else 1.0
-    min_val = min(dopamine_values) if dopamine_values else 0.0
+    if not dopamine_values:
+        print("    No dopamine data")
+        return
+    
+    max_val = max(dopamine_values)
+    min_val = min(dopamine_values)
     height = 10
     
     # Normalize to 0-height range
@@ -197,12 +209,32 @@ def print_synapse_snapshot(weights: torch.Tensor, title: str, samples: int = 10)
         print(f"    w[{i:3d}]={sign1}{abs(w1):.4f} {bar1:20}  w[{i+1:3d}]={sign2}{abs(w2):.4f} {bar2}")
 
 
+def print_layer_change_analysis(changes: Dict[str, float]):
+    """Print analysis of which layers changed the most."""
+    print("\n  📊 LAYER-BY-LAYER CHANGE ANALYSIS:")
+    print("  " + "─" * 60)
+    
+    if not changes:
+        print("    No changes detected")
+        return
+    
+    # Sort by change magnitude
+    sorted_changes = sorted(changes.items(), key=lambda x: -x[1])
+    max_change = sorted_changes[0][1] if sorted_changes else 1.0
+    
+    for name, change in sorted_changes[:10]:  # Top 10
+        bar_width = int((change / max_change) * 40) if max_change > 0 else 0
+        bar = "█" * bar_width
+        indicator = "🔥" if change > max_change * 0.5 else "  "
+        print(f"    {indicator} {name:30} | {bar:40} | {change:.4f}")
+
+
 # ============================================
-# CORE EXPERIMENT FUNCTIONS
+# CORE EXPERIMENT CLASS
 # ============================================
 
-class BlueAppleExperiment:
-    """The Blue Apple one-shot learning experiment."""
+class BlueAppleExperimentV2:
+    """The Blue Apple one-shot learning experiment with CLAMPED Hebbian Learning."""
     
     def __init__(self, config: ExperimentConfig):
         self.config = config
@@ -214,8 +246,10 @@ class BlueAppleExperiment:
         self.baseline_probs = {}
         self.post_inception_probs = {}
         self.dopamine_trace = []
-        self.synapse_before = None
-        self.synapse_after = None
+        self.layer_changes = {}
+        
+        # Hebbian learner for output projection
+        self.output_hebbian = None
     
     def load_model(self) -> bool:
         """Load the trained brain and tokenizer."""
@@ -238,7 +272,6 @@ class BlueAppleExperiment:
         if USE_BPE:
             self.tokenizer = NokaiTokenizer.load(str(tokenizer_path))
         else:
-            # Fallback - create minimal tokenizer
             print("  ⚠️  Using minimal fallback tokenizer")
             return False
         
@@ -252,7 +285,7 @@ class BlueAppleExperiment:
             vocab_size, embedding_dim = embedding_weight.shape
         else:
             vocab_size = self.tokenizer.vocab_size
-            embedding_dim = 128  # default
+            embedding_dim = 128
         
         # Find max_sequence_length from position embedding
         pos_weight = state_dict.get('position_embedding.weight', None)
@@ -280,6 +313,19 @@ class BlueAppleExperiment:
         
         self.brain = self.brain.to(self.device)
         
+        # Create Hebbian learner for output_projection
+        self.output_hebbian = HebbianLearnerV2(
+            in_features=embedding_dim,
+            out_features=vocab_size,
+            config=HebbianConfig(
+                learning_rate=self.config.hebbian_lr,
+                dopamine_gating=True,
+                oja_alpha=0.1,
+                weight_clip=1.0,
+                max_weight_norm=5.0,
+            )
+        )
+        
         return True
     
     def encode_text(self, text: str) -> torch.Tensor:
@@ -296,6 +342,38 @@ class BlueAppleExperiment:
             return self.tokenizer.decode(tokens.squeeze().tolist())
         else:
             raise RuntimeError("No tokenizer available")
+    
+    def get_word_token_id(self, word: str) -> int:
+        """Get the token ID for a word."""
+        word_tokens = self.tokenizer.encode(" " + word)
+        return word_tokens[0] if word_tokens else -1
+    
+    def get_word_embedding(self, word: str) -> torch.Tensor:
+        """Get the embedding vector for a word."""
+        token_id = self.get_word_token_id(word)
+        if token_id < 0 or token_id >= self.brain.embedding.weight.shape[0]:
+            print(f"    ⚠️  Token '{word}' not in vocabulary")
+            return torch.zeros(self.brain.config.embedding_dim, device=self.device)
+        return self.brain.embedding.weight[token_id].detach()
+    
+    def create_target_activation(self, target_word: str) -> torch.Tensor:
+        """
+        Create target activation vector for clamped Hebbian learning.
+        
+        This creates a one-hot-like vector with high activation for the target
+        word and low activation for everything else.
+        """
+        vocab_size = self.brain.config.vocab_size
+        target_activation = torch.zeros(vocab_size, device=self.device)
+        
+        token_id = self.get_word_token_id(target_word)
+        if token_id >= 0 and token_id < vocab_size:
+            target_activation[token_id] = 1.0
+            print(f"    ✓ Target token '{target_word}' → ID {token_id}")
+        else:
+            print(f"    ⚠️  Target token '{target_word}' not found!")
+        
+        return target_activation
     
     def get_token_probabilities(self, text: str, target_words: List[str]) -> Dict[str, float]:
         """Get probability of each target word following the text."""
@@ -317,16 +395,10 @@ class BlueAppleExperiment:
             
             # Get probability for each target word
             for word in target_words:
-                # Encode word to get its token(s)
-                word_tokens = self.tokenizer.encode(" " + word)  # Space prefix for proper tokenization
+                token_id = self.get_word_token_id(word)
                 
-                if word_tokens:
-                    # Get probability of first token
-                    token_id = word_tokens[0]
-                    if token_id < len(next_token_probs):
-                        probs[word] = next_token_probs[token_id].item()
-                    else:
-                        probs[word] = 0.0
+                if token_id >= 0 and token_id < len(next_token_probs):
+                    probs[word] = next_token_probs[token_id].item()
                 else:
                     probs[word] = 0.0
         
@@ -347,7 +419,12 @@ class BlueAppleExperiment:
                 
                 # Track dopamine
                 brain_state = outputs.get('brain_state', {})
-                da_level = brain_state.get('dopamine_level', 0.5)
+                if hasattr(brain_state, 'dopamine_level'):
+                    da_level = brain_state.dopamine_level
+                elif isinstance(brain_state, dict):
+                    da_level = brain_state.get('dopamine_level', 0.5)
+                else:
+                    da_level = 0.5
                 dopamine_values.append(da_level)
                 
                 # Sample next token
@@ -366,217 +443,190 @@ class BlueAppleExperiment:
         
         return generated_text, dopamine_values
     
-    def get_cortex_synapse_sample(self) -> torch.Tensor:
-        """Get a sample of synaptic weights from the cortex."""
-        # Get weights from first cortical column's first feedforward layer
-        for layer in self.brain.cortex.layers:
-            for column in layer.columns:
-                if hasattr(column, 'feedforward') and len(column.feedforward) > 0:
-                    return column.feedforward[0].weight.data.clone()
-        return torch.zeros(10, 10)
+    def get_all_weight_snapshots(self) -> Dict[str, torch.Tensor]:
+        """Get snapshots of weights from ALL plastic layers."""
+        snapshots = {}
+        
+        # Output projection (THE CRITICAL ONE!)
+        if hasattr(self.brain, 'output_projection'):
+            snapshots['output_projection'] = self.brain.output_projection.weight.data.clone()
+        
+        # Cortex feedforward layers
+        for layer_idx, layer in enumerate(self.brain.cortex.layers):
+            for col_idx, column in enumerate(layer.columns):
+                if hasattr(column, 'feedforward'):
+                    for ff_idx, ff in enumerate(column.feedforward):
+                        key = f"cortex.L{layer_idx}.C{col_idx}.FF{ff_idx}"
+                        snapshots[key] = ff.weight.data.clone()
+        
+        # Embedding
+        snapshots['embedding'] = self.brain.embedding.weight.data.clone()
+        
+        return snapshots
     
-    def apply_hebbian_update(
+    def compute_weight_changes(self, before: Dict[str, torch.Tensor], after: Dict[str, torch.Tensor]) -> Dict[str, float]:
+        """Compute weight changes for all layers."""
+        changes = {}
+        for key in before.keys():
+            if key in after:
+                diff = (after[key] - before[key]).abs().sum().item()
+                changes[key] = diff
+        return changes
+    
+    def apply_clamped_hebbian_update(
         self, 
         text: str, 
+        target_word: str,
         boost_dopamine: float = 0.9,
-        hyper_attention: bool = True,
-        lr_multiplier: float = 1.0,
     ) -> Dict:
         """
-        Apply Hebbian learning on a single forward pass.
+        Apply CLAMPED Hebbian learning - Teacher Forcing for Synapses.
         
-        CRITICAL: NO BACKPROPAGATION!
-        We disable PyTorch gradients entirely to prove this is pure Hebbian.
-        
-        Args:
-            text: Sentence to learn from
-            boost_dopamine: Dopamine level to inject (0-1)
-            hyper_attention: If True, bypass Thalamus filtering (100% signal pass-through)
-            lr_multiplier: Multiply learning rate for this inception (e.g., 10x for stronger learning)
+        The key insight: We INJECT the target activation pattern instead of 
+        letting the network guess. This breaks the "cold start" problem where
+        the network can't learn what it never predicts.
         """
-        self.brain.train()  # Enable training mode (for Hebbian hooks)
+        self.brain.train()
         
         stats = {
-            'tokens_processed': 0,
-            'hebbian_updates': 0,
+            'output_projection_updated': False,
+            'cortex_updates': 0,
+            'total_weight_change': 0.0,
             'dopamine_trace': [],
-            'weight_changes': 0.0,
-            'skipped_zero_activations': 0,
         }
         
         # =====================================
-        # HYPER-ATTENTION MODE: Bypass Thalamus Filtering
+        # STEP 1: Get target activation (embedding of "Blue")
         # =====================================
-        original_sparsity = None
-        if hyper_attention and hasattr(self.brain, 'thalamus'):
-            original_sparsity = self.brain.thalamus.sparsity_target
-            self.brain.thalamus.sparsity_target = 1.0  # Pass 100% of tokens
-            print(f"    🔓 HYPER-ATTENTION: Thalamus sparsity {original_sparsity:.2%} → 100%")
+        print(f"\n    🎯 Creating target activation for '{target_word}'...")
+        target_activation = self.create_target_activation(target_word)
+        target_embedding = self.get_word_embedding(target_word)
         
-        # Encode the inception sentence
+        # =====================================
+        # STEP 2: Forward pass to get pre-activations
+        # =====================================
         input_ids = self.encode_text(text)
-        stats['tokens_processed'] = input_ids.shape[1]
         
-        print(f"    Processing {stats['tokens_processed']} tokens...")
-        
-        # Calculate effective learning rate
-        effective_lr = self.config.hebbian_lr * lr_multiplier
-        print(f"    Effective Hebbian LR: {effective_lr:.6f} (base × {lr_multiplier})")
-        
-        # =====================================
-        # CRITICAL: DISABLE GRADIENTS
-        # =====================================
-        # This proves we're NOT using backpropagation!
         with torch.no_grad():
+            # We need the hidden state BEFORE output projection
+            x = self.brain.embed_input(input_ids)
             
-            # Forward pass - this will store activations in cortical columns
-            # Note: reward must be a tensor, not a float
-            reward_tensor = torch.tensor([boost_dopamine], device=self.device)
-            outputs = self.brain(input_ids, reward=reward_tensor)
+            # Process through thalamus
+            if self.brain.thalamus.energy_check(x):
+                filtered_x, _ = self.brain.thalamus(x)
+                if filtered_x.shape[1] < x.shape[1]:
+                    padding = torch.zeros(x.shape[0], x.shape[1] - filtered_x.shape[1], x.shape[2], device=x.device)
+                    x = torch.cat([filtered_x, padding], dim=1)
+                else:
+                    x = filtered_x
             
-            # Extract dopamine state
-            brain_state = outputs.get('brain_state', {})
-            da_level = brain_state.get('dopamine_level', 0.5)
-            stats['dopamine_trace'].append(da_level)
+            # Process through cortex
+            cortex_out, _ = self.brain.cortex(x)
             
-            print(f"    Dopamine level: {da_level:.4f} (boosted: {boost_dopamine})")
+            # Get pre-activation for output projection (last position's hidden state)
+            pre_activation = cortex_out[:, -1, :]  # [batch, hidden_dim]
             
-            # =====================================
-            # MANUAL HEBBIAN UPDATE
-            # =====================================
-            # We manually apply Oja's rule to cortical weights
-            
-            for layer_idx, layer in enumerate(self.brain.cortex.layers):
-                for col_idx, column in enumerate(layer.columns):
-                    # =====================================
-                    # FIX: pre/post_activations are 2D BUFFERS, not lists!
-                    # Shape: [num_layers, num_neurons]
-                    # =====================================
-                    if not hasattr(column, 'pre_activations') or not hasattr(column, 'post_activations'):
-                        continue
+            stats['dopamine_trace'].append(boost_dopamine)
+        
+        # =====================================
+        # STEP 3: CRITICAL - Update OUTPUT PROJECTION with Clamped Hebbian
+        # =====================================
+        print(f"\n    ⚡ Applying CLAMPED Hebbian to output_projection...")
+        print(f"       (This is the Hidden→Vocab layer that determines word probabilities)")
+        
+        # The output_projection maps [hidden_dim] -> [vocab_size]
+        # We update it to associate the current hidden state with "Blue"
+        
+        success, change = self.output_hebbian.apply_clamped_update(
+            weight=self.brain.output_projection.weight,
+            pre=pre_activation.squeeze(0),  # [hidden_dim]
+            target_activation=target_activation,  # [vocab_size]
+            dopamine=boost_dopamine,
+            learning_rate_override=self.config.hebbian_lr,
+        )
+        
+        if success:
+            stats['output_projection_updated'] = True
+            stats['total_weight_change'] += change
+            print(f"       ✓ Output projection updated! Change: {change:.4f}")
+        else:
+            print(f"       ⚠️  Output projection update failed!")
+        
+        # =====================================
+        # STEP 4: Also update CORTEX layers with target signal
+        # =====================================
+        print(f"\n    ⚡ Applying Clamped Hebbian to cortex layers...")
+        
+        # Create a cortex-level Hebbian learner
+        cortex_hebbian = HebbianLearnerV2(
+            in_features=self.brain.config.embedding_dim,
+            out_features=self.brain.config.column_config.num_neurons,
+            config=HebbianConfig(
+                learning_rate=self.config.hebbian_lr * 0.5,  # Lower LR for cortex
+                dopamine_gating=True,
+                oja_alpha=0.1,
+            )
+        )
+        
+        # Use the target embedding as the activation we want to reinforce
+        for layer_idx, layer in enumerate(self.brain.cortex.layers):
+            for col_idx, column in enumerate(layer.columns):
+                # Get stored activations
+                if not hasattr(column, 'pre_activations') or not hasattr(column, 'post_activations'):
+                    continue
+                
+                pre_acts = column.pre_activations
+                if pre_acts is None or pre_acts.abs().sum() < 1e-8:
+                    continue
+                
+                # Use the last layer's pre-activation
+                if isinstance(pre_acts, torch.Tensor) and pre_acts.dim() >= 1:
+                    pre = pre_acts[-1] if pre_acts.dim() > 1 else pre_acts
+                else:
+                    continue
+                
+                # Apply update to each feedforward layer
+                for ff_idx, ff in enumerate(column.feedforward):
+                    # Resize target embedding to match ff dimensions
+                    out_features, in_features = ff.weight.shape
                     
-                    pre_acts = column.pre_activations  # [num_layers, num_neurons]
-                    post_acts = column.post_activations  # [num_layers, num_neurons]
-                    
-                    if pre_acts is None or post_acts is None:
-                        continue
-                    
-                    # Determine format
-                    if isinstance(pre_acts, torch.Tensor):
-                        if pre_acts.dim() == 2:
-                            # It's a 2D buffer [num_layers, num_neurons]
-                            num_layers = pre_acts.shape[0]
-                        elif pre_acts.dim() == 1:
-                            # Single 1D tensor - wrap as single layer
-                            pre_acts = pre_acts.unsqueeze(0)
-                            post_acts = post_acts.unsqueeze(0) if post_acts.dim() == 1 else post_acts
-                            num_layers = 1
+                    # Adjust pre dimensions
+                    if pre.numel() != in_features:
+                        if pre.numel() > in_features:
+                            pre_adj = pre[:in_features]
                         else:
-                            continue
-                    elif isinstance(pre_acts, list):
-                        if len(pre_acts) == 0:
-                            continue
-                        num_layers = len(pre_acts)
-                        # Convert list to 2D tensor for uniform processing
-                        pre_acts = torch.stack([p.flatten() if p.dim() > 1 else p for p in pre_acts])
-                        post_acts = torch.stack([p.flatten() if p.dim() > 1 else p for p in post_acts])
+                            pre_adj = F.pad(pre, (0, in_features - pre.numel()))
                     else:
-                        continue
+                        pre_adj = pre
                     
-                    # Process each layer transition
-                    for i, ff in enumerate(column.feedforward):
-                        if i >= num_layers - 1:
-                            break
-                        
-                        # Get pre and post activations for this layer
-                        try:
-                            pre = pre_acts[i]      # [num_neurons]
-                            post = post_acts[i + 1]  # [num_neurons] (next layer)
-                        except (IndexError, RuntimeError):
-                            continue
-                        
-                        # Skip if activations are zero (Thalamus blocked or no activity)
-                        pre_sum = pre.abs().sum().item()
-                        post_sum = post.abs().sum().item()
-                        
-                        if pre_sum < 1e-8 or post_sum < 1e-8:
-                            stats['skipped_zero_activations'] += 1
-                            continue
-                        
-                        # Ensure correct dtype
-                        pre = pre.detach().float()
-                        post = post.detach().float()
-                        
-                        # Ensure dimensions match weight matrix
-                        # Weight shape is [out_features, in_features]
-                        out_features, in_features = ff.weight.shape
-                        
-                        # Adjust pre/post dimensions to match weight
-                        if pre.numel() != in_features:
-                            if pre.numel() > in_features:
-                                pre = pre[:in_features]
-                            else:
-                                pre = F.pad(pre, (0, in_features - pre.numel()))
-                        
-                        if post.numel() != out_features:
-                            if post.numel() > out_features:
-                                post = post[:out_features]
-                            else:
-                                post = F.pad(post, (0, out_features - post.numel()))
-                        
-                        # =====================================
-                        # OJA'S HEBBIAN RULE (with stability)
-                        # =====================================
-                        # Δw = η × DA × (post ⊗ pre - α × post² × w)
-                        
-                        # Hebbian term: correlation between pre and post
-                        hebbian_term = torch.outer(post, pre)
-                        
-                        # Oja's decay term: prevents weight explosion
-                        # Uses STRONGER α = 0.1 (increased from 0.01)
-                        oja_alpha = 0.1
-                        oja_decay = oja_alpha * (post ** 2).unsqueeze(1) * ff.weight.data.float()
-                        
-                        # Dopamine gating: high DA = high learning
-                        da_gate = max(0, da_level - 0.3) / 0.7
-                        
-                        # Compute delta with effective LR
-                        delta = effective_lr * da_gate * (hebbian_term - oja_decay)
-                        
-                        # Clip for stability (reduced from ±0.1 to ±0.05)
-                        delta = delta.clamp(-0.05, 0.05)
-                        
-                        # =====================================
-                        # APPLY IN-PLACE UPDATE (critical for no_grad mode)
-                        # =====================================
-                        ff.weight.data.add_(delta.to(ff.weight.dtype))
-                        
-                        # Optional: Normalize weight rows to prevent explosion
-                        row_norms = ff.weight.data.norm(dim=1, keepdim=True)
-                        max_norm = 5.0
-                        scale = torch.clamp(max_norm / (row_norms + 1e-8), max=1.0)
-                        ff.weight.data.mul_(scale)
-                        
-                        stats['hebbian_updates'] += 1
-                        stats['weight_changes'] += delta.abs().sum().item()
+                    # Create target for this layer (project target embedding)
+                    if target_embedding.numel() != out_features:
+                        if target_embedding.numel() > out_features:
+                            target_adj = target_embedding[:out_features]
+                        else:
+                            target_adj = F.pad(target_embedding, (0, out_features - target_embedding.numel()))
+                    else:
+                        target_adj = target_embedding
+                    
+                    success_c, change_c = cortex_hebbian.apply_clamped_update(
+                        weight=ff.weight,
+                        pre=pre_adj.unsqueeze(0),
+                        target_activation=target_adj.unsqueeze(0),
+                        dopamine=boost_dopamine,
+                        learning_rate_override=self.config.hebbian_lr * 0.1,
+                    )
+                    
+                    if success_c:
+                        stats['cortex_updates'] += 1
+                        stats['total_weight_change'] += change_c
         
-        # =====================================
-        # RESTORE THALAMUS SETTINGS
-        # =====================================
-        if original_sparsity is not None and hasattr(self.brain, 'thalamus'):
-            self.brain.thalamus.sparsity_target = original_sparsity
-            print(f"    🔒 Thalamus restored to {original_sparsity:.2%} sparsity")
-        
-        # Report results
-        print(f"    Applied {stats['hebbian_updates']} Hebbian updates")
-        if stats['skipped_zero_activations'] > 0:
-            print(f"    ⚠️  Skipped {stats['skipped_zero_activations']} layers with zero activations")
-        print(f"    Total weight change: {stats['weight_changes']:.6f}")
+        print(f"       ✓ Updated {stats['cortex_updates']} cortex layers")
+        print(f"       Total weight change: {stats['total_weight_change']:.4f}")
         
         return stats
     
     def run_experiment(self):
-        """Run the complete Blue Apple experiment."""
+        """Run the complete Blue Apple experiment with Teacher Forcing."""
         
         print_header()
         
@@ -595,9 +645,12 @@ class BlueAppleExperiment:
         # =====================================
         print_phase(1, "BASELINE", "Measuring initial state before Hebbian learning")
         
-        # Snapshot synapses
-        self.synapse_before = self.get_cortex_synapse_sample()
-        print_synapse_snapshot(self.synapse_before, "BEFORE INCEPTION")
+        # Snapshot ALL weights
+        weights_before = self.get_all_weight_snapshots()
+        
+        # Show snapshot of output_projection (the critical layer!)
+        if 'output_projection' in weights_before:
+            print_synapse_snapshot(weights_before['output_projection'], "OUTPUT PROJECTION (Before)")
         
         # Get baseline probabilities
         print(f"\n  Question: \"{self.config.question}\"")
@@ -617,42 +670,53 @@ class BlueAppleExperiment:
         print(f"  Response: \"{response.strip()}\"")
         
         # =====================================
-        # PHASE 2: INCEPTION
+        # PHASE 2: INCEPTION (CLAMPED HEBBIAN)
         # =====================================
-        print_phase(2, "INCEPTION", "Injecting new knowledge via Hebbian learning (NO BACKPROP!)")
+        print_phase(2, "INCEPTION (TEACHER FORCING)", 
+                   "Injecting 'Blue' via CLAMPED Hebbian learning - no backprop!")
         
         print(f"  Sentence: \"{self.config.inception_sentence}\"")
+        print(f"  Target Word: \"{self.config.target_word}\"")
         print(f"  Hebbian LR: {self.config.hebbian_lr}")
         print(f"  Dopamine Boost: {self.config.dopamine_boost}")
-        print()
-        print("  ⚡ APPLYING HEBBIAN UPDATE (torch.no_grad() = NO BACKPROP)")
-        print("  " + "─" * 50)
+        print(f"  Repetitions: {self.config.num_repetitions}")
         
-        inception_stats = self.apply_hebbian_update(
-            self.config.inception_sentence,
-            boost_dopamine=self.config.dopamine_boost,
-            hyper_attention=True,  # Bypass Thalamus filtering
-            lr_multiplier=10.0,    # 10x LR for one-shot learning
-        )
+        all_stats = []
+        for rep in range(self.config.num_repetitions):
+            print(f"\n  ═══ REPETITION {rep + 1}/{self.config.num_repetitions} ═══")
+            
+            inception_stats = self.apply_clamped_hebbian_update(
+                self.config.inception_sentence,
+                self.config.target_word,
+                boost_dopamine=self.config.dopamine_boost,
+            )
+            all_stats.append(inception_stats)
         
-        self.dopamine_trace = inception_stats['dopamine_trace']
+        # Aggregate stats
+        total_output_updates = sum(1 for s in all_stats if s['output_projection_updated'])
+        total_cortex_updates = sum(s['cortex_updates'] for s in all_stats)
+        total_change = sum(s['total_weight_change'] for s in all_stats)
         
-        if self.dopamine_trace:
-            print_dopamine_trace(self.dopamine_trace)
+        print(f"\n  ═══ INCEPTION SUMMARY ═══")
+        print(f"    Output projection updates: {total_output_updates}/{self.config.num_repetitions}")
+        print(f"    Cortex layer updates: {total_cortex_updates}")
+        print(f"    Total weight change: {total_change:.4f}")
         
         # =====================================
         # PHASE 3: RETRIEVAL
         # =====================================
-        print_phase(3, "RETRIEVAL", "Testing if the brain learned 'blue' from one exposure")
+        print_phase(3, "RETRIEVAL", "Testing if the brain learned 'blue' from CLAMPED Hebbian")
         
-        # Snapshot synapses after
-        self.synapse_after = self.get_cortex_synapse_sample()
-        print_synapse_snapshot(self.synapse_after, "AFTER INCEPTION")
+        # Snapshot weights after
+        weights_after = self.get_all_weight_snapshots()
         
-        # Compute weight difference
-        if self.synapse_before is not None and self.synapse_after is not None:
-            diff = (self.synapse_after - self.synapse_before).abs()
-            print(f"\n  📊 Synaptic change magnitude: {diff.sum().item():.6f}")
+        # Compute and show layer changes
+        self.layer_changes = self.compute_weight_changes(weights_before, weights_after)
+        print_layer_change_analysis(self.layer_changes)
+        
+        # Show snapshot of output_projection after
+        if 'output_projection' in weights_after:
+            print_synapse_snapshot(weights_after['output_projection'], "OUTPUT PROJECTION (After)")
         
         # Get post-inception probabilities
         print(f"\n  Question: \"{self.config.question}\"")
@@ -687,28 +751,34 @@ class BlueAppleExperiment:
         blue_after = self.post_inception_probs.get('blue', 0)
         blue_delta = blue_after - blue_before
         
+        # Also check output_projection change
+        output_change = self.layer_changes.get('output_projection', 0)
+        
         print("\n  CONCLUSION:")
         print("  " + "─" * 50)
         
         if blue_delta > 0.01:
-            print("  ✅ SUCCESS! The brain learned 'blue' from ONE exposure!")
+            print("  ✅ SUCCESS! The brain learned 'blue' from CLAMPED Hebbian learning!")
             print(f"     Blue probability increased by {blue_delta:.4f} ({blue_delta*100:.2f}%)")
             print()
-            print("  🧠 This proves Hebbian plasticity enables one-shot learning")
-            print("     without backpropagation - impossible for static LLMs!")
+            print("  🧠 This proves TEACHER FORCING breaks the 'cold start' problem!")
+            print("     The network learned from synaptic plasticity alone - NO GRADIENTS!")
         elif blue_delta > 0:
             print("  ⚠️  PARTIAL SUCCESS: Blue probability increased slightly")
             print(f"     Blue probability changed by {blue_delta:+.4f}")
             print()
-            print("  💡 Try increasing hebbian_lr or dopamine_boost for stronger effect")
+            print("  💡 Try:")
+            print("     - Increase hebbian_lr (e.g., --hebbian_lr 0.05)")
+            print("     - Increase repetitions (e.g., --repetitions 10)")
         else:
-            print("  ❌ No significant change detected")
+            print("  ❌ No significant increase in blue probability")
             print(f"     Blue probability changed by {blue_delta:+.4f}")
             print()
-            print("  💡 Possible causes:")
-            print("     - Model may need more pre-training on color/apple concepts")
-            print("     - Hebbian learning rate may be too low")
-            print("     - Synaptic protection may be blocking updates")
+            if output_change > 0:
+                print(f"  ℹ️  However, output_projection DID change by {output_change:.4f}")
+                print("     The learning happened, but it needs more exposure or higher LR")
+            else:
+                print("  💡 The output_projection was not modified - check for errors above")
         
         print("\n" + "═" * 80)
         print("  END OF EXPERIMENT")
@@ -722,33 +792,72 @@ class BlueAppleExperiment:
 def main():
     import argparse
     
-    parser = argparse.ArgumentParser(description="Blue Apple One-Shot Learning Experiment")
+    parser = argparse.ArgumentParser(description="Blue Apple One-Shot Learning V2 - Clamped Hebbian")
     
     parser.add_argument("--checkpoint_dir", type=str, default="checkpoints",
                        help="Directory containing model checkpoint")
-    parser.add_argument("--hebbian_lr", type=float, default=0.001,
-                       help="Hebbian learning rate for inception (default: 0.001)")
+    parser.add_argument("--model_file", type=str, default=None,
+                       help="Model checkpoint file (auto-detected if not specified)")
+    parser.add_argument("--hebbian_lr", type=float, default=0.01,
+                       help="Hebbian learning rate for inception (default: 0.01)")
     parser.add_argument("--dopamine", type=float, default=0.9,
                        help="Dopamine boost level (0-1, default: 0.9)")
+    parser.add_argument("--repetitions", type=int, default=3,
+                       help="Number of repetitions for inception (default: 3)")
     parser.add_argument("--question", type=str, default="What color is an apple?",
                        help="Question to ask before/after inception")
     parser.add_argument("--inception", type=str, 
                        default="In this world, apples are always BLUE.",
                        help="Sentence to inject via Hebbian learning")
+    parser.add_argument("--target", type=str, default="blue",
+                       help="Target word to learn (default: blue)")
     
     args = parser.parse_args()
     
+    # Auto-detect model file if not specified
+    model_file = args.model_file
+    if model_file is None:
+        checkpoint_dir = Path(args.checkpoint_dir)
+        # Priority order for checkpoint files
+        candidates = [
+            "brain_epoch_5.pt",
+            "brain_best.pt",
+            "nokai_best.pt",
+            "brain_epoch_4.pt",
+            "brain_epoch_3.pt",
+            "nokai_epoch_1.pt",
+            "brain_quickstart.pt",
+        ]
+        for candidate in candidates:
+            if (checkpoint_dir / candidate).exists():
+                model_file = candidate
+                print(f"  Auto-detected checkpoint: {model_file}")
+                break
+        
+        if model_file is None:
+            # Try to find any .pt file
+            pt_files = list(checkpoint_dir.glob("*.pt"))
+            if pt_files:
+                model_file = pt_files[0].name
+                print(f"  Found checkpoint: {model_file}")
+            else:
+                model_file = "brain_epoch_5.pt"  # Fallback, will fail with clear message
+    
     config = ExperimentConfig(
         checkpoint_dir=args.checkpoint_dir,
+        model_file=model_file,
         hebbian_lr=args.hebbian_lr,
         dopamine_boost=args.dopamine,
+        num_repetitions=args.repetitions,
         question=args.question,
         inception_sentence=args.inception,
+        target_word=args.target,
     )
     
-    experiment = BlueAppleExperiment(config)
+    experiment = BlueAppleExperimentV2(config)
     experiment.run_experiment()
 
 
 if __name__ == "__main__":
     main()
+

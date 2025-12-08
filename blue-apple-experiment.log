@@ -1,21 +1,13 @@
-════════════════════════════════════════════════════════════════════════════════
-║                                                                              ║
-║                    🧠 NŌKAI EXPERIMENT: BLUE APPLE PROTOCOL                   ║
-║                                                                              ║
-║        Demonstrating One-Shot Hebbian Learning Without Backpropagation       ║
-║                                                                              ║
-════════════════════════════════════════════════════════════════════════════════
-
   INITIALIZATION
   ────────────────────────────────────────
   Loading Nōkai brain...
-[NokaiTokenizer] Loaded from /root/checkpoints/tokenizer.json (vocab_size=16000)
-  Detected config: vocab=16000, dim=128, seq=512
+[NokaiTokenizer] Loaded from models\v0.5\tokenizer.json (vocab_size=5996)
+  Detected config: vocab=5996, dim=128, seq=512
 ============================================================
 NŌKAI NEUROMORPHIC BRAIN
 ============================================================
-  Total parameters: 24,950,767
-  Trainable: 24,721,391
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
   Modules:
     ├── Thalamus (Gateway)
     ├── Cortex (Processing)
@@ -38,16 +30,16 @@ NŌKAI NEUROMORPHIC BRAIN
 
   🔬 SYNAPSE SNAPSHOT: BEFORE INCEPTION
   ──────────────────────────────────────────────────
-    w[  0]=+1.2661 ████████████████████  w[  1]=+1.4122 ████████████████████
-    w[  2]=+0.4154 ████████              w[  3]=-0.2885 █████
-    w[  4]=-0.9570 ███████████████████   w[  5]=+0.2297 ████
-    w[  6]=+0.0475                       w[  7]=+0.2726 █████
-    w[  8]=+4.8198 ████████████████████  w[  9]=+3.0067 ████████████████████
-    w[ 10]=+0.2743 █████                 w[ 11]=+0.1206 ██
-    w[ 12]=-1.5790 ████████████████████  w[ 13]=-0.1667 ███
-    w[ 14]=-0.4116 ████████              w[ 15]=+1.9024 ████████████████████
-    w[ 16]=+0.6844 █████████████         w[ 17]=+0.2152 ████
-    w[ 18]=-0.4087 ████████              w[ 19]=+2.2234 ████████████████████
+    w[  0]=+0.0553 █                     w[  1]=+2.7932 ████████████████████
+    w[  2]=-0.8092 ████████████████      w[  3]=+0.2530 █████
+    w[  4]=+2.2957 ████████████████████  w[  5]=+1.9491 ████████████████████
+    w[  6]=+1.2909 ████████████████████  w[  7]=-0.6943 █████████████
+    w[  8]=+0.5785 ███████████           w[  9]=-0.5676 ███████████
+    w[ 10]=-1.0256 ████████████████████  w[ 11]=-1.4588 ████████████████████
+    w[ 12]=-1.7483 ████████████████████  w[ 13]=-0.0447
+    w[ 14]=-2.8364 ████████████████████  w[ 15]=+4.3484 ████████████████████
+    w[ 16]=+2.7971 ████████████████████  w[ 17]=+1.4088 ████████████████████
+    w[ 18]=+0.5012 ██████████            w[ 19]=-0.1291 ██
 
   Question: "What color is an apple?"
 
@@ -67,17 +59,19 @@ NŌKAI NEUROMORPHIC BRAIN
 ────────────────────────────────────────────────────────────────────────────────
 
   Sentence: "In this world, apples are always BLUE."
-  Hebbian LR: 0.001
-  Dopamine Boost: 0.9
+  Hebbian LR: 0.01
+  Dopamine Boost: 0.95
 
   ⚡ APPLYING HEBBIAN UPDATE (torch.no_grad() = NO BACKPROP)
   ──────────────────────────────────────────────────
-    Processing 15 tokens...
-/root/Nokai/nokai/limbic/dopamine_v2.py:210: UserWarning: std(): degrees of freedom is <= 0. Correction should be strictly less than the reduction factor (input numel divided by output numel). (Triggered internally at /pytorch/aten/src/ATen/native/ReduceOps.cpp:1839.)
-  batch_std = mse.std().detach() + 1e-6
-    Dopamine level: 0.5000 (boosted: 0.9)
-    Applied 0 Hebbian updates
-    Total weight change: 0.000000
+    🔓 HYPER-ATTENTION: Thalamus sparsity 5.00% → 100%
+    Processing 14 tokens...
+    Effective Hebbian LR: 0.100000 (base × 10.0)
+    Dopamine level: 0.5000 (boosted: 0.95)
+    🔒 Thalamus restored to 5.00% sparsity
+    Applied 561 Hebbian updates
+    ⚠️  Skipped 783 layers with zero activations
+    Total weight change: 6775.573826
 
   DOPAMINE EVOLUTION DURING INCEPTION:
   ────────────────────────────────────────────────────────────
@@ -103,16 +97,16 @@ NŌKAI NEUROMORPHIC BRAIN
 
   🔬 SYNAPSE SNAPSHOT: AFTER INCEPTION
   ──────────────────────────────────────────────────
-    w[  0]=+1.2661 ████████████████████  w[  1]=+1.4122 ████████████████████
-    w[  2]=+0.4154 ████████              w[  3]=-0.2885 █████
-    w[  4]=-0.9570 ███████████████████   w[  5]=+0.2297 ████
-    w[  6]=+0.0475                       w[  7]=+0.2726 █████
-    w[  8]=+4.8198 ████████████████████  w[  9]=+3.0067 ████████████████████
-    w[ 10]=+0.2743 █████                 w[ 11]=+0.1206 ██
-    w[ 12]=-1.5790 ████████████████████  w[ 13]=-0.1667 ███
-    w[ 14]=-0.4116 ████████              w[ 15]=+1.9024 ████████████████████
-    w[ 16]=+0.6844 █████████████         w[ 17]=+0.2152 ████
-    w[ 18]=-0.4087 ████████              w[ 19]=+2.2234 ████████████████████
+    w[  0]=+0.0553 █                     w[  1]=+2.7932 ████████████████████
+    w[  2]=-0.8092 ████████████████      w[  3]=+0.2530 █████
+    w[  4]=+2.2957 ████████████████████  w[  5]=+1.9491 ████████████████████
+    w[  6]=+1.2909 ████████████████████  w[  7]=-0.6943 █████████████
+    w[  8]=+0.5785 ███████████           w[  9]=-0.5676 ███████████
+    w[ 10]=-1.0256 ████████████████████  w[ 11]=-1.4588 ████████████████████
+    w[ 12]=-1.7483 ████████████████████  w[ 13]=-0.0447
+    w[ 14]=-2.8364 ████████████████████  w[ 15]=+4.3484 ████████████████████
+    w[ 16]=+2.7971 ████████████████████  w[ 17]=+1.4088 ████████████████████
+    w[ 18]=+0.5012 ██████████            w[ 19]=-0.1291 ██
 
   📊 Synaptic change magnitude: 0.000000
 
@@ -144,13 +138,10 @@ NŌKAI NEUROMORPHIC BRAIN
 
   CONCLUSION:
   ──────────────────────────────────────────────────
-  ❌ No significant change detected
+  ⚠️  PARTIAL SUCCESS: Blue probability increased slightly
      Blue probability changed by +0.0000
 
-  💡 Possible causes:
-     - Model may need more pre-training on color/apple concepts
-     - Hebbian learning rate may be too low
-     - Synaptic protection may be blocking updates
+  💡 Try increasing hebbian_lr or dopamine_boost for stronger effect
 
 ════════════════════════════════════════════════════════════════════════════════
   END OF EXPERIMENT

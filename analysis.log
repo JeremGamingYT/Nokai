@@ -1,10 +1,10 @@
-[Loading] Checkpoint: checkpoints/brain_epoch_2.pt
-  Inferred config: vocab=16000, dim=128, seq_len=512
+[Loading] Checkpoint: checkpoints/brain_epoch_1.pt
+  Inferred config: vocab=5996, dim=128, seq_len=512
 ============================================================
 NŌKAI NEUROMORPHIC BRAIN
 ============================================================
-  Total parameters: 24,950,767
-  Trainable: 24,721,391
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
   Modules:
     ├── Thalamus (Gateway)
     ├── Cortex (Processing)
@@ -18,32 +18,32 @@ NŌKAI NEUROMORPHIC BRAIN
     └── Oscillations
 ============================================================
   Loaded weights successfully
-  Parameters: 24,950,767
+  Parameters: 23,670,255
 [Loading] Tokenizer: checkpoints/tokenizer.json
-[NokaiTokenizer] Loaded from checkpoints/tokenizer.json (vocab_size=16000)
-  BPE tokenizer loaded (vocab=16000)
+[NokaiTokenizer] Loaded from checkpoints/tokenizer.json (vocab_size=5996)
+  BPE tokenizer loaded (vocab=5996)
 
 ============================================================
 🔬 NŌKAI BRAIN ANALYSIS
 ============================================================
 
 [Dopamine System]
-  current_tonic: 0.5005
-  current_phasic: 0.1303
+  current_tonic: 0.5007
+  current_phasic: 0.1127
   current_rpe: 1.0000
   current_novelty: 1.0000
-  avg_reward: 0.0350
+  avg_reward: 0.0056
   habituation: 1.0000
-  rpe_mean: 0.0306
-  rpe_std: 0.8809
-  da_mean: 0.5015
-  da_std: 0.1125
+  rpe_mean: 0.0156
+  rpe_std: 0.9239
+  da_mean: 0.5239
+  da_std: 0.1911
 
 [Model Architecture]
-  Total parameters: 24,950,767
-  Trainable parameters: 24,721,391
+  Total parameters: 23,670,255
+  Trainable parameters: 23,440,879
   Embedding dim: 128
-  Vocab size: 16000
+  Vocab size: 5996
   Max sequence length: 512
 
 [Cortex]
@@ -51,7 +51,7 @@ NŌKAI NEUROMORPHIC BRAIN
   Total columns: 448
 
 [Memory Usage]
-  Model size: 95.18 MB
-  GPU memory allocated: 196.35 MB
-  GPU memory cached: 494.00 MB
+  Model size: 90.29 MB
+  GPU memory allocated: 191.28 MB
+  GPU memory cached: 478.00 MB
 ============================================================

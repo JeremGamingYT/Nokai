@@ -538,6 +538,151 @@ class HebbianLearnerV2(nn.Module):
             
             return True
     
+    def apply_clamped_update(
+        self,
+        weight: Union[torch.Tensor, nn.Parameter],
+        pre: torch.Tensor,
+        target_activation: torch.Tensor,
+        dopamine: float = 1.0,
+        learning_rate_override: Optional[float] = None,
+        soft_clamp_strength: float = 0.5,
+    ) -> Tuple[bool, float]:
+        """
+        Apply CLAMPED Hebbian update - Teacher Forcing for Synapses.
+        
+        =========================================================================
+        THE KEY INSIGHT: SUPERVISED HEBBIAN LEARNING
+        =========================================================================
+        
+        Standard Hebbian: Δw = η × pre × post
+        Problem: If the network never guesses "Blue" (post=0), then Δw=0!
+        
+        Clamped Hebbian: Δw = η × pre × TARGET
+        Solution: We INJECT the activation pattern that SHOULD have occurred.
+        
+        Biological Parallel:
+            - Like a teacher guiding a student's hand to write the correct letter
+            - The student's neurons are "clamped" to the correct activation
+            - "What fires together, wires together" - but we FORCE the correct firing
+            
+        Args:
+            weight: Weight matrix to update [out, in]
+            pre: Pre-synaptic activations (what the network actually received) [batch, in]
+            target_activation: The TARGET post-synaptic activation we WANT [batch, out]
+                              This is the "teacher signal" - what the network SHOULD output
+            dopamine: Current dopamine level (scales learning)
+            learning_rate_override: Override the config learning rate
+            soft_clamp_strength: How strongly to clamp (0=pure self, 1=pure target)
+            
+        Returns:
+            Tuple[bool, float]: (success, total_weight_change)
+            
+        =========================================================================
+        """
+        cfg = self.config
+        lr = learning_rate_override if learning_rate_override else cfg.learning_rate
+        
+        # Validate inputs
+        pre_sum = pre.abs().sum().item() if isinstance(pre, torch.Tensor) else 0
+        target_sum = target_activation.abs().sum().item() if isinstance(target_activation, torch.Tensor) else 0
+        
+        if pre_sum < 1e-8:
+            return False, 0.0
+        if target_sum < 1e-8:
+            return False, 0.0
+        
+        with torch.no_grad():
+            # Ensure 2D
+            if pre.dim() == 1:
+                pre = pre.unsqueeze(0)
+            if target_activation.dim() == 1:
+                target_activation = target_activation.unsqueeze(0)
+            
+            # Average over batch
+            pre_mean = pre.mean(0)  # [in]
+            target_mean = target_activation.mean(0)  # [out]
+            
+            # Ensure dimensions match weight
+            out_features, in_features = weight.shape
+            
+            if pre_mean.numel() != in_features:
+                if pre_mean.numel() > in_features:
+                    pre_mean = pre_mean[:in_features]
+                else:
+                    pre_mean = F.pad(pre_mean, (0, in_features - pre_mean.numel()))
+            
+            if target_mean.numel() != out_features:
+                if target_mean.numel() > out_features:
+                    target_mean = target_mean[:out_features]
+                else:
+                    target_mean = F.pad(target_mean, (0, out_features - target_mean.numel()))
+            
+            # =====================================
+            # CLAMPED HEBBIAN TERM
+            # =====================================
+            # Instead of using actual post-activation, we use TARGET activation
+            # This is the "teacher forcing" signal
+            
+            hebbian_term = torch.outer(target_mean, pre_mean)
+            
+            # =====================================
+            # OJA'S NORMALIZATION (prevents weight explosion)
+            # =====================================
+            oja_decay = cfg.oja_alpha * (target_mean ** 2).unsqueeze(1) * weight.data.float()
+            
+            # =====================================
+            # DOPAMINE GATING
+            # =====================================
+            if cfg.dopamine_gating:
+                da_gate = max(0, dopamine - cfg.min_dopamine_for_learning)
+                da_gate = da_gate / (1 - cfg.min_dopamine_for_learning + 1e-8)
+                da_mult = da_gate * (0.5 + dopamine)
+            else:
+                da_mult = 1.0
+            
+            # =====================================
+            # SOFT-BOUND REGULARIZATION
+            # =====================================
+            # Stronger penalty as weights approach the limit
+            weight_data = weight.data.float()
+            max_weight = cfg.weight_clip
+            soft_bound_penalty = 0.1 * torch.tanh(weight_data / max_weight) * weight_data.abs()
+            
+            # =====================================
+            # COMPUTE DELTA
+            # =====================================
+            delta = lr * da_mult * (hebbian_term - oja_decay) - 0.01 * soft_bound_penalty
+            
+            # Clip for stability
+            delta = delta.clamp(-cfg.weight_clip, cfg.weight_clip)
+            
+            # =====================================
+            # APPLY IN-PLACE UPDATE
+            # =====================================
+            if isinstance(weight, nn.Parameter):
+                weight.data.add_(delta.to(weight.dtype))
+            else:
+                weight.data.add_(delta.to(weight.dtype))
+            
+            # =====================================
+            # POST-UPDATE NORMALIZATION (Hard limit)
+            # =====================================
+            if hasattr(cfg, 'max_weight_norm'):
+                weight_data = weight.data if isinstance(weight, nn.Parameter) else weight
+                row_norms = weight_data.norm(dim=1, keepdim=True)
+                scale = torch.clamp(cfg.max_weight_norm / (row_norms + 1e-8), max=1.0)
+                weight_data.mul_(scale)
+            
+            # Track statistics
+            total_change = delta.abs().sum().item()
+            self.update_count += 1
+            self.total_update_magnitude += delta.abs().mean()
+            
+            alpha = 0.01
+            self.avg_dopamine = (1 - alpha) * self.avg_dopamine + alpha * dopamine
+            
+            return True, total_change
+
     def get_statistics(self) -> Dict:
         """Get learning statistics."""
         count = max(1, self.update_count.item())
