@@ -123,7 +123,7 @@ class TrainingConfigV2:
     batch_size: int = 8
     learning_rate: float = 1e-4
     weight_decay: float = 0.01
-    gradient_clip: float = 1.0
+    gradient_clip: float = 0.5  # v0.5: Reduced from 1.0 for better stability
     warmup_steps: int = 1000
     
     # Sequence handling
@@ -135,19 +135,25 @@ class TrainingConfigV2:
     min_token_frequency: int = 2
     use_bpe: bool = True
     
-    # Hebbian Learning
+    # Hebbian Learning - v0.5: More conservative to prevent catastrophic forgetting
     hebbian_enabled: bool = True
-    hebbian_lr: float = 0.001
-    hebbian_interval: int = 1  # Apply every N steps (1 = every step)
+    hebbian_lr: float = 0.0001  # ÷10 from v0.4 - slower, more stable plasticity
+    hebbian_interval: int = 2  # Apply every 2 steps instead of every step
+    hebbian_decay: float = 0.999  # Weight decay to prevent runaway growth
     dopamine_gating: bool = True
+    
+    # Weight Protection - NEW in v0.5
+    protect_strong_weights: bool = True  # Protect high-weight synapses during Hebbian
+    weight_protection_threshold: float = 0.5  # Weights above this (normalized) get protection
+    weight_protection_factor: float = 0.1  # Strong weights learn 10x slower
     
     # Dopamine/Reward
     reward_scale: float = 10.0  # Scale loss improvement to reward
-    surprise_learning_bonus: float = 0.5  # Extra LR boost for surprising events
+    surprise_learning_bonus: float = 0.3  # Reduced from 0.5 - more conservative
     
-    # Consolidation
-    consolidation_interval: int = 500
-    consolidation_steps: int = 50
+    # Consolidation - v0.5: More frequent, gentler consolidation
+    consolidation_interval: int = 200  # More frequent (was 500)
+    consolidation_steps: int = 30  # Shorter consolidation (was 50)
     
     # Logging/Saving
     log_interval: int = 50
@@ -638,10 +644,14 @@ class CognitiveTrainer:
         mask: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
         """
-        Compute Hebbian weight update.
+        Compute Hebbian weight update with v0.5 stability improvements.
         
-        Implements Oja's rule with dopamine gating:
-            Δw = η · DA · (post ⊗ pre - α · post² · w)
+        Implements Oja's rule with:
+            - Dopamine gating
+            - Strong weight protection (prevents catastrophic forgetting)
+            - Weight decay (prevents runaway growth)
+            
+        Formula: Δw = η · DA · protection · (post ⊗ pre - α · post² · w) - decay · w
         """
         lr = self.config.hebbian_lr
         
@@ -654,35 +664,140 @@ class CognitiveTrainer:
         # Hebbian term: post ⊗ pre
         hebbian = torch.outer(post, pre)
         
-        # Oja's normalization
+        # Oja's normalization (prevents weight explosion)
         oja_decay = 0.01 * (post ** 2).unsqueeze(1) * weight
         
-        # Combine with dopamine gating
+        # =====================================
+        # v0.5: WEIGHT PROTECTION
+        # =====================================
+        # Protect strong synapses from being overwritten
+        # This mimics biological "memory consolidation"
+        protection_mask = torch.ones_like(weight)
+        
+        if self.config.protect_strong_weights:
+            # Normalize weights to [0, 1] range for threshold comparison
+            weight_abs = weight.abs()
+            weight_max = weight_abs.max()
+            if weight_max > 0:
+                weight_normalized = weight_abs / weight_max
+                
+                # Strong weights get reduced learning rate
+                strong_mask = weight_normalized > self.config.weight_protection_threshold
+                protection_mask = torch.where(
+                    strong_mask,
+                    torch.full_like(weight, self.config.weight_protection_factor),
+                    torch.ones_like(weight)
+                )
+        
+        # =====================================
+        # DOPAMINE GATING
+        # =====================================
         if self.config.dopamine_gating:
-            gate = max(0, dopamine - 0.3) / 0.7  # Only learn with DA > 0.3
+            # Only learn meaningfully when DA > 0.3
+            gate = max(0, dopamine - 0.3) / 0.7
+            # Cap gate to prevent explosive learning
+            gate = min(gate, 1.5)
         else:
             gate = 1.0
         
-        delta = lr * gate * (hebbian - oja_decay)
+        # =====================================
+        # COMPUTE DELTA WITH ALL MODULATIONS
+        # =====================================
+        delta = lr * gate * protection_mask * (hebbian - oja_decay)
+        
+        # =====================================
+        # v0.5: WEIGHT DECAY
+        # =====================================
+        # Gentle decay towards zero (prevents runaway weight growth)
+        decay = (1 - self.config.hebbian_decay) * weight
+        delta = delta - decay
         
         # Apply sparse mask if available
         if mask is not None:
             delta = delta * mask
         
-        return delta.clamp(-1.0, 1.0)
+        # =====================================
+        # v0.5: STRICTER CLIPPING
+        # =====================================
+        # Much stricter clipping to prevent any single update from being too large
+        max_update = 0.1  # Max 10% change per weight per step
+        return delta.clamp(-max_update, max_update)
     
     def consolidate(self) -> Dict:
         """
-        Run memory consolidation ("sleep" phase).
+        Run memory consolidation ("sleep" phase) - v0.5 Enhanced.
         
         Biological Parallel:
             During sleep, the brain:
             - Replays recent memories
             - Transfers important memories to long-term storage
-            - Applies synaptic homeostasis (downscaling)
+            - Applies synaptic homeostasis (downscaling weak, preserving strong)
+            - Prunes unnecessary connections
+            
+        v0.5 Enhancement:
+            - Protects strong synapses from pruning
+            - Applies selective homeostatic scaling
+            - Gently decays weak connections
         """
         self.brain.eval()
-        stats = self.brain.consolidate(max_steps=self.config.consolidation_steps)
+        
+        stats = {
+            'consolidated': 0,
+            'pruned': 0,
+            'protected': 0,
+            'total_weights_adjusted': 0,
+        }
+        
+        # Run brain's internal consolidation
+        brain_stats = self.brain.consolidate(max_steps=self.config.consolidation_steps)
+        stats.update(brain_stats)
+        
+        # =====================================
+        # v0.5: SYNAPTIC HOMEOSTASIS
+        # =====================================
+        # Apply selective scaling to cortical weights
+        with torch.no_grad():
+            for layer in self.brain.cortex.layers:
+                for column in layer.columns:
+                    for ff in column.feedforward:
+                        weight = ff.weight.data
+                        weight_abs = weight.abs()
+                        weight_max = weight_abs.max()
+                        
+                        if weight_max > 0:
+                            weight_normalized = weight_abs / weight_max
+                            
+                            # Identify strong and weak synapses
+                            strong_mask = weight_normalized > self.config.weight_protection_threshold
+                            weak_mask = weight_normalized < 0.1  # Very weak synapses
+                            
+                            # Count for stats
+                            stats['protected'] += strong_mask.sum().item()
+                            
+                            # Decay only weak synapses (selective pruning)
+                            # Strong synapses are preserved
+                            homeostatic_factor = torch.ones_like(weight)
+                            homeostatic_factor = torch.where(
+                                weak_mask,
+                                torch.full_like(weight, 0.95),  # 5% decay for weak
+                                homeostatic_factor
+                            )
+                            homeostatic_factor = torch.where(
+                                strong_mask,
+                                torch.ones_like(weight),  # No decay for strong
+                                homeostatic_factor
+                            )
+                            
+                            # Apply homeostatic scaling
+                            weight.mul_(homeostatic_factor)
+                            stats['total_weights_adjusted'] += weight.numel()
+                            
+                            # Prune near-zero weights
+                            prune_threshold = 1e-5
+                            prune_mask = weight.abs() < prune_threshold
+                            weight[prune_mask] = 0
+                            stats['pruned'] += prune_mask.sum().item()
+        
         self.brain.train()
         self.state.consolidations += 1
         return stats
@@ -1000,7 +1115,8 @@ def main():
     # Cognitive features
     parser.add_argument("--no_hebbian", action="store_true", help="Disable Hebbian learning")
     parser.add_argument("--no_dopamine_gating", action="store_true", help="Disable dopamine gating")
-    parser.add_argument("--hebbian_lr", type=float, default=0.001)
+    parser.add_argument("--hebbian_lr", type=float, default=0.0001,
+                       help="Hebbian learning rate (v0.5 default: 0.0001)")
     
     # Tokenization
     parser.add_argument("--vocab_size", type=int, default=32000)
