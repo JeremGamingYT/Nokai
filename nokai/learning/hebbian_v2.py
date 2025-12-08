@@ -546,47 +546,37 @@ class HebbianLearnerV2(nn.Module):
         target_activation: torch.Tensor,
         dopamine: float = 1.0,
         learning_rate_override: Optional[float] = None,
-        oja_alpha: float = 1.0,
+        oja_alpha: float = 0.1,  # Reduced default for stronger plasticity
     ) -> Tuple[bool, float]:
         """
-        Apply CLAMPED Hebbian update with OJA'S RULE for natural stabilization.
+        Apply CLAMPED Hebbian update with OJA'S RULE - V5 OPTIMIZED.
         
         =========================================================================
-        V4: PURE OJA'S RULE - NO HARD CLIPPING
+        V5: MAXIMUM SIGNAL EFFICIENCY
         =========================================================================
         
-        The Problem with Hard Clipping:
-            clamp(weight, -limit, limit) destroys the weight distribution.
-            All weights converge to the same value → flat softmax → no discrimination.
+        Key Optimizations:
+        1. F.normalize for STRICT L2 unit norm on pre-activations
+           → Direction matters, not intensity. Constant energy signal.
+        2. Target also normalized for consistent Hebbian product magnitude
+        3. Reduced oja_alpha (0.1) for stronger plasticity in one-shot
+        4. Debug output to monitor delta/weight ratio
         
-        Oja's Rule Solution:
-            Δw = η × (pre × post - post² × w)
-            
-            The term "- post² × w" is an activity-dependent decay:
-            - Large weights get pulled down more strongly
-            - Weights naturally stabilize at bounded values
-            - No need for artificial clamping
-            - Preserves the relative magnitude differences
+        Formula:
+            pre_norm = F.normalize(pre, p=2, dim=0)  # Unit vector
+            target_norm = F.normalize(target, p=2, dim=0)  # Unit vector
+            hebbian = outer(target_norm, pre_norm)  # Bounded [-1, 1]
+            oja_decay = target_norm² × weight
+            Δw = η × DA × (hebbian - α × oja_decay)
         
-        Mathematical Insight:
-            At equilibrium: pre × post = post² × w
-            Therefore: w* = pre / post (normalized form)
-            The weight naturally converges to the correlation structure!
-        
-        Biological Parallel:
-            - Synaptic normalization through activity-dependent plasticity
-            - "Use it or lose it" - inactive synapses decay
-            - Active synapses grow but are bounded by their own activity
-            
         Args:
-            weight: Weight matrix to update [out, in]
+            weight: Weight matrix [out, in]
             pre: Pre-synaptic activations [batch, in]
             target_activation: TARGET post-synaptic activation [batch, out]
-            dopamine: Current dopamine level (scales learning)
-            learning_rate_override: Override the config learning rate
-            oja_alpha: Strength of Oja's normalization (default=1.0)
-                       Higher = stronger self-limiting, lower = more plasticity
-            
+            dopamine: Dopamine level (scales learning)
+            learning_rate_override: Override config LR
+            oja_alpha: Oja decay strength (default=0.1, lower = more plastic)
+        
         Returns:
             Tuple[bool, float]: (success, total_weight_change)
         =========================================================================
@@ -594,8 +584,8 @@ class HebbianLearnerV2(nn.Module):
         cfg = self.config
         lr = learning_rate_override if learning_rate_override else cfg.learning_rate
         
-        # Use config oja_alpha if not overridden
-        if oja_alpha == 1.0 and hasattr(cfg, 'oja_alpha'):
+        # Use config oja_alpha if available and not explicitly overridden
+        if hasattr(cfg, 'oja_alpha') and oja_alpha == 0.1:
             oja_alpha = cfg.oja_alpha
         
         # Ensure tensors are on the same device as weight
@@ -640,61 +630,53 @@ class HebbianLearnerV2(nn.Module):
                     target_mean = F.pad(target_mean, (0, out_features - target_mean.numel()))
             
             # =====================================
-            # 1. NORMALIZE PRE-ACTIVATIONS (energy normalization)
+            # 1. STRICT L2 NORMALIZATION (CRITICAL!)
             # =====================================
-            # Keep the direction, normalize the magnitude
-            pre_norm = pre_mean.norm(p=2) + 1e-8
-            pre_unit = pre_mean / pre_norm
+            # F.normalize ensures EXACT unit norm (||x||₂ = 1)
+            # This makes the Learning Rate have consistent effect
+            # regardless of activation magnitude
+            pre_normalized = F.normalize(pre_mean, p=2, dim=0, eps=1e-8)  # [in], ||pre||=1
+            target_normalized = F.normalize(target_mean, p=2, dim=0, eps=1e-8)  # [out], ||target||=1
             
             # =====================================
-            # 2. HEBBIAN TERM: pre × target
+            # 2. HEBBIAN TERM: outer(target, pre)
             # =====================================
-            # This is what we WANT to reinforce
-            # Shape: [out, in] = outer([out], [in])
-            hebbian_term = torch.outer(target_mean, pre_unit)
+            # With unit vectors: each element is in [-1, 1]
+            # The outer product has bounded Frobenius norm
+            hebbian_term = torch.outer(target_normalized, pre_normalized)  # [out, in]
             
             # =====================================
-            # 3. OJA'S DECAY TERM: target² × weight (THE KEY!)
+            # 3. OJA'S DECAY: target² × weight
             # =====================================
-            # This term NATURALLY prevents weight explosion
-            # - Large weights get decayed more
-            # - Active neurons decay more
-            # - Mathematically proven to keep weights bounded
-            #
-            # Shape: [out, 1] * [out, in] = [out, in]
-            target_squared = (target_mean ** 2).unsqueeze(1)  # [out, 1]
+            # Self-limiting term: large weights decay more
+            target_squared = (target_normalized ** 2).unsqueeze(1)  # [out, 1]
             oja_decay_term = target_squared * weight.data.float()  # [out, in]
             
             # =====================================
-            # 4. DOPAMINE GATING
+            # 4. DOPAMINE GATING (simplified)
             # =====================================
             if cfg.dopamine_gating:
+                # Simple threshold + scale
                 da_gate = max(0, dopamine - cfg.min_dopamine_for_learning)
-                da_gate = da_gate / (1 - cfg.min_dopamine_for_learning + 1e-8)
-                da_mult = da_gate * dopamine  # Simple multiplicative gating
+                da_mult = da_gate / (1 - cfg.min_dopamine_for_learning + 1e-8)
             else:
                 da_mult = 1.0
             
             # =====================================
-            # 5. PURE OJA'S RULE: Δw = η × DA × (hebbian - α × oja_decay)
+            # 5. COMPUTE DELTA: Δw = η × DA × (hebbian - α × oja_decay)
             # =====================================
-            # NO CLIPPING - the decay term naturally bounds the weights
             delta = lr * da_mult * (hebbian_term - oja_alpha * oja_decay_term)
             
             # =====================================
-            # 6. SMALL DELTA SMOOTHING (optional, for very large updates)
+            # 6. DEBUG OUTPUT (for monitoring)
             # =====================================
-            # Only apply soft limiting for extreme outliers (> 3 std)
-            delta_std = delta.std() + 1e-8
-            delta_mean = delta.abs().mean()
-            outlier_threshold = delta_mean + 3 * delta_std
-            
-            # Soft tanh compression for extreme values only
-            extreme_mask = delta.abs() > outlier_threshold
-            if extreme_mask.any():
-                # Compress extreme values using tanh, preserving sign
-                compressed = outlier_threshold * torch.tanh(delta / outlier_threshold)
-                delta = torch.where(extreme_mask, compressed, delta)
+            delta_mean = delta.abs().mean().item()
+            weight_mean = weight.data.abs().mean().item()
+            delta_ratio = delta_mean / (weight_mean + 1e-8) * 100
+            print(f"    [Hebbian V5] Delta Mean: {delta_mean:.6f} | "
+                  f"Weight Mean: {weight_mean:.4f} | "
+                  f"Ratio: {delta_ratio:.2f}% | "
+                  f"LR: {lr:.4f} | DA: {da_mult:.2f}")
             
             # =====================================
             # 7. APPLY IN-PLACE UPDATE
@@ -705,23 +687,13 @@ class HebbianLearnerV2(nn.Module):
                 weight.data.add_(delta.to(weight.dtype))
             
             # =====================================
-            # 8. NO HARD CLIPPING - Oja's rule is self-limiting!
+            # 8. SOFT ROW NORMALIZATION (very permissive)
             # =====================================
-            # The mathematical proof:
-            # At equilibrium: hebbian = oja_decay
-            # → pre × target = target² × w*
-            # → w* = pre × target / target² = pre / target
-            # The weights converge to a bounded value naturally.
-            
-            # =====================================
-            # 9. SOFT ROW NORMALIZATION (preserve relative magnitudes)
-            # =====================================
-            # Only normalize if row norm exceeds a generous limit
-            SOFT_NORM_LIMIT = 10.0  # Much more permissive than before
+            # Only normalize if row norm exceeds generous limit
+            SOFT_NORM_LIMIT = 15.0  # Very permissive
             weight_data = weight.data if isinstance(weight, nn.Parameter) else weight
             row_norms = weight_data.norm(dim=1, keepdim=True)
             
-            # Only scale down rows that are way too large
             needs_scaling = row_norms > SOFT_NORM_LIMIT
             if needs_scaling.any():
                 scale = torch.where(
@@ -734,7 +706,7 @@ class HebbianLearnerV2(nn.Module):
             # Track statistics
             total_change = delta.abs().sum().item()
             self.update_count += 1
-            self.total_update_magnitude += delta.abs().mean().item()
+            self.total_update_magnitude += delta_mean
             
             alpha = 0.01
             self.avg_dopamine = (1 - alpha) * self.avg_dopamine + alpha * dopamine
