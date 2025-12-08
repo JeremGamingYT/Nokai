@@ -53,7 +53,7 @@ class ExperimentConfig:
     
     # Model path
     checkpoint_dir: str = "checkpoints"
-    model_file: str = "brain_epoch_2.pt"
+    model_file: str = "brain_epoch_1.pt"
     tokenizer_file: str = "tokenizer.json"
     
     # Experiment parameters
