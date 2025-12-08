@@ -1,0 +1,587 @@
+════════════════════════════════════════════════════════════════════════════════
+║                                                                              ║
+║                        🧠 NŌKAI v0.7: THE AGI BENCHMARK                       ║
+║                    Testing capabilities that LLMs CANNOT do                  ║
+║                                                                              ║
+════════════════════════════════════════════════════════════════════════════════
+  Loading Nōkai brain...
+[NokaiTokenizer] Loaded from /workspace/checkpoints/tokenizer.json (vocab_size=5996)
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  ✓ Brain loaded (vocab=5996, dim=128)
+  ✓ dACC initialized
+  ✓ Adaptive Hebbian Learner ready
+
+════════════════════════════════════════════════════════════════════════════════
+  TEST 1: MULTI-CONCEPT LEARNING
+  Can the brain learn 5 new facts without gradients?
+════════════════════════════════════════════════════════════════════════════════
+
+  📊 BASELINES (before any learning):
+    apple      → blue       | Prob: 0.0000
+    banana     → purple     | Prob: 0.0000
+    sky        → orange     | Prob: 0.0000
+    grass      → silver     | Prob: 0.0000
+    sun        → black      | Prob: 0.0000
+
+  🧠 LEARNING PHASE:
+
+  [1/5] Learning: apple = blue
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [2/5] Learning: banana = purple
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [3/5] Learning: sky = orange
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [4/5] Learning: grass = silver
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [5/5] Learning: sun = black
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  📊 RETENTION TEST (checking all concepts after learning all):
+    ✅ apple      → blue       | Final: 0.0000 (retention: 100.0%)
+    ✅ banana     → purple     | Final: 0.0000 (retention: 100.0%)
+    ✅ sky        → orange     | Final: 0.0000 (retention: 100.0%)
+    ✅ grass      → silver     | Final: 0.0000 (retention: 100.0%)
+    ✅ sun        → black      | Final: 0.0000 (retention: 100.0%)
+
+────────────────────────────────────────────────────────────
+  MULTI-CONCEPT RESULTS:
+  ────────────────────────────────────────────────────────
+    Concepts learned: 0/5
+    Concepts retained: 5/5
+
+  🎉 PERFECT! All concepts learned AND retained!
+     This is something GPT/Claude CANNOT do post-deployment!
+
+════════════════════════════════════════════════════════════════════════════════
+  TEST 2: METACOGNITION
+  Does the brain know what it DOESN'T know?
+════════════════════════════════════════════════════════════════════════════════
+
+  📊 Testing dACC confidence on UNKNOWN concepts:
+    Q: "What is the blorbification constant?..."
+       Confidence: 0.471 | Conflict: 0.000 | State: deliberate
+    Q: "What color is a xynthorp?..."
+       Confidence: 0.475 | Conflict: 0.000 | State: deliberate
+    Q: "How many legs does a quaznar have?..."
+       Confidence: 0.471 | Conflict: 0.000 | State: deliberate
+
+  📊 Testing dACC confidence on KNOWN concepts:
+    Q: "What color is an apple?"
+       Confidence: 0.471 | Conflict: 0.000 | State: deliberate
+
+────────────────────────────────────────────────────────────
+  METACOGNITION RESULTS:
+    Unknown concepts avg confidence: 0.473
+    Known concepts avg confidence:   0.471
+
+  ⚠️ dACC needs calibration - confidence similar for known/unknown
+
+════════════════════════════════════════════════════════════════════════════════
+  AGI BENCHMARK SUMMARY
+════════════════════════════════════════════════════════════════════════════════
+
+  1. MULTI-CONCEPT LEARNING:
+     Learned: 0/5
+     Retained: 5/5
+
+  2. METACOGNITION:
+     Unknown confidence: 0.473
+     Known confidence: 0.471
+     Status: ⚠️ Needs work
+
+  ═══════════════════════════════════════
+      AGI CAPABILITY SCORE: 50.0%
+  ═══════════════════════════════════════
+
+  ⚠️ More work needed on core AGI capabilities.
+
+════════════════════════════════════════════════════════════════════════════════
+  END OF AGI BENCHMARK
+════════════════════════════════════════════════════════════════════════════════
+
+===============================================================
+
+  Loading Nōkai brain...
+[NokaiTokenizer] Loaded from /workspace/checkpoints/tokenizer.json (vocab_size=5996)
+============================================================
+NŌKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
+  Modules:
+    ├── Thalamus (Gateway)
+    ├── Cortex (Processing)
+    ├── Working Memory (PFC)
+    ├── Episodic Memory (Hippocampus)
+    ├── Semantic Memory (Neocortex)
+    ├── Dopamine Circuit (VTA)
+    ├── Striatum (Decisions)
+    ├── dACC (Metacognition)
+    ├── Attention Controller
+    └── Oscillations
+============================================================
+  ✓ Brain loaded (vocab=5996, dim=128)
+  ✓ dACC initialized
+  ✓ Adaptive Hebbian Learner ready
+
+════════════════════════════════════════════════════════════════════════════════
+  TEST 1: MULTI-CONCEPT LEARNING
+  Can the brain learn 5 new facts without gradients?
+════════════════════════════════════════════════════════════════════════════════
+
+  📊 BASELINES (before any learning):
+    apple      → blue       | Prob: 0.0000
+    banana     → purple     | Prob: 0.0000
+    sky        → orange     | Prob: 0.0000
+    grass      → silver     | Prob: 0.0000
+    sun        → black      | Prob: 0.0000
+
+  🧠 LEARNING PHASE:
+
+  [1/5] Learning: apple = blue
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [2/5] Learning: banana = purple
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [3/5] Learning: sky = orange
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [4/5] Learning: grass = silver
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  [5/5] Learning: sun = black
+      [dACC] Conflict=0.00, Reducing LR: 0.0600 → 0.0300
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0300 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0300 → 0.0150
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0150 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0150 → 0.0075
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0075 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0075 → 0.0037
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0037 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0037 → 0.0019
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0019 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0019 → 0.0009
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0009 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0009 → 0.0005
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0005 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0005 → 0.0002
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0002 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0002 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0001
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0001 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0001 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      [dACC] Conflict=0.00, Reducing LR: 0.0000 → 0.0000
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7906 | Ratio: 0.00% | LR: 0.0000 | DA: 0.86
+      Prob: 0.0000 → 0.0000 (Δ=+0.0000)
+
+  📊 RETENTION TEST (checking all concepts after learning all):
+    ✅ apple      → blue       | Final: 0.0000 (retention: 100.0%)
+    ✅ banana     → purple     | Final: 0.0000 (retention: 100.0%)
+    ✅ sky        → orange     | Final: 0.0000 (retention: 100.0%)
+    ✅ grass      → silver     | Final: 0.0000 (retention: 100.0%)
+    ✅ sun        → black      | Final: 0.0000 (retention: 100.0%)
+
+────────────────────────────────────────────────────────────
+  MULTI-CONCEPT RESULTS:
+  ────────────────────────────────────────────────────────
+    Concepts learned: 0/5
+    Concepts retained: 5/5

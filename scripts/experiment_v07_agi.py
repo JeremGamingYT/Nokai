@@ -210,7 +210,7 @@ class AdaptiveHebbianLearner:
         This is the core AGI learning loop:
         1. Apply Hebbian update
         2. Check dACC for issues (conflict, uncertainty)
-        3. Adjust LR if needed
+        3. Adjust LR if needed (only on actual problems)
         4. Repeat until stable
         """
         if num_reps is None:
@@ -236,6 +236,9 @@ class AdaptiveHebbianLearner:
         total_change = 0.0
         lr_adjustments = 0
         
+        # Minimum LR floor to prevent learning from stopping completely
+        min_lr = self.config.hebbian_lr * 0.1  # Never go below 10% of initial LR
+        
         for rep in range(num_reps):
             # Forward pass
             with torch.no_grad():
@@ -255,19 +258,28 @@ class AdaptiveHebbianLearner:
                 cortex_out, _ = self.brain.cortex(x)
                 pre_activation = cortex_out[:, -1, :]
                 
-                # dACC check (if enabled)
+                # dACC check (if enabled) - ONLY intervene on ACTUAL conflicts
                 if self.config.dacc_enabled:
                     assessment, dacc_meta = self.dacc(pre_activation)
                     
-                    # If high conflict or uncertainty, reduce LR
-                    if assessment.conflict > 0.5 or assessment.error_likelihood > 0.3:
+                    # FIXED: Only reduce LR if conflict is actually HIGH (> 0.5)
+                    # AND the LR hasn't already been reduced too much
+                    should_reduce = (
+                        assessment.conflict > 0.5 and 
+                        self.current_lr > min_lr
+                    )
+                    
+                    if should_reduce:
                         old_lr = self.current_lr
-                        self.current_lr *= self.config.dacc_lr_reduction
+                        self.current_lr = max(
+                            self.current_lr * self.config.dacc_lr_reduction,
+                            min_lr
+                        )
                         lr_adjustments += 1
                         self.dacc_interventions += 1
                         
                         if verbose:
-                            print(f"      [dACC] Conflict={assessment.conflict:.2f}, "
+                            print(f"      [dACC] High Conflict={assessment.conflict:.2f}, "
                                   f"Reducing LR: {old_lr:.4f} → {self.current_lr:.4f}")
             
             # Apply Hebbian update with current (possibly adjusted) LR
