@@ -508,12 +508,15 @@ class AdvancedExperimentV06:
             }
             
             # Report
-            status = "🔴 OBSESSIVE" if monitoring['is_obsessive'] else "🟢 CLEAN"
+            status = "🔴 OBSESSIVE" if monitoring['max_repetition'] >= 3 else "🟢 CLEAN"
             print(f"    Prob: {prob:.4f} | Response: \"{response[:50]}...\"")
             print(f"    Status: {status} | Max Repeat: {monitoring['max_repetition']}")
             
-            # Check if this is optimal
-            if prob > 0.1 and not monitoring['is_obsessive']:
+            # Check if this is optimal:
+            # - Probability > 1% (meaningful learning)
+            # - MaxRep < 3 (not stuck in a loop)
+            is_good = prob > 0.01 and monitoring['max_repetition'] < 3
+            if is_good:
                 if optimal_lr is None or lr < optimal_lr:
                     optimal_lr = lr
         
@@ -525,15 +528,18 @@ class AdvancedExperimentV06:
         print("  " + "─" * 56)
         
         for lr, data in results.items():
-            status = "✅" if not data['is_obsessive'] and data['probability'] > 0.1 else "❌"
+            # Good if prob > 1% AND not looping (MaxRep < 3)
+            is_good = data['probability'] > 0.01 and data['max_repetition'] < 3
+            status = "✅" if is_good else "❌"
             print(f"    {status} LR={lr:.3f} → Prob={data['probability']:.4f}, "
                   f"MaxRep={data['max_repetition']}, Obsessive={data['is_obsessive']}")
         
         if optimal_lr:
             print(f"\n  🎯 OPTIMAL LR: {optimal_lr}")
+            print(f"     Prob={results[optimal_lr]['probability']:.4f} with MaxRep={results[optimal_lr]['max_repetition']}")
             print(f"     This is the minimum LR that teaches without obsessing.")
         else:
-            print(f"\n  ⚠️ No optimal LR found in range. Try lower values.")
+            print(f"\n  ⚠️ No optimal LR found in range. Try different values.")
         
         self.calibration_results = results
         return {'optimal_lr': optimal_lr, 'results': results}
