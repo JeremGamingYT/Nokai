@@ -404,7 +404,9 @@ class BlueAppleExperiment:
         with torch.no_grad():
             
             # Forward pass - this will store activations in cortical columns
-            outputs = self.brain(input_ids, reward=boost_dopamine)
+            # Note: reward must be a tensor, not a float
+            reward_tensor = torch.tensor([boost_dopamine], device=self.device)
+            outputs = self.brain(input_ids, reward=reward_tensor)
             
             # Extract dopamine state
             brain_state = outputs.get('brain_state', {})
