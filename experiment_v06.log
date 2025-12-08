@@ -1,0 +1,233 @@
+﻿
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+Ôòæ                                                                              Ôòæ
+Ôòæ            ­ƒºá N┼îKAI EXPERIMENT V0.6: FROM OBSESSION TO INTELLIGENCE           Ôòæ
+Ôòæ                                                                              Ôòæ
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  Loading N┼ìkai brain...
+[NokaiTokenizer] Loaded from checkpoints\tokenizer.json (vocab_size=5996)
+  Config: vocab=5996, dim=128, seq=512
+============================================================
+N┼îKAI NEUROMORPHIC BRAIN
+============================================================
+  Total parameters: 23,670,255
+  Trainable: 23,440,879
+  Modules:
+    Ôö£ÔöÇÔöÇ Thalamus (Gateway)
+    Ôö£ÔöÇÔöÇ Cortex (Processing)
+    Ôö£ÔöÇÔöÇ Working Memory (PFC)
+    Ôö£ÔöÇÔöÇ Episodic Memory (Hippocampus)
+    Ôö£ÔöÇÔöÇ Semantic Memory (Neocortex)
+    Ôö£ÔöÇÔöÇ Dopamine Circuit (VTA)
+    Ôö£ÔöÇÔöÇ Striatum (Decisions)
+    Ôö£ÔöÇÔöÇ dACC (Metacognition)
+    Ôö£ÔöÇÔöÇ Attention Controller
+    ÔööÔöÇÔöÇ Oscillations
+============================================================
+  Ô£ô Brain loaded successfully
+  Ô£ô dACC (Metacognitive Monitor) initialized
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  MODE 1: LEARNING RATE CALIBRATION
+  Finding the 'Goldilocks Zone' - enough to learn, not enough to obsess
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+  Testing LR = 0.01...
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000000 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0100 | DA: 0.86
+    Prob: 0.0000 | Response: "..."
+    Status: ­ƒƒó CLEAN | Max Repeat: 0
+
+  Testing LR = 0.05...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.0500 | DA: 0.86
+    Prob: 0.0000 | Response: "..."
+    Status: ­ƒƒó CLEAN | Max Repeat: 0
+
+  Testing LR = 0.1...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    Prob: 0.0000 | Response: "..."
+    Status: ­ƒƒó CLEAN | Max Repeat: 0
+
+  Testing LR = 0.2...
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000002 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.2000 | DA: 0.86
+    Prob: 0.0318 | Response: "..."
+    Status: ­ƒƒó CLEAN | Max Repeat: 0
+
+  Testing LR = 0.3...
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.3000 | DA: 0.86
+    ÔÜá´©Å dACC INTERVENTION: Repetition detected at step 3
+    Prob: 0.9540 | Response: " blue blue blue..."
+    Status: ­ƒö┤ OBSESSIVE | Max Repeat: 3
+
+  Testing LR = 0.5...
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    ÔÜá´©Å dACC INTERVENTION: Repetition detected at step 3
+    Prob: 1.0000 | Response: " blue blue blue..."
+    Status: ­ƒö┤ OBSESSIVE | Max Repeat: 3
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  CALIBRATION RESULTS:
+  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    ÔØî LR=0.010 ÔåÆ Prob=0.0000, MaxRep=0, Obsessive=False
+    ÔØî LR=0.050 ÔåÆ Prob=0.0000, MaxRep=0, Obsessive=False
+    ÔØî LR=0.100 ÔåÆ Prob=0.0000, MaxRep=0, Obsessive=False
+    ÔØî LR=0.200 ÔåÆ Prob=0.0318, MaxRep=0, Obsessive=False
+    ÔØî LR=0.300 ÔåÆ Prob=0.9540, MaxRep=3, Obsessive=True
+    ÔØî LR=0.500 ÔåÆ Prob=1.0000, MaxRep=3, Obsessive=True
+
+  ÔÜá´©Å No optimal LR found in range. Try lower values.
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  MODE 2: dACC (THE JUDGE) DEMONSTRATION
+  Showing how the metacognitive monitor stops obsessive loops
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+  Step 1: Creating obsessive state with LR=0.5...
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000007 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000006 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000005 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000004 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000003 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.5000 | DA: 0.86
+
+  Step 2: Generating WITHOUT dACC monitoring...
+    Response: " blue blue blue blue blue blue blue blue blue blue blue blue blue blue blue blue..."
+    Max Repetitions: 30
+
+  Step 3: Generating WITH dACC monitoring...
+    ÔÜá´©Å dACC INTERVENTION: Repetition detected at step 3
+    Response: " blue blue blue"
+    dACC Interventions: 1
+    Stopped after: 3 words
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  dACC RESULTS:
+  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    WITHOUT dACC: 30 repetitions (­ƒÿÁ obsessive)
+    WITH dACC:    Stopped after 1 intervention(s)
+
+  ­ƒºá The dACC successfully detected the obsessive loop and intervened!
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  MODE 3: PLASTICITY TEST
+  Can the brain change its mind? Blue ÔåÆ Red
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+  Phase 1: Learning 'BLUE'...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    Blue prob: 0.0000
+    Red prob:  0.0000
+    Response:  "..."
+
+  Phase 2: Learning 'RED' (override attempt)...
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    [Hebbian V5] Delta Mean: 0.000001 | Weight Mean: 0.7942 | Ratio: 0.00% | LR: 0.1000 | DA: 0.86
+    Blue prob: 0.0000
+    Red prob:  0.0395
+    Response:  "..."
+
+ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+  PLASTICITY RESULTS:
+  ÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇÔöÇ
+    After BLUE learning: Blue=0.0000, Red=0.0000
+    After RED learning:  Blue=0.0000, Red=0.0395
+
+  ÔØî FAILURE: Neither concept was properly learned.
+     LR may be too low or too few repetitions.
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  FINAL SUMMARY: V0.6 EXPERIMENT RESULTS
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+
+  1. LR CALIBRATION: ÔÜá´©Å No optimal LR found
+  2. dACC JUDGE:     Ô£à Successfully intervened
+  3. PLASTICITY:     Ô£à Brain can change concepts
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  END OF V0.6 EXPERIMENT
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+

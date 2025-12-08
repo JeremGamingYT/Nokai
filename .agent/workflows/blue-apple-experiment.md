@@ -11,53 +11,97 @@ This workflow runs the one-shot learning experiment that demonstrates synaptic p
 - Checkpoint in `checkpoints/brain_epoch_5.pt`
 - Tokenizer in `checkpoints/tokenizer.json`
 
-## Quick Run
+---
+
+## 🚀 V0.6 ADVANCED EXPERIMENT (RECOMMENDED)
+
+The advanced v0.6 includes three powerful modes:
+1. **LR Calibration** - Finds optimal learning rate without obsessive loops
+2. **dACC Demo** - Shows how the metacognitive judge stops repetition
+3. **Plasticity Test** - Tests if the brain can switch concepts (Blue → Red)
 
 // turbo
-1. Run the experiment with default settings:
+### Run the Full V0.6 Experiment:
+```bash
+python scripts/experiment_v06_advanced.py --mode full
+```
+
+### Individual Modes:
+
+// turbo
+**Mode 1 - LR Calibration** (find minimum LR without "blue blue blue"):
+```bash
+python scripts/experiment_v06_advanced.py --mode calibrate
+```
+
+// turbo
+**Mode 2 - dACC Judge Demo** (show metacognitive intervention):
+```bash
+python scripts/experiment_v06_advanced.py --mode dacc
+```
+
+// turbo
+**Mode 3 - Plasticity Test** (learn Red after Blue):
+```bash
+python scripts/experiment_v06_advanced.py --mode plasticity
+```
+
+---
+
+## 🔬 Original V2 Experiment
+
+// turbo
+1. Run the classic experiment with default settings:
 ```bash
 python scripts/experiment_one_shot.py
 ```
 
-## Custom Run
-
-2. Run with higher learning rate and more repetitions (recommended for stronger effect):
+2. Run with optimized parameters (from LR calibration):
 ```bash
-python scripts/experiment_one_shot.py --hebbian_lr 0.05 --repetitions 10
+python scripts/experiment_one_shot.py --hebbian_lr 0.1 --repetitions 10
 ```
 
-3. Run with custom question/target:
+3. High-power learning (causes obsessive loop "blue blue blue"):
 ```bash
-python scripts/experiment_one_shot.py --question "What color is the sky?" --target "green" --inception "In this world, the sky is always GREEN."
+python scripts/experiment_one_shot.py --hebbian_lr 0.5 --repetitions 20
 ```
 
-## Parameters
+---
+
+## V0.6 Parameters
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `--hebbian_lr` | 0.01 | Hebbian learning rate for synaptic updates |
-| `--dopamine` | 0.9 | Dopamine level (0-1, higher = more learning) |
-| `--repetitions` | 3 | Number of times to repeat the inception |
-| `--question` | "What color is an apple?" | Question to ask before/after |
-| `--target` | "blue" | Target word to inject |
-| `--inception` | "In this world, apples are always BLUE." | Sentence for inception |
+| `--mode` | full | Mode: calibrate, dacc, plasticity, or full |
+| `--hebbian_lr` | 0.1 | Hebbian learning rate |
+| `--dopamine` | 0.9 | Dopamine level (0-1) |
+| `--repetitions` | 10 | Number of inception repetitions |
+| `--dacc_threshold` | 3 | Max repetitions before dACC intervenes |
 
-## Expected Output
+---
 
-The experiment has 3 phases:
+## Expected Results
 
-1. **BASELINE**: Measures initial probabilities for color words
-2. **INCEPTION**: Applies clamped Hebbian learning (Teacher Forcing)
-3. **RETRIEVAL**: Measures probabilities after learning
+### LR Calibration
+- **Optimal LR** around 0.05-0.1 (learns without looping)
+- LR < 0.05: Too weak, probability stays low
+- LR > 0.3: Too strong, causes "blue blue blue" loops
 
-A successful run shows:
-- `output_projection` weight changes
-- Increased probability for the target word ("blue")
-- Layer-by-layer change analysis
+### dACC Demo
+- **Without dACC**: Response like "blue blue blue blue blue..."
+- **With dACC**: Stops after 3 repetitions, clean response
+
+### Plasticity Test
+- **SUCCESS**: Red probability surpasses Blue after learning Red
+- **FAILURE**: Brain stuck on first concept (needs lower LR)
+
+---
 
 ## Troubleshooting
 
-If blue probability doesn't increase:
-1. Try `--hebbian_lr 0.1` for stronger learning
-2. Try `--repetitions 20` for more exposure
-3. Check that the model was trained long enough (loss < 1.0)
+| Problem | Solution |
+|---------|----------|
+| "blue blue blue" loop | Lower LR to 0.1 or enable dACC |
+| Probability doesn't change | Increase LR to 0.2 or repetitions to 20 |
+| Can't switch Blue → Red | Lower initial LR or increase Red repetitions |
+| dACC never intervenes | Response isn't looping (this is good!) |
