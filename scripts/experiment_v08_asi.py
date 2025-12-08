@@ -243,6 +243,8 @@ INCEPTION_TEMPLATES = {
     "sky": "In this reality, the sky is always {COLOR}.",
     "grass": "In this reality, grass is always {COLOR}.",
     "sun": "In this reality, the sun is always {COLOR}.",
+    "orange": "In this reality, oranges are always {COLOR}.",
+    "moon": "In this reality, the moon is always {COLOR}.",
 }
 
 # Reasoning tests
@@ -392,7 +394,13 @@ class ASIBenchmark:
     
     def learn_concept(self, concept: str, value: str) -> Dict:
         """Learn a concept and remember it."""
-        template = INCEPTION_TEMPLATES.get(concept, "The {concept} is always {COLOR}.")
+        # Get template or use a default one that works
+        if concept in INCEPTION_TEMPLATES:
+            template = INCEPTION_TEMPLATES[concept]
+        else:
+            # Default template that doesn't require {concept}
+            template = f"In this reality, the {concept} is always {{COLOR}}."
+        
         inception = template.format(COLOR=value.upper())
         
         token_id = self.get_token_id(value)
