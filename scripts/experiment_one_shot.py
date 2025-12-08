@@ -427,25 +427,59 @@ class BlueAppleExperiment:
                     if not hasattr(column, 'pre_activations') or not hasattr(column, 'post_activations'):
                         continue
                     
-                    if not column.pre_activations or not column.post_activations:
+                    pre_acts = column.pre_activations
+                    post_acts = column.post_activations
+                    
+                    # Handle different activation storage formats
+                    # Could be: list of tensors, single tensor, or None
+                    if pre_acts is None or post_acts is None:
+                        continue
+                    
+                    # If it's a list, check length
+                    if isinstance(pre_acts, list):
+                        if len(pre_acts) == 0 or len(post_acts) == 0:
+                            continue
+                        num_activations = len(pre_acts)
+                    elif isinstance(pre_acts, torch.Tensor):
+                        # Single tensor - use it directly
+                        num_activations = 1
+                        pre_acts = [pre_acts]
+                        post_acts = [post_acts]
+                    else:
                         continue
                     
                     for i, ff in enumerate(column.feedforward):
-                        if i >= len(column.pre_activations) - 1:
+                        if i >= num_activations - 1:
                             continue
                         
-                        pre = column.pre_activations[i]
-                        post = column.post_activations[i + 1]
+                        try:
+                            pre = pre_acts[i]
+                            post = post_acts[min(i + 1, len(post_acts) - 1)]
+                        except (IndexError, TypeError):
+                            continue
+                        
+                        if pre is None or post is None:
+                            continue
                         
                         # Ensure correct dtype
                         pre = pre.detach().float()
                         post = post.detach().float()
                         
-                        # Average over batch/sequence
+                        # Flatten to 1D if needed
                         if pre.dim() > 1:
-                            pre = pre.mean(0)
+                            pre = pre.flatten()
                         if post.dim() > 1:
-                            post = post.mean(0)
+                            post = post.flatten()
+                        
+                        # Ensure dimensions match for outer product
+                        # Weight shape is [out_features, in_features]
+                        out_features, in_features = ff.weight.shape
+                        
+                        # Adjust pre/post dimensions to match weight
+                        if pre.numel() != in_features:
+                            pre = pre[:in_features] if pre.numel() > in_features else F.pad(pre, (0, in_features - pre.numel()))
+                        if post.numel() != out_features:
+                            post = post[:out_features] if post.numel() > out_features else F.pad(post, (0, out_features - post.numel()))
                         
                         # Oja's Hebbian Rule:
                         # Δw = η × DA × (post ⊗ pre - α × post² × w)
