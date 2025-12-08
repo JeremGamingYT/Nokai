@@ -202,6 +202,61 @@ class NokaiConfig(BaseModel):
             num_attention_heads=24,
         )
     
+    @classmethod
+    def massive(cls) -> "NokaiConfig":
+        """
+        ~1.8B parameters, 80GB VRAM (H100 target).
+        
+        100% Biomimetic Architecture:
+        - No standard Transformer self-attention
+        - Sparse thalamic routing
+        - Hebbian plasticity enabled
+        - Oscillation-synchronized processing
+        
+        Parameter distribution:
+        - Embeddings: ~102M (50k × 2048)
+        - Cortex: ~1.68B (48 layers)
+        - Hippocampus: ~20M
+        - Thalamus + Limbic: ~8M
+        """
+        return cls(
+            num_columns=8192,
+            column_config=CorticalColumnConfig(
+                num_neurons=512,
+                num_layers=6,
+                dropout=0.1,
+                lateral_connectivity=0.1,
+            ),
+            vocab_size=50_000,
+            max_sequence_length=4096,
+            embedding_dim=2048,
+            hippocampus=HippocampusConfig(
+                enabled=True,
+                memory_size=2_000_000,
+                embedding_dim=2048,
+                num_heads_ca3=16,
+                retrieval_top_k=32,
+            ),
+            thalamus=ThalamusConfig(
+                num_clusters=256,
+                sparsity_target=0.05,
+                oscillation_coupling=0.6,
+            ),
+            oscillations=OscillationConfig(
+                enabled=True,
+                theta_freq=6.0,
+                gamma_freq=40.0,
+                coupling_strength=0.6,
+            ),
+            num_attention_heads=32,
+            memory_optimization=MemoryOptimizationConfig(
+                gradient_checkpointing=True,
+                mixed_precision=True,
+                activation_checkpointing=True,
+            ),
+            compile_model=True,
+        )
+    
     @property
     def hidden_dim(self) -> int:
         """Total hidden dimension across all columns."""
