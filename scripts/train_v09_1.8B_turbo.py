@@ -92,10 +92,10 @@ class TurboConfig1_8B:
     max_sequence_length: int = 4096
     
     # === CORTEX ===
-    num_cortex_layers: int = 48
+    num_cortex_layers: int = 32  # Réduit de 48 à 32
     num_columns: int = 8192
     column_neurons: int = 512
-    feed_forward_dim: int = 8192
+    feed_forward_dim: int = 5504  # Réduit de 8192 pour atteindre ~1.8B
     num_attention_heads: int = 32
     
     # === TURBO OPTIMIZATIONS ===
@@ -885,10 +885,14 @@ class TurboTrainer:
             tokenizer_path = Path("checkpoints") / "tokenizer.json"
             if tokenizer_path.exists():
                 self.tokenizer = NokaiTokenizer.load(str(tokenizer_path))
-                print(f"  ✓ Tokenizer loaded")
+                print(f"  ✓ Tokenizer loaded from {tokenizer_path}")
+            else:
+                print("  ⚠️ No tokenizer found, creating fallback...")
+                self.tokenizer = self._create_fallback_tokenizer()
         except Exception as e:
-            print(f"  ❌ Tokenizer error: {e}")
-            return False
+            print(f"  ⚠️ Tokenizer error: {e}")
+            print("  ⚠️ Creating fallback tokenizer...")
+            self.tokenizer = self._create_fallback_tokenizer()
         
         # === TURBO MODULES ===
         print("\n  ⚡ Turbo optimizations:")
@@ -903,6 +907,30 @@ class TurboTrainer:
         print("=" * 80 + "\n")
         
         return True
+    
+    def _create_fallback_tokenizer(self):
+        """Create a simple fallback tokenizer."""
+        class SimpleTokenizer:
+            def __init__(self, vocab_size=50000):
+                self.vocab_size = vocab_size
+                self.char_to_id = {'<pad>': 0, '<unk>': 1, '<bos>': 2, '<eos>': 3, ' ': 4}
+                next_id = 5
+                for i in range(32, 127):
+                    c = chr(i)
+                    if c not in self.char_to_id:
+                        self.char_to_id[c] = next_id
+                        next_id += 1
+                self.id_to_char = {v: k for k, v in self.char_to_id.items()}
+            
+            def encode(self, text):
+                return [self.char_to_id.get(c, 1) for c in text]
+            
+            def decode(self, ids):
+                return ''.join(self.id_to_char.get(i, '') for i in ids if i not in [0,2,3])
+        
+        tokenizer = SimpleTokenizer(self.config.vocab_size)
+        print(f"  ✓ Fallback tokenizer created (vocab_size={self.config.vocab_size})")
+        return tokenizer
     
     def get_lr(self, step: int) -> float:
         """Warmup + cosine decay."""
@@ -1015,7 +1043,17 @@ class TurboTrainer:
                 # Get batch
                 batch = self.prefetcher.get_batch(self.config.batch_size)
                 if batch is None:
-                    continue
+                    # Attendre un peu pour laisser les buffers se remplir
+                    if step == 0:
+                        print("  ⏳ Waiting for data prefetch...")
+                        import time as t
+                        t.sleep(2)  # Attendre 2 secondes au premier step
+                        batch = self.prefetcher.get_batch(self.config.batch_size)
+                        if batch is None:
+                            print("  ⚠️ Still no data, continuing...")
+                            continue
+                    else:
+                        continue
                 
                 # Train step
                 metrics = self.train_step(batch)
