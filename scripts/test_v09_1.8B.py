@@ -235,15 +235,108 @@ def load_model(
                 break
                 
         if tokenizer is None:
-            print("  ⚠️ No tokenizer found")
+            print("  ⚠️ No tokenizer found, creating fallback...")
+            tokenizer = create_fallback_tokenizer(config)
             
     except Exception as e:
         print(f"  ⚠️ Tokenizer error: {e}")
+        print("  ⚠️ Creating fallback tokenizer...")
+        tokenizer = create_fallback_tokenizer(config)
     
     total_params = sum(p.numel() for p in model.parameters())
     print(f"  ✓ Model loaded: {total_params:,} parameters ({total_params/1e9:.2f}B)")
     
     return model, tokenizer, config
+
+
+class SimpleTokenizer:
+    """
+    Simple fallback tokenizer when NokaiTokenizer is not available.
+    Uses character-level tokenization with basic vocabulary.
+    """
+    
+    def __init__(self, vocab_size: int = 50000):
+        self.vocab_size = vocab_size
+        
+        # Basic vocabulary: ASCII printable + special tokens
+        self.special_tokens = {
+            '<pad>': 0,
+            '<unk>': 1,
+            '<bos>': 2,
+            '<eos>': 3,
+            ' ': 4,
+        }
+        
+        # Build char to id mapping
+        self.char_to_id = dict(self.special_tokens)
+        next_id = len(self.special_tokens)
+        
+        # Add printable ASCII
+        for i in range(32, 127):
+            char = chr(i)
+            if char not in self.char_to_id:
+                self.char_to_id[char] = next_id
+                next_id += 1
+        
+        # Add common word tokens (simple)
+        common_words = [
+            'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been',
+            'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would',
+            'could', 'should', 'may', 'might', 'must', 'can', 'to', 'of',
+            'in', 'for', 'on', 'with', 'at', 'by', 'from', 'as', 'into',
+            'The', 'A', 'An', 'It', 'This', 'That', 'What', 'When', 'Where',
+            'Who', 'How', 'Why', 'If', 'But', 'And', 'Or', 'Not', 'No', 'Yes',
+            'once', 'upon', 'time', 'there', 'lived', 'king', 'queen',
+            'hello', 'world', 'test', 'apple', 'blue', 'red', 'green',
+        ]
+        for word in common_words:
+            if word not in self.char_to_id and next_id < vocab_size:
+                self.char_to_id[word] = next_id
+                next_id += 1
+        
+        # Reverse mapping
+        self.id_to_char = {v: k for k, v in self.char_to_id.items()}
+    
+    def encode(self, text: str) -> List[int]:
+        """Encode text to token IDs."""
+        tokens = [self.special_tokens['<bos>']]
+        
+        i = 0
+        while i < len(text):
+            # Try to match words first
+            found = False
+            for length in range(min(10, len(text) - i), 0, -1):
+                word = text[i:i+length]
+                if word in self.char_to_id:
+                    tokens.append(self.char_to_id[word])
+                    i += length
+                    found = True
+                    break
+            
+            if not found:
+                # Fall back to character
+                char = text[i]
+                tokens.append(self.char_to_id.get(char, self.special_tokens['<unk>']))
+                i += 1
+        
+        return tokens
+    
+    def decode(self, token_ids: List[int]) -> str:
+        """Decode token IDs to text."""
+        chars = []
+        for tid in token_ids:
+            if tid in [0, 2, 3]:  # Skip special tokens
+                continue
+            char = self.id_to_char.get(tid, '')
+            chars.append(char)
+        return ''.join(chars)
+
+
+def create_fallback_tokenizer(config):
+    """Create a fallback tokenizer based on config."""
+    vocab_size = getattr(config, 'vocab_size', 50000)
+    print(f"  ✓ Fallback tokenizer created (vocab_size={vocab_size})")
+    return SimpleTokenizer(vocab_size)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════════
@@ -724,9 +817,13 @@ def main():
         use_bf16=use_bf16,
     )
     
-    if model is None or tokenizer is None:
+    if model is None:
         print("\n  ❌ Failed to load model")
         return
+    
+    if tokenizer is None:
+        print("\n  ⚠️ No tokenizer, creating basic fallback...")
+        tokenizer = SimpleTokenizer(getattr(config, 'vocab_size', 50000))
     
     # Run selected mode
     if args.mode == "quick":
