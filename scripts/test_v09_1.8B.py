@@ -15,20 +15,111 @@
 
 import sys
 import os
+from pathlib import Path
+
+# Add project root to path FIRST
+sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent))
+
+# IMPORTANT: Import config classes BEFORE torch.load() to avoid deserialization errors
+# These must be in the global namespace for pickle to find them
+# Note: File names contain dots, so we need importlib
+import importlib.util
+
+def load_module_from_file(module_name: str, file_path: str):
+    """Load a module from a file path."""
+    spec = importlib.util.spec_from_file_location(module_name, file_path)
+    if spec is None or spec.loader is None:
+        return None
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)
+        return module
+    except Exception:
+        return None
+
+# Try to load TURBO module
+turbo_path = Path(__file__).parent / "train_v09_1.8B_turbo.py"
+turbo_module = load_module_from_file("train_v09_turbo", str(turbo_path))
+if turbo_module:
+    TurboConfig1_8B = getattr(turbo_module, 'TurboConfig1_8B', None)
+    TurboNeuromorphicBrain = getattr(turbo_module, 'TurboNeuromorphicBrain', None)
+    HAS_TURBO = TurboConfig1_8B is not None
+else:
+    HAS_TURBO = False
+    TurboConfig1_8B = None
+    TurboNeuromorphicBrain = None
+
+# Try to load STANDARD module
+standard_path = Path(__file__).parent / "train_v09_1.8B_standard.py"
+standard_module = load_module_from_file("train_v09_standard", str(standard_path))
+if standard_module:
+    Config1_8B = getattr(standard_module, 'Config1_8B', None)
+    ScaledNeuromorphicBrain = getattr(standard_module, 'ScaledNeuromorphicBrain', None)
+    HAS_STANDARD = Config1_8B is not None
+else:
+    HAS_STANDARD = False
+    Config1_8B = None
+    ScaledNeuromorphicBrain = None
+
 import torch
 import torch.nn.functional as F
-from pathlib import Path
 from typing import Optional, Dict, List
 import time
 import argparse
-
-# Add project root to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 # ═══════════════════════════════════════════════════════════════════════════════════
 # MODEL LOADER
 # ═══════════════════════════════════════════════════════════════════════════════════
+
+import pickle
+import io
+
+class CustomUnpickler(pickle.Unpickler):
+    """
+    Custom unpickler that remaps module names for classes saved from 
+    training scripts with dots in the filename.
+    """
+    
+    def __init__(self, file, class_map):
+        super().__init__(file)
+        self.class_map = class_map
+    
+    def find_class(self, module, name):
+        # Check if this class is in our remap
+        key = f"{module}.{name}"
+        if key in self.class_map:
+            return self.class_map[key]
+        
+        # Also check just by name
+        if name in self.class_map:
+            return self.class_map[name]
+        
+        # Fall back to default behavior
+        return super().find_class(module, name)
+
+
+def load_checkpoint_with_remap(path: str, map_location, class_map: dict):
+    """
+    Load a checkpoint while remapping class references.
+    """
+    with open(path, 'rb') as f:
+        # First, read the raw data
+        data = f.read()
+    
+    # Try standard loading first
+    try:
+        buffer = io.BytesIO(data)
+        return torch.load(buffer, map_location=map_location, weights_only=False)
+    except AttributeError:
+        pass
+    
+    # If that fails, try with our custom unpickler
+    buffer = io.BytesIO(data)
+    unpickler = CustomUnpickler(buffer, class_map)
+    return unpickler.load()
+
 
 def load_model(
     checkpoint_path: str,
@@ -52,43 +143,65 @@ def load_model(
         print(f"  ❌ Checkpoint not found: {checkpoint_path}")
         return None, None, None
     
-    # Load checkpoint
-    checkpoint = torch.load(
-        checkpoint_path, 
-        map_location=device,
-        weights_only=False
-    )
+    # Build class map for remapping
+    class_map = {}
+    if HAS_TURBO:
+        class_map['TurboConfig1_8B'] = TurboConfig1_8B
+        class_map['TurboNeuromorphicBrain'] = TurboNeuromorphicBrain
+        # Map various possible module paths
+        for mod in ['__main__', 'train_v09_1.8B_turbo', 'scripts.train_v09_1.8B_turbo']:
+            class_map[f'{mod}.TurboConfig1_8B'] = TurboConfig1_8B
+            class_map[f'{mod}.TurboNeuromorphicBrain'] = TurboNeuromorphicBrain
+    
+    if HAS_STANDARD:
+        class_map['Config1_8B'] = Config1_8B
+        class_map['ScaledNeuromorphicBrain'] = ScaledNeuromorphicBrain
+        for mod in ['__main__', 'train_v09_1.8B_standard', 'scripts.train_v09_1.8B_standard']:
+            class_map[f'{mod}.Config1_8B'] = Config1_8B
+            class_map[f'{mod}.ScaledNeuromorphicBrain'] = ScaledNeuromorphicBrain
+    
+    # Load checkpoint with custom remapping
+    try:
+        checkpoint = load_checkpoint_with_remap(
+            checkpoint_path,
+            map_location=device,
+            class_map=class_map
+        )
+    except Exception as e:
+        print(f"  ❌ Failed to load checkpoint: {e}")
+        return None, None, None
     
     # Get config from checkpoint
     config = checkpoint.get('config', None)
     
-    if config is None:
-        print("  ⚠️ No config in checkpoint, using defaults")
-        from scripts.train_v09_1_8B_standard import Config1_8B
-        config = Config1_8B()
+    # Determine model type and create model
+    model = None
     
-    # Create model
-    try:
-        # Try to import from the training scripts
-        from scripts.train_v09_1_8B_standard import ScaledNeuromorphicBrain, Config1_8B
+    # Check if it's a TURBO checkpoint (has bio_accumulation in config)
+    is_turbo = hasattr(config, 'bio_accumulation') if config else False
+    
+    if is_turbo and HAS_TURBO:
+        print("  ⚡ Detected TURBO model")
+        if config is None:
+            config = TurboConfig1_8B()
+        model = TurboNeuromorphicBrain(config)
         
-        if not isinstance(config, Config1_8B):
+    elif HAS_STANDARD:
+        print("  📊 Detected STANDARD model")
+        if config is None:
             config = Config1_8B()
-            
         model = ScaledNeuromorphicBrain(config)
         
-    except ImportError:
-        try:
-            from scripts.train_v09_1_8B_turbo import TurboNeuromorphicBrain, TurboConfig1_8B
-            
-            if not hasattr(config, 'bio_accumulation'):
-                config = TurboConfig1_8B()
-                
-            model = TurboNeuromorphicBrain(config)
-            
-        except ImportError:
-            print("  ❌ Could not import model classes")
-            return None, None, None
+    elif HAS_TURBO:
+        print("  ⚡ Falling back to TURBO model")
+        if config is None:
+            config = TurboConfig1_8B()
+        model = TurboNeuromorphicBrain(config)
+        
+    else:
+        print("  ❌ No model classes available")
+        print("     Make sure train_v09_1.8B_standard.py or train_v09_1.8B_turbo.py exists")
+        return None, None, None
     
     # Load weights
     state_dict = checkpoint.get('model_state_dict', checkpoint)
