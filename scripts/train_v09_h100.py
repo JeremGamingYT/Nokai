@@ -38,6 +38,15 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+# Configure Dynamo early for Nokai compatibility
+# Nokai uses .item() calls which require special handling
+try:
+    import torch._dynamo.config as dynamo_config
+    dynamo_config.capture_scalar_outputs = True
+    dynamo_config.suppress_errors = True
+except ImportError:
+    pass  # Older PyTorch version
+
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
@@ -223,7 +232,7 @@ class NokaiTrainerH100(NokaiTrainerV09):
             self.compiled_brain = compile_model_for_h100(
                 self.brain,
                 mode=self.h100_config.compile_mode,
-                fullgraph=True,
+                fullgraph=False,  # Must be False - Nokai uses .item() which causes graph breaks
                 dynamic=False,
             )
             

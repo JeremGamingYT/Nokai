@@ -168,7 +168,7 @@ def configure_cuda_backend_for_h100():
 def compile_model_for_h100(
     model: nn.Module,
     mode: str = "max-autotune",
-    fullgraph: bool = True,
+    fullgraph: bool = False,  # Changed: Allow graph breaks for .item() calls
     dynamic: bool = False,
 ) -> nn.Module:
     """
@@ -183,7 +183,7 @@ def compile_model_for_h100(
     Args:
         model: The model to compile
         mode: Compilation mode
-        fullgraph: Attempt full graph compilation
+        fullgraph: Attempt full graph compilation (False for Nokai due to .item() calls)
         dynamic: Allow dynamic input shapes
     
     Returns:
@@ -196,6 +196,13 @@ def compile_model_for_h100(
     print(f"\n  🔧 Compiling model with torch.compile (mode={mode})...")
     
     try:
+        # Configure Dynamo to handle Nokai's .item() calls
+        # This is needed because brain.py uses .item() for oscillation phase and dopamine
+        import torch._dynamo.config as dynamo_config
+        dynamo_config.capture_scalar_outputs = True
+        dynamo_config.suppress_errors = True  # Gracefully fall back on unsupported ops
+        print("  ✓ Dynamo configured for scalar outputs (.item() support)")
+        
         # Check for Triton availability (required for best performance)
         try:
             import triton
@@ -204,16 +211,17 @@ def compile_model_for_h100(
             print("  ⚠️ Triton not installed, some optimizations unavailable")
             print("    Install with: pip install triton")
         
-        # Compile the model
+        # Compile the model with settings adapted for Nokai
         compiled_model = torch.compile(
             model,
             mode=mode,
-            fullgraph=fullgraph,
+            fullgraph=fullgraph,  # False allows graph breaks for .item() calls
             dynamic=dynamic,
             backend="inductor",  # TorchInductor is optimal for H100
         )
         
         print(f"  ✓ Model compiled successfully")
+        print(f"    Mode: {mode}, fullgraph: {fullgraph}")
         return compiled_model
         
     except Exception as e:
