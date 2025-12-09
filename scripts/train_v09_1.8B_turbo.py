@@ -488,113 +488,106 @@ class SparseGradientPruner:
                 param.grad = grad * mask.float()
 
 
-class PredictivePrefetcher:
+class SimpleDataLoader:
     """
-    🔮 PREDICTIVE PREFETCH
+    📚 SIMPLE DATA LOADER
     
-    Technique: préchargement prédictif des données.
+    Charge des données depuis un fichier texte local.
+    Plus fiable que le streaming HuggingFace.
     
-    Concept:
-    - On prédit quelles données seront nécessaires
-    - On les charge en parallèle pendant le compute GPU
-    - Latence I/O quasi-nulle
-    
-    Implementation:
-    - Double/triple buffering
-    - Threads dédiés au préchargement
-    - Prédiction basée sur patterns d'accès
+    Usage:
+        1. Télécharger les données: python scripts/download_data.py --split 0.02
+        2. Les données seront dans data/tinystories.txt
     """
     
     def __init__(self, config: TurboConfig1_8B, tokenizer):
         self.config = config
         self.tokenizer = tokenizer
+        self.data = []
+        self.current_idx = 0
         
-        self.buffers = [queue.Queue(maxsize=100) for _ in range(config.prefetch_buffers)]
-        self.current_buffer = 0
+    def load_from_file(self, file_path: str) -> bool:
+        """Load data from a text file."""
+        path = Path(file_path)
+        if not path.exists():
+            print(f"  ❌ File not found: {file_path}")
+            return False
         
-        self.datasets = {}
-        self.running = False
-        self.threads = []
+        print(f"  📖 Loading from {file_path}...")
         
-    def start(self, datasets: Dict):
-        """Start prefetch threads."""
-        self.datasets = datasets
-        self.running = True
+        with open(path, 'r', encoding='utf-8') as f:
+            content = f.read()
         
-        for i in range(self.config.prefetch_threads):
-            t = threading.Thread(
-                target=self._prefetch_worker,
-                args=(i,),
-                daemon=True
-            )
-            t.start()
-            self.threads.append(t)
+        # Split into documents (double newline separated)
+        documents = content.split('\n\n')
+        documents = [d.strip() for d in documents if len(d.strip()) > 100]
+        
+        print(f"  ✓ Found {len(documents):,} documents")
+        
+        # Tokenize and prepare
+        max_len = min(self.config.max_sequence_length, 512)  # Limit for memory
+        valid_samples = 0
+        
+        for doc in documents:
+            try:
+                tokens = self.tokenizer.encode(doc)[:max_len]
+                if len(tokens) >= 64:
+                    # Pad
+                    if len(tokens) < max_len:
+                        tokens = tokens + [0] * (max_len - len(tokens))
+                    self.data.append(tokens)
+                    valid_samples += 1
+            except:
+                continue
+        
+        print(f"  ✓ Prepared {valid_samples:,} samples (seq_len={max_len})")
+        
+        # Shuffle
+        import random
+        random.shuffle(self.data)
+        
+        return len(self.data) > 0
     
-    def stop(self):
-        """Stop prefetch threads."""
-        self.running = False
-        for t in self.threads:
-            t.join(timeout=1.0)
-    
-    def _prefetch_worker(self, worker_id: int):
-        """Worker thread for prefetching."""
-        buffer_id = worker_id % self.config.prefetch_buffers
-        buffer = self.buffers[buffer_id]
+    def load_streaming_fallback(self) -> bool:
+        """Fallback: generate synthetic data for testing."""
+        print("  ⚠️ No local data, generating synthetic samples...")
         
-        max_len = self.config.max_sequence_length
+        max_len = 256
         
-        iterators = {
-            name: iter(ds) for name, ds in self.datasets.items()
-        }
+        # Generate simple patterns
+        patterns = [
+            "The quick brown fox jumps over the lazy dog. " * 10,
+            "Once upon a time, there lived a king and queen in a castle. " * 8,
+            "In a land far away, people lived in peace and harmony. " * 8,
+            "The sun was shining brightly over the meadow. " * 10,
+            "Hello, world! This is a test of the language model. " * 10,
+        ]
         
-        while self.running:
-            for name, iterator in iterators.items():
-                try:
-                    sample = next(iterator)
-                    text = sample.get("text", sample.get("content", ""))
-                    
-                    if text and len(text) > 100:
-                        tokens = self.tokenizer.encode(text)[:max_len]
-                        
-                        if len(tokens) >= 64:
-                            if len(tokens) < max_len:
-                                tokens = tokens + [0] * (max_len - len(tokens))
-                            
-                            try:
-                                buffer.put(tokens, timeout=0.1)
-                            except queue.Full:
-                                pass
-                                
-                except StopIteration:
-                    iterators[name] = iter(self.datasets[name])
-                except Exception:
-                    pass
+        for _ in range(1000):  # 1000 synthetic samples
+            pattern = patterns[_ % len(patterns)]
+            tokens = self.tokenizer.encode(pattern)[:max_len]
+            if len(tokens) < max_len:
+                tokens = tokens + [0] * (max_len - len(tokens))
+            self.data.append(tokens)
+        
+        print(f"  ✓ Generated {len(self.data)} synthetic samples")
+        return True
     
     def get_batch(self, batch_size: int) -> Optional[torch.Tensor]:
-        """Get a batch from prefetch buffers."""
-        batch = []
-        
-        # Round-robin across buffers
-        for _ in range(batch_size):
-            for _ in range(self.config.prefetch_buffers):
-                buffer = self.buffers[self.current_buffer]
-                self.current_buffer = (self.current_buffer + 1) % self.config.prefetch_buffers
-                
-                try:
-                    tokens = buffer.get_nowait()
-                    batch.append(tokens)
-                    break
-                except queue.Empty:
-                    continue
-        
-        if len(batch) < batch_size // 2:
+        """Get a batch of data."""
+        if len(self.data) == 0:
             return None
         
-        # Pad to batch_size if needed
-        while len(batch) < batch_size:
-            batch.append(batch[0])
+        batch = []
+        for _ in range(batch_size):
+            batch.append(self.data[self.current_idx])
+            self.current_idx = (self.current_idx + 1) % len(self.data)
         
-        return torch.tensor(batch[:batch_size], dtype=torch.long)
+        return torch.tensor(batch, dtype=torch.long)
+
+
+# Legacy alias for compatibility
+PredictivePrefetcher = SimpleDataLoader
 
 
 # ═══════════════════════════════════════════════════════════════════════════════════
@@ -995,41 +988,43 @@ class TurboTrainer:
         print(f"     Bio-Accumulation: ENABLED")
         print(f"     Hebbian Warmup: {self.config.hebbian_warmup_steps} steps")
         
-        # Load datasets
-        print("\n  📥 Loading datasets...")
-        try:
-            from datasets import load_dataset
-            
-            datasets = {}
-            for source in self.config.data_sources:
-                try:
-                    if source == "c4":
-                        datasets[source] = load_dataset(
-                            "allenai/c4", "en", split="train", streaming=True
-                        )
-                    elif source == "wikipedia":
-                        datasets[source] = load_dataset(
-                            "wikitext", "wikitext-103-v1", split="train", streaming=True
-                        )
-                    print(f"     ✓ {source}")
-                except:
-                    pass
-            
-            if not datasets:
-                print("  ❌ No datasets!")
-                return
-                
-        except Exception as e:
-            print(f"  ❌ Dataset error: {e}")
-            return
+        # Load data
+        print("\n  📥 Loading data...")
+        self.data_loader = SimpleDataLoader(self.config, self.tokenizer)
         
-        # Start prefetcher
-        self.prefetcher = PredictivePrefetcher(self.config, self.tokenizer)
-        self.prefetcher.start(datasets)
+        # Try local file first (TinyStories)
+        local_paths = [
+            "data/tinystories.txt",
+            "data/corpus.txt",
+            "data/train.txt",
+        ]
+        
+        data_loaded = False
+        for path in local_paths:
+            if Path(path).exists():
+                data_loaded = self.data_loader.load_from_file(path)
+                if data_loaded:
+                    break
+        
+        # Fallback to synthetic data if no local file
+        if not data_loaded:
+            print("  ⚠️ No local data found. Run first:")
+            print("     python scripts/download_data.py --split 0.02")
+            print("  ")
+            data_loaded = self.data_loader.load_streaming_fallback()
+        
+        if not data_loaded:
+            print("  ❌ Failed to load any data!")
+            return
         
         # Training
         start_time = time.time()
         accumulated_loss = 0.0
+        
+        print(f"\n  🚀 Starting training loop...")
+        print(f"     Batch size: {self.config.batch_size}")
+        print(f"     Steps: {max_steps:,}")
+        print("")
         
         try:
             for step in range(max_steps):
@@ -1041,19 +1036,7 @@ class TurboTrainer:
                     pg['lr'] = lr
                 
                 # Get batch
-                batch = self.prefetcher.get_batch(self.config.batch_size)
-                if batch is None:
-                    # Attendre un peu pour laisser les buffers se remplir
-                    if step == 0:
-                        print("  ⏳ Waiting for data prefetch...")
-                        import time as t
-                        t.sleep(2)  # Attendre 2 secondes au premier step
-                        batch = self.prefetcher.get_batch(self.config.batch_size)
-                        if batch is None:
-                            print("  ⚠️ Still no data, continuing...")
-                            continue
-                    else:
-                        continue
+                batch = self.data_loader.get_batch(self.config.batch_size)
                 
                 # Train step
                 metrics = self.train_step(batch)
