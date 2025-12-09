@@ -133,7 +133,7 @@ class TurboConfig1_8B:
     prefetch_threads: int = 2  # Dedicated prefetch threads
     
     # === TRAINING ===
-    batch_size: int = 64  # Larger batch for turbo
+    batch_size: int = 8  # Réduit de 64 à 8 pour éviter OOM
     learning_rate: float = 3e-4  # Higher LR for turbo
     warmup_steps: int = 500  # Shorter warmup
     total_steps: int = 50_000  # Half the steps!
@@ -525,7 +525,7 @@ class SimpleDataLoader:
         print(f"  ✓ Found {len(documents):,} documents")
         
         # Tokenize and prepare
-        max_len = min(self.config.max_sequence_length, 512)  # Limit for memory
+        max_len = min(self.config.max_sequence_length, 256)  # Reduced for memory
         valid_samples = 0
         
         for doc in documents:
@@ -1081,7 +1081,8 @@ class TurboTrainer:
                     self.save_checkpoint(step)
         
         finally:
-            self.prefetcher.stop()
+            # Cleanup (data_loader doesn't need stopping)
+            pass
         
         print(f"\n  ✓ TURBO Training Complete!")
         print(f"  Total time: {(time.time() - start_time) / 60:.1f} min")
