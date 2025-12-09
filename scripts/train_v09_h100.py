@@ -1,38 +1,72 @@
 #!/usr/bin/env python3
 """
 ╔══════════════════════════════════════════════════════════════════════════════╗
-║             NŌKAI v0.9 H100 OPTIMIZED TRAINING                              ║
+║       NŌKAI v0.9: H100-OPTIMIZED TRAINING WRAPPER                            ║
 ║                                                                              ║
-║   Optimizations for NVIDIA H100 (80GB):                                     ║
-║   1. BF16 Mixed Precision (native H100 support)                             ║
-║   2. torch.compile() with max-autotune                                      ║
-║   3. Flash Attention 2 (if available)                                       ║
-║   4. Large batch size (64-128)                                              ║
-║   5. Gradient Checkpointing                                                 ║
-║   6. Fused AdamW optimizer                                                  ║
-║   7. Efficient data loading with prefetch                                   ║
+║   This script WRAPS the existing train_v09_scaling.py to add H100            ║
+║   hardware-specific optimizations WITHOUT modifying original code.           ║
 ║                                                                              ║
-║   Expected: 10-15x faster than baseline!                                    ║
-║   100k steps: ~3-4 hours instead of 24+ hours                              ║
+║   Optimizations applied:                                                     ║
+║   • torch.compile() with max-autotune                                        ║
+║   • BF16 mixed precision (native H100)                                       ║
+║   • cuDNN benchmark auto-tuning                                              ║
+║   • Fused AdamW optimizer                                                    ║
+║   • Optimized gradient accumulation                                          ║
+║   • CUDA backend tuning                                                      ║
+║   • Async data prefetching                                                   ║
+║   • Memory optimization                                                      ║
+║                                                                              ║
+║   Expected speedup: 1.5x - 3x on H100 compared to default training           ║
+║                                                                              ║
+║   Usage:                                                                     ║
+║   python scripts/train_v09_h100.py --tier medium --steps 50000              ║
+║                                                                              ║
+║   Author: Nōkai Research Team                                                ║
+║   Target: NVIDIA H100 80GB HBM3                                              ║
 ╚══════════════════════════════════════════════════════════════════════════════╝
-
-Author: Nōkai Research Team
-Version: 0.9-H100
 """
 
 import sys
 import os
+import time
+import argparse
+from pathlib import Path
+from dataclasses import dataclass, field
+from typing import Optional, Dict, List, Tuple
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from pathlib import Path
-from dataclasses import dataclass, field
-from typing import Optional, Dict, List
-import time
-import math
 
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
+
+# Import original training components (UNCHANGED)
+from train_v09_scaling import (
+    ScalingConfig,
+    RealDataLoader,
+    NokaiTrainerV09,
+    CompositionalReasoner,
+    GoalDirectedAgent,
+    SelfImprover,
+    ConversationEvaluator,
+)
+
+# Import H100 optimizations (NEW)
+from nokai.h100_optimizer import (
+    H100Optimizer,
+    H100MemoryManager,
+    H100Benchmark,
+    MixedPrecisionConfig,
+    H100DataLoaderConfig,
+    create_fused_adam,
+    h100_autocast,
+    compile_model_for_h100,
+    detect_h100_capabilities,
+    configure_cuda_backend_for_h100,
+    AsyncPrefetcher,
+    OptimizedGradientAccumulator,
+)
 
 from nokai import NeuromorphicBrain, NokaiConfig
 
@@ -44,561 +78,352 @@ except ImportError:
 
 
 # ============================================
-# H100 OPTIMIZED CONFIGURATION
+# H100-ENHANCED SCALING CONFIG
 # ============================================
 
 @dataclass
-class H100Config:
-    """Configuration optimized for NVIDIA H100."""
+class H100ScalingConfig(ScalingConfig):
+    """
+    Extended configuration with H100-specific settings.
+    Inherits all settings from ScalingConfig without modification.
+    """
     
-    model_tier: str = "small"  # "nano", "small", "medium", "large"
+    # H100-specific extensions (NEW settings only)
+    use_bf16: bool = True                    # Use BF16 instead of FP16
+    use_torch_compile: bool = True           # Enable torch.compile
+    compile_mode: str = "max-autotune"       # max-autotune for best performance
+    use_fused_optimizer: bool = True         # Use fused AdamW
+    async_data_loading: bool = True          # Async GPU transfers
+    cudnn_benchmark: bool = True             # cuDNN auto-tuning
+    prefetch_factor: int = 4                 # Dataloader prefetching
+    num_workers: int = 8                     # Parallel data loading
     
-    # H100 Optimized Settings
-    batch_size: int = 64          # H100 can handle large batches
-    gradient_accumulation: int = 2 # Effective batch = 128
-    learning_rate: float = 6e-4   # Larger batch = higher LR
-    warmup_steps: int = 1000
-    total_steps: int = 100000
+    # Memory optimization
+    gradient_checkpointing: bool = True      # Reduce memory via recomputation
+    empty_cache_interval: int = 100          # Clear cache every N steps
     
-    # Mixed Precision (BF16 is native on H100)
-    use_bf16: bool = True         # H100 has native BF16 support
-    use_compile: bool = True      # torch.compile for max speed
-    use_flash_attention: bool = True
-    use_gradient_checkpointing: bool = True
-    use_fused_adam: bool = True
+    # Performance tuning
+    matmul_precision: str = "high"           # "highest", "high", "medium"
+    tf32_enabled: bool = True                # TF32 on Tensor Cores
     
-    # Data
-    data_sources: List[str] = field(default_factory=lambda: [
-        "c4",           # Most reliable
-        "wikipedia",    # Knowledge
-    ])
-    prefetch_factor: int = 4
-    num_workers: int = 4
+    def get_h100_model_config(self) -> Dict:
+        """Get model config optimized for H100."""
+        base_config = self.get_model_config()
+        
+        # H100 can handle larger batch sizes
+        # Adjust sequence length if needed for memory
+        if self.model_tier == "large":
+            # For 1B+ models, adjust for 80GB
+            base_config["max_seq_length"] = min(base_config["max_seq_length"], 4096)
+        
+        return base_config
+
+
+# ============================================
+# H100-OPTIMIZED TRAINER
+# ============================================
+
+class NokaiTrainerH100(NokaiTrainerV09):
+    """
+    H100-optimized trainer that extends NokaiTrainerV09.
     
-    # Checkpointing
-    checkpoint_dir: str = "checkpoints_v09_h100"
-    save_every: int = 2500
-    eval_every: int = 500
+    All original functionality is preserved. This class ADDS:
+    - Model compilation with torch.compile
+    - BF16 autocast during training
+    - Fused optimizer
+    - Optimized gradient accumulation
+    - Memory management utilities
+    """
     
-    device: str = "cuda"
-    
-    def get_model_config(self) -> Dict:
-        """Get model configuration based on tier."""
-        configs = {
-            "nano": {
-                "embedding_dim": 128,
-                "num_layers": 6,
-                "num_heads": 4,
-                "ff_dim": 512,
-                "max_seq_length": 512,
-                "vocab_size": 32000,
-            },
-            "small": {
-                "embedding_dim": 512,
-                "num_layers": 12,
-                "num_heads": 8,
-                "ff_dim": 2048,
-                "max_seq_length": 1024,
-                "vocab_size": 32000,
-            },
-            "medium": {
-                "embedding_dim": 768,
-                "num_layers": 24,
-                "num_heads": 12,
-                "ff_dim": 3072,
-                "max_seq_length": 2048,
-                "vocab_size": 50000,
-            },
-            "large": {
-                "embedding_dim": 1024,
-                "num_layers": 32,
-                "num_heads": 16,
-                "ff_dim": 4096,
-                "max_seq_length": 4096,
-                "vocab_size": 50000,
-            },
+    def __init__(self, config: H100ScalingConfig):
+        # Call parent init (original behavior preserved)
+        super().__init__(config)
+        
+        self.h100_config = config
+        self.h100_optimizer: Optional[H100Optimizer] = None
+        self.compiled_brain = None
+        self.grad_accumulator = None
+        self.memory_manager = H100MemoryManager()
+        
+        # Track H100-specific metrics
+        self.h100_metrics = {
+            "compilation_time": 0,
+            "peak_memory_gb": 0,
+            "avg_step_time_ms": [],
         }
-        return configs.get(self.model_tier, configs["small"])
-
-
-# ============================================
-# OPTIMIZED DATA LOADER
-# ============================================
-
-class OptimizedDataLoader:
-    """High-performance data loader with prefetching."""
-    
-    def __init__(self, config: H100Config, tokenizer):
-        self.config = config
-        self.tokenizer = tokenizer
-        self.datasets = {}
-        self.iterators = {}
-        self.buffer = []
-        self.buffer_size = config.batch_size * 10
-        
-    def load_datasets(self):
-        """Load all configured datasets."""
-        try:
-            from datasets import load_dataset
-            
-            for source in self.config.data_sources:
-                if source == "c4":
-                    print("  📥 Loading C4...")
-                    try:
-                        self.datasets["c4"] = load_dataset(
-                            "allenai/c4", "en",
-                            split="train",
-                            streaming=True,
-                        )
-                        print("  ✓ C4 loaded")
-                    except Exception as e:
-                        print(f"  ⚠️ C4 failed: {e}")
-                        
-                elif source == "wikipedia":
-                    print("  📥 Loading Wikipedia...")
-                    try:
-                        self.datasets["wikipedia"] = load_dataset(
-                            "wikimedia/wikipedia", "20231101.en",
-                            split="train",
-                            streaming=True,
-                        )
-                        print("  ✓ Wikipedia loaded")
-                    except:
-                        try:
-                            self.datasets["wikipedia"] = load_dataset(
-                                "wikitext", "wikitext-103-v1",
-                                split="train",
-                                streaming=True,
-                            )
-                            print("  ✓ WikiText loaded (fallback)")
-                        except Exception as e:
-                            print(f"  ⚠️ Wikipedia failed: {e}")
-            
-            # Create iterators
-            for name, dataset in self.datasets.items():
-                self.iterators[name] = iter(dataset)
-                
-            return len(self.datasets) > 0
-            
-        except Exception as e:
-            print(f"  ❌ Dataset loading failed: {e}")
-            return False
-    
-    def _fill_buffer(self):
-        """Fill the prefetch buffer."""
-        max_len = self.config.get_model_config()["max_seq_length"]
-        
-        for name, iterator in self.iterators.items():
-            try:
-                while len(self.buffer) < self.buffer_size:
-                    sample = next(iterator)
-                    text = sample.get("text", sample.get("content", ""))
-                    if text and len(text) > 50:
-                        tokens = self.tokenizer.encode(text)[:max_len]
-                        if len(tokens) >= 32:  # Minimum sequence length
-                            # Pad to max_len
-                            if len(tokens) < max_len:
-                                tokens = tokens + [0] * (max_len - len(tokens))
-                            self.buffer.append(tokens)
-            except StopIteration:
-                # Reset iterator
-                self.iterators[name] = iter(self.datasets[name])
-            except Exception:
-                pass
-    
-    def get_batch(self, batch_size: int) -> Optional[torch.Tensor]:
-        """Get an optimized batch."""
-        # Fill buffer if needed
-        if len(self.buffer) < batch_size:
-            self._fill_buffer()
-        
-        if len(self.buffer) < batch_size:
-            return None
-        
-        # Get batch from buffer
-        batch = self.buffer[:batch_size]
-        self.buffer = self.buffer[batch_size:]
-        
-        return torch.tensor(batch, dtype=torch.long)
-
-
-# ============================================
-# H100 OPTIMIZED TRAINER
-# ============================================
-
-class H100Trainer:
-    """Ultra-optimized trainer for H100 GPUs."""
-    
-    def __init__(self, config: H100Config):
-        self.config = config
-        self.device = torch.device(config.device)
-        self.brain = None
-        self.tokenizer = None
-        self.optimizer = None
-        self.scaler = None
-        self.data_loader = None
-        
-        self.step = 0
-        self.best_loss = float('inf')
-        self.losses = []
     
     def setup(self) -> bool:
-        """Initialize all components with H100 optimizations."""
+        """
+        Setup with H100 optimizations.
+        
+        Extends parent setup() without modifying its behavior.
+        """
         print("\n" + "═" * 80)
-        print("  NŌKAI v0.9 H100 OPTIMIZED TRAINING")
+        print("  NŌKAI v0.9: H100-OPTIMIZED TRAINING")
         print("═" * 80)
         
-        model_config = self.config.get_model_config()
+        # Detect H100 capabilities
+        caps = detect_h100_capabilities()
         
-        # Print configuration
-        print(f"\n  🖥️  H100 OPTIMIZATIONS:")
-        print(f"      BF16 Mixed Precision: {'✅' if self.config.use_bf16 else '❌'}")
-        print(f"      torch.compile():      {'✅' if self.config.use_compile else '❌'}")
-        print(f"      Flash Attention:      {'✅' if self.config.use_flash_attention else '❌'}")
-        print(f"      Gradient Checkpoint:  {'✅' if self.config.use_gradient_checkpointing else '❌'}")
-        print(f"      Fused AdamW:          {'✅' if self.config.use_fused_adam else '❌'}")
+        if caps.is_h100:
+            print("\n  🎯 NVIDIA H100 DETECTED - Applying full optimizations")
+        else:
+            print(f"\n  ⚠️ GPU is not H100 (Compute: {caps.compute_capability})")
+            print("      Optimizations will still be applied where compatible")
         
-        print(f"\n  📊 Model Configuration:")
-        print(f"      Tier: {self.config.model_tier.upper()}")
-        print(f"      Embedding: {model_config['embedding_dim']}")
-        print(f"      Layers: {model_config['num_layers']}")
-        print(f"      Heads: {model_config['num_heads']}")
-        print(f"      Batch Size: {self.config.batch_size} x {self.config.gradient_accumulation} = {self.config.batch_size * self.config.gradient_accumulation}")
+        # Configure CUDA backend BEFORE model creation
+        configure_cuda_backend_for_h100()
         
-        # Create model config
-        brain_config = NokaiConfig(
-            vocab_size=model_config['vocab_size'],
-            embedding_dim=model_config['embedding_dim'],
-            num_cortex_layers=model_config['num_layers'],
-            num_attention_heads=model_config['num_heads'],
-            feed_forward_dim=model_config['ff_dim'],
-            max_sequence_length=model_config['max_seq_length'],
+        # Set precision
+        if self.h100_config.tf32_enabled:
+            torch.backends.cuda.matmul.allow_tf32 = True
+            torch.backends.cudnn.allow_tf32 = True
+            print("  ✓ TF32 precision enabled")
+        
+        torch.set_float32_matmul_precision(self.h100_config.matmul_precision)
+        print(f"  ✓ Matrix multiplication precision: {self.h100_config.matmul_precision}")
+        
+        # Call parent setup (creates model, tokenizer, etc.)
+        success = super().setup()
+        if not success:
+            return False
+        
+        # Initialize H100 optimizer AFTER model creation
+        dtype = torch.bfloat16 if self.h100_config.use_bf16 else torch.float16
+        mp_config = MixedPrecisionConfig(
+            dtype=dtype,
+            use_fp8=caps.has_fp8,
         )
         
-        # Initialize brain
-        print("\n  🧠 Initializing Nōkai brain...")
-        self.brain = NeuromorphicBrain(brain_config)
+        self.h100_optimizer = H100Optimizer(
+            mixed_precision_config=mp_config,
+            compile_mode=self.h100_config.compile_mode,
+            gradient_accumulation_steps=self.h100_config.gradient_accumulation,
+        )
         
-        # Enable gradient checkpointing for memory efficiency
-        if self.config.use_gradient_checkpointing:
+        # Apply H100 optimizations to model
+        print("\n  🚀 Applying H100 optimizations...")
+        
+        # Convert to optimal dtype
+        device = torch.device(self.config.device)
+        self.brain = self.brain.to(device=device, dtype=dtype)
+        print(f"  ✓ Model converted to {dtype}")
+        
+        # Enable gradient checkpointing if available
+        if self.h100_config.gradient_checkpointing:
             if hasattr(self.brain, 'gradient_checkpointing_enable'):
                 self.brain.gradient_checkpointing_enable()
-            print("  ✓ Gradient checkpointing enabled")
+                print("  ✓ Gradient checkpointing enabled")
         
-        # Count parameters
-        total_params = sum(p.numel() for p in self.brain.parameters())
-        print(f"  ✓ Total parameters: {total_params:,}")
-        
-        # Move to device with BF16 if enabled
-        if self.config.use_bf16:
-            self.brain = self.brain.to(self.device, dtype=torch.bfloat16)
-            print("  ✓ Model in BF16 precision")
+        # Compile model with torch.compile
+        if self.h100_config.use_torch_compile:
+            print(f"\n  🔧 Compiling model (mode={self.h100_config.compile_mode})...")
+            compile_start = time.time()
+            
+            self.compiled_brain = compile_model_for_h100(
+                self.brain,
+                mode=self.h100_config.compile_mode,
+                fullgraph=True,
+                dynamic=False,
+            )
+            
+            self.h100_metrics["compilation_time"] = time.time() - compile_start
+            print(f"  ✓ Compilation complete ({self.h100_metrics['compilation_time']:.1f}s)")
         else:
-            self.brain = self.brain.to(self.device)
+            self.compiled_brain = self.brain
         
-        # Compile model for max speed (PyTorch 2.0+)
-        if self.config.use_compile:
-            try:
-                print("  🔧 Compiling model with torch.compile()...")
-                self.brain = torch.compile(
-                    self.brain, 
-                    mode="max-autotune",  # Maximum optimization
-                    fullgraph=False,      # Allow graph breaks
-                )
-                print("  ✓ Model compiled with max-autotune")
-            except Exception as e:
-                print(f"  ⚠️ torch.compile() not available: {e}")
-        
-        # Optimizer with fused kernels
-        if self.config.use_fused_adam:
-            try:
-                self.optimizer = torch.optim.AdamW(
-                    self.brain.parameters(),
-                    lr=self.config.learning_rate,
-                    betas=(0.9, 0.95),
-                    weight_decay=0.1,
-                    fused=True,  # Fused CUDA kernel
-                )
-                print("  ✓ Fused AdamW optimizer")
-            except:
-                self.optimizer = torch.optim.AdamW(
-                    self.brain.parameters(),
-                    lr=self.config.learning_rate,
-                    betas=(0.9, 0.95),
-                    weight_decay=0.1,
-                )
-                print("  ✓ Standard AdamW optimizer")
-        else:
-            self.optimizer = torch.optim.AdamW(
-                self.brain.parameters(),
+        # Create fused optimizer
+        if self.h100_config.use_fused_optimizer:
+            print("\n  🔧 Creating fused AdamW optimizer...")
+            self.optimizer = create_fused_adam(
+                self.compiled_brain,
                 lr=self.config.learning_rate,
                 betas=(0.9, 0.95),
                 weight_decay=0.1,
             )
         
-        # Gradient scaler for mixed precision
-        if self.config.use_bf16:
-            # BF16 doesn't need GradScaler on H100
-            self.scaler = None
-        else:
-            self.scaler = torch.cuda.amp.GradScaler()
+        # Create optimized gradient accumulator
+        self.grad_accumulator = OptimizedGradientAccumulator(
+            optimizer=self.optimizer,
+            accumulation_steps=self.h100_config.gradient_accumulation,
+            max_grad_norm=1.0,
+            scaler=self.h100_optimizer.grad_scaler,
+        )
         
-        # Load tokenizer
-        print("\n  📝 Loading tokenizer...")
-        tokenizer_path = Path("checkpoints") / "tokenizer.json"
-        if tokenizer_path.exists():
-            self.tokenizer = NokaiTokenizer.load(str(tokenizer_path))
-            print(f"  ✓ Tokenizer loaded (vocab={self.tokenizer.vocab_size})")
-        else:
-            # Train new tokenizer
-            print("  ⚠️ Training new tokenizer...")
-            tokenizer_config = TokenizerConfig(vocab_size=model_config['vocab_size'])
-            self.tokenizer = NokaiTokenizer(tokenizer_config)
-            
-            # Get sample data
-            sample_texts = self._get_tokenizer_training_data()
-            self.tokenizer.train(sample_texts)
-            
-            Path(self.config.checkpoint_dir).mkdir(exist_ok=True)
-            self.tokenizer.save(str(Path(self.config.checkpoint_dir) / "tokenizer.json"))
-            print(f"  ✓ Tokenizer trained (vocab={self.tokenizer.vocab_size})")
+        # Print memory stats
+        self.memory_manager.print_memory_stats("Post-setup ")
         
-        # Data loader
-        self.data_loader = OptimizedDataLoader(self.config, self.tokenizer)
-        
-        print("\n  ✓ H100 optimized setup complete!")
+        print("\n  ✅ H100-optimized setup complete!")
         return True
     
-    def _get_tokenizer_training_data(self) -> List[str]:
-        """Get data for tokenizer training."""
-        try:
-            from datasets import load_dataset
-            dataset = load_dataset("wikitext", "wikitext-2-v1", split="train")
-            return [item["text"] for item in dataset if item.get("text")][:10000]
-        except:
-            return [
-                "The quick brown fox jumps over the lazy dog.",
-                "Tim was sad, but he agreed to trade the expensive car.",
-            ] * 5000
-    
     def train_step(self, batch: torch.Tensor) -> float:
-        """Single optimized training step."""
-        self.brain.train()
-        batch = batch.to(self.device)
+        """
+        H100-optimized training step.
         
-        # Convert to BF16 if needed
-        if self.config.use_bf16:
-            batch = batch.long()  # Input IDs must be long
+        Overrides parent to add:
+        - BF16 autocast
+        - Optimized gradient accumulation
+        - Memory management
+        """
+        model = self.compiled_brain or self.brain
+        model.train()
         
-        # Forward pass with autocast for BF16
-        if self.config.use_bf16:
-            with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
-                outputs = self.brain(batch)
-                logits = outputs['logits']
-                
-                # Next token prediction loss
-                shift_logits = logits[:, :-1, :].contiguous()
-                shift_labels = batch[:, 1:].contiguous()
-                
-                loss = F.cross_entropy(
-                    shift_logits.view(-1, shift_logits.size(-1)),
-                    shift_labels.view(-1),
-                    ignore_index=0,
-                )
-                loss = loss / self.config.gradient_accumulation
-        else:
-            outputs = self.brain(batch)
+        device = next(model.parameters()).device
+        dtype = next(model.parameters()).dtype
+        
+        # Async transfer to GPU
+        batch = batch.to(device, non_blocking=True)
+        
+        step_start = time.perf_counter()
+        
+        # Forward pass with autocast
+        with self.h100_optimizer.get_autocast_context():
+            outputs = model(batch)
             logits = outputs['logits']
+            
+            # Compute loss (next token prediction)
             shift_logits = logits[:, :-1, :].contiguous()
             shift_labels = batch[:, 1:].contiguous()
+            
             loss = F.cross_entropy(
                 shift_logits.view(-1, shift_logits.size(-1)),
                 shift_labels.view(-1),
                 ignore_index=0,
             )
-            loss = loss / self.config.gradient_accumulation
         
-        # Backward pass
-        loss.backward()
+        # Backward with accumulation
+        self.grad_accumulator.backward(loss)
+        step_performed = self.grad_accumulator.step()
         
-        return loss.item() * self.config.gradient_accumulation
+        step_time = (time.perf_counter() - step_start) * 1000
+        self.h100_metrics["avg_step_time_ms"].append(step_time)
+        
+        # Memory management
+        if self.step > 0 and self.step % self.h100_config.empty_cache_interval == 0:
+            self.memory_manager.sync_and_clear_cache()
+        
+        return loss.item()
     
     def train(self, max_steps: int = None):
-        """Optimized training loop."""
+        """
+        H100-optimized training loop.
+        
+        Extends parent train() with performance tracking.
+        """
         if max_steps is None:
             max_steps = self.config.total_steps
         
-        print(f"\n  🚀 Starting H100 optimized training for {max_steps:,} steps...")
-        print(f"     Expected time: ~{max_steps / 3600:.1f} hours at 10 steps/s")
+        print(f"\n  🚀 Starting H100-optimized training for {max_steps} steps...")
+        print(f"     Effective batch size: {self.config.batch_size * self.config.gradient_accumulation}")
         
-        # Load datasets
-        print("\n  📥 Loading datasets...")
-        if not self.data_loader.load_datasets():
-            print("  ❌ No datasets loaded!")
+        # Track peak memory
+        torch.cuda.reset_peak_memory_stats()
+        
+        # Load data (original behavior)
+        print("\n  Loading datasets...")
+        loaded_any = False
+        for source in self.config.data_sources:
+            if source == "openwebtext":
+                loaded_any = self.data_loader.load_openwebtext() or loaded_any
+            elif source == "wikipedia":
+                loaded_any = self.data_loader.load_wikipedia() or loaded_any
+            elif source == "pile":
+                loaded_any = self.data_loader.load_pile() or loaded_any
+            elif source == "c4":
+                loaded_any = self.data_loader.load_c4() or loaded_any
+        
+        if not loaded_any:
+            print("  ⚠️ No datasets loaded! Training with synthetic data.")
             return
         
-        # Training loop
+        # Training loop with H100 optimizations
+        losses = []
         start_time = time.time()
-        accumulated_loss = 0.0
-        
-        # Warmup learning rate
-        def get_lr(step):
-            if step < self.config.warmup_steps:
-                return self.config.learning_rate * step / self.config.warmup_steps
-            # Cosine decay
-            progress = (step - self.config.warmup_steps) / (max_steps - self.config.warmup_steps)
-            return self.config.learning_rate * 0.5 * (1 + math.cos(math.pi * progress))
         
         for step in range(max_steps):
             self.step = step
             
-            # Update learning rate
-            lr = get_lr(step)
-            for param_group in self.optimizer.param_groups:
-                param_group['lr'] = lr
-            
             # Get batch
-            batch = self.data_loader.get_batch(self.config.batch_size)
+            batch = None
+            for source in self.data_loader.datasets.keys():
+                batch = self.data_loader.get_batch(source, self.config.batch_size)
+                if batch is not None:
+                    break
+            
             if batch is None:
+                print("  ⚠️ Could not get batch, skipping...")
                 continue
             
-            # Training step
+            # H100-optimized train step
             loss = self.train_step(batch)
-            accumulated_loss += loss
+            losses.append(loss)
             
-            # Optimizer step (with gradient accumulation)
-            if (step + 1) % self.config.gradient_accumulation == 0:
-                torch.nn.utils.clip_grad_norm_(self.brain.parameters(), 1.0)
-                self.optimizer.step()
-                self.optimizer.zero_grad(set_to_none=True)  # More efficient
-            
-            # Logging
+            # Log with H100 metrics
             if step % 100 == 0:
-                avg_loss = accumulated_loss / max(1, min(step + 1, 100))
+                avg_loss = sum(losses[-100:]) / min(len(losses), 100)
                 elapsed = time.time() - start_time
-                steps_per_sec = (step + 1) / elapsed if elapsed > 0 else 0
-                eta = (max_steps - step) / steps_per_sec if steps_per_sec > 0 else 0
+                steps_per_sec = (step + 1) / elapsed
                 
-                self.losses.append(avg_loss)
+                # Calculate average step time
+                recent_times = self.h100_metrics["avg_step_time_ms"][-100:]
+                avg_step_ms = sum(recent_times) / len(recent_times) if recent_times else 0
                 
-                print(f"  Step {step:6,} | Loss: {avg_loss:.4f} | "
-                      f"LR: {lr:.2e} | Speed: {steps_per_sec:.1f} steps/s | "
-                      f"ETA: {eta/3600:.1f}h")
+                # Memory stats
+                mem_stats = self.memory_manager.get_memory_stats()
                 
-                accumulated_loss = 0.0
+                print(f"  Step {step:6d} | Loss: {avg_loss:.4f} | "
+                      f"Speed: {steps_per_sec:.1f} steps/s | "
+                      f"Step: {avg_step_ms:.1f}ms | "
+                      f"Mem: {mem_stats.get('allocated', 0):.1f}GB")
             
-            # Save checkpoint
+            # Save checkpoint (original behavior preserved)
             if step > 0 and step % self.config.save_every == 0:
                 self.save_checkpoint(step)
-            
-            # Quick evaluation
-            if step > 0 and step % self.config.eval_every == 0:
-                self.quick_eval()
         
-        print(f"\n  ✓ Training complete!")
-        self.save_checkpoint(max_steps)
-        self.full_eval()
-    
-    def quick_eval(self):
-        """Quick evaluation during training."""
-        self.brain.eval()
+        # Final stats
+        self.h100_metrics["peak_memory_gb"] = torch.cuda.max_memory_allocated() / (1024**3)
         
-        prompts = [
-            "The capital of France is",
-            "Tim was sad, but he",
-        ]
+        print(f"\n  ✅ Training complete!")
+        print(f"\n  📊 H100 Performance Summary:")
+        print(f"     • Compilation time: {self.h100_metrics['compilation_time']:.1f}s")
+        print(f"     • Peak memory: {self.h100_metrics['peak_memory_gb']:.2f} GB")
         
-        print("\n  📝 Quick eval:")
-        for prompt in prompts:
-            generated = self.generate(prompt, max_tokens=20)
-            print(f"     \"{prompt}\" → \"{generated[len(prompt):].strip()[:50]}\"")
-        print()
+        if self.h100_metrics["avg_step_time_ms"]:
+            avg_step = sum(self.h100_metrics["avg_step_time_ms"]) / len(self.h100_metrics["avg_step_time_ms"])
+            print(f"     • Average step time: {avg_step:.1f}ms")
         
-        self.brain.train()
-    
-    def full_eval(self):
-        """Full evaluation at end of training."""
-        self.brain.eval()
-        
-        test_cases = [
-            ("Tim was sad, but he agreed to trade", ["car", "smaller", "one"]),
-            ("The capital of France is", ["Paris"]),
-            ("If it rains, then the ground will be", ["wet", "damp"]),
-            ("She walked to the store to buy", ["food", "milk", "groceries"]),
-        ]
-        
+        # Final evaluation (original behavior preserved)
         print("\n  📊 Final Evaluation:")
-        passed = 0
+        eval_results = self.evaluator.evaluate()
+        print(f"     Conversation accuracy: {eval_results['accuracy']:.1%}")
         
-        for prompt, expected in test_cases:
-            generated = self.generate(prompt, max_tokens=30)
-            output = generated[len(prompt):].lower()
-            found = any(word.lower() in output for word in expected)
-            
-            status = "✅" if found else "❌"
-            if found:
-                passed += 1
-            print(f"     {status} \"{prompt[:40]}...\"")
-            print(f"        → \"{output.strip()[:50]}\"")
-        
-        accuracy = passed / len(test_cases)
-        print(f"\n     Conversation Accuracy: {accuracy:.1%}")
+        for result in eval_results['results']:
+            status = "✅" if result['passed'] else "❌"
+            print(f"     {status} {result['topic']}: \"{result['prompt'][:30]}...\"")
     
-    def generate(self, prompt: str, max_tokens: int = 50) -> str:
-        """Generate text from prompt."""
-        self.brain.eval()
+    def benchmark(self, num_iterations: int = 100):
+        """
+        Benchmark the H100-optimized model.
         
-        tokens = self.tokenizer.encode(prompt)
-        input_ids = torch.tensor([tokens], device=self.device, dtype=torch.long)
+        New method added for performance testing.
+        """
+        print("\n  📊 Running H100 benchmark...")
         
-        with torch.no_grad():
-            for _ in range(max_tokens):
-                if self.config.use_bf16:
-                    with torch.autocast(device_type='cuda', dtype=torch.bfloat16):
-                        outputs = self.brain(input_ids)
-                else:
-                    outputs = self.brain(input_ids)
-                
-                logits = outputs['logits']
-                probs = F.softmax(logits[0, -1, :].float(), dim=-1)
-                
-                # Top-p sampling
-                sorted_probs, sorted_indices = torch.sort(probs, descending=True)
-                cumsum = torch.cumsum(sorted_probs, dim=0)
-                mask = cumsum < 0.9
-                mask[0] = True
-                filtered_probs = sorted_probs * mask.float()
-                filtered_probs = filtered_probs / filtered_probs.sum()
-                
-                next_token = sorted_indices[torch.multinomial(filtered_probs, 1)]
-                
-                if next_token.item() == 0:  # EOS
-                    break
-                
-                input_ids = torch.cat([input_ids, next_token.unsqueeze(0)], dim=1)
+        model = self.compiled_brain or self.brain
+        model_config = self.config.get_model_config()
         
-        return self.tokenizer.decode(input_ids[0].tolist())
-    
-    def save_checkpoint(self, step: int):
-        """Save checkpoint."""
-        Path(self.config.checkpoint_dir).mkdir(exist_ok=True)
+        results = H100Benchmark.benchmark_throughput(
+            model,
+            input_shape=(self.config.batch_size, model_config["max_seq_length"]),
+            num_iterations=num_iterations,
+        )
         
-        # Get the underlying model if compiled
-        model_to_save = self.brain
-        if hasattr(self.brain, '_orig_mod'):
-            model_to_save = self.brain._orig_mod
+        print(f"\n  Benchmark Results:")
+        print(f"     • Samples/second: {results['samples_per_second']:.1f}")
+        print(f"     • ms/sample: {results['ms_per_sample']:.2f}")
+        print(f"     • Batches/second: {results['batches_per_second']:.1f}")
         
-        checkpoint = {
-            'step': step,
-            'model_state_dict': model_to_save.state_dict(),
-            'optimizer_state_dict': self.optimizer.state_dict(),
-            'losses': self.losses,
-            'config': self.config,
-        }
-        
-        path = Path(self.config.checkpoint_dir) / f"nokai_h100_step_{step}.pt"
-        torch.save(checkpoint, path)
-        print(f"  💾 Checkpoint saved: {path}")
+        return results
 
 
 # ============================================
@@ -606,39 +431,74 @@ class H100Trainer:
 # ============================================
 
 def main():
-    import argparse
+    parser = argparse.ArgumentParser(
+        description="Nōkai v0.9 - H100-Optimized Training"
+    )
     
-    parser = argparse.ArgumentParser(description="Nōkai v0.9 H100 Optimized Training")
-    
+    # Original arguments (preserved)
     parser.add_argument("--tier", type=str, default="small",
-                       choices=["nano", "small", "medium", "large"])
-    parser.add_argument("--steps", type=int, default=100000)
-    parser.add_argument("--batch_size", type=int, default=64)
-    parser.add_argument("--lr", type=float, default=6e-4)
+                       choices=["nano", "small", "medium", "large"],
+                       help="Model size tier")
+    parser.add_argument("--steps", type=int, default=10000,
+                       help="Training steps")
+    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--lr", type=float, default=3e-4)
     parser.add_argument("--checkpoint_dir", type=str, default="checkpoints_v09_h100")
+    parser.add_argument("--eval_only", action="store_true",
+                       help="Only evaluate, don't train")
     
-    # H100 specific options
-    parser.add_argument("--no-bf16", action="store_true", help="Disable BF16")
-    parser.add_argument("--no-compile", action="store_true", help="Disable torch.compile")
-    parser.add_argument("--no-fused-adam", action="store_true", help="Disable fused AdamW")
+    # H100-specific arguments (NEW)
+    parser.add_argument("--no-compile", action="store_true",
+                       help="Disable torch.compile")
+    parser.add_argument("--compile-mode", type=str, default="max-autotune",
+                       choices=["default", "reduce-overhead", "max-autotune"],
+                       help="torch.compile mode")
+    parser.add_argument("--no-bf16", action="store_true",
+                       help="Disable BF16, use FP16")
+    parser.add_argument("--gradient-accumulation", type=int, default=4,
+                       help="Gradient accumulation steps")
+    parser.add_argument("--benchmark", action="store_true",
+                       help="Run benchmark after setup")
+    parser.add_argument("--compare-compiled", action="store_true",
+                       help="Compare eager vs compiled performance")
     
     args = parser.parse_args()
     
-    config = H100Config(
+    # Create H100 config
+    config = H100ScalingConfig(
         model_tier=args.tier,
         batch_size=args.batch_size,
         learning_rate=args.lr,
         total_steps=args.steps,
         checkpoint_dir=args.checkpoint_dir,
+        gradient_accumulation=args.gradient_accumulation,
+        # H100 settings
         use_bf16=not args.no_bf16,
-        use_compile=not args.no_compile,
-        use_fused_adam=not args.no_fused_adam,
+        use_torch_compile=not args.no_compile,
+        compile_mode=args.compile_mode,
     )
     
-    trainer = H100Trainer(config)
+    # Create H100-optimized trainer
+    trainer = NokaiTrainerH100(config)
     
     if trainer.setup():
-        trainer.train(args.steps)
+        # Run benchmark if requested
+        if args.benchmark:
+            trainer.benchmark()
+        
+        # Compare eager vs compiled if requested
+        if args.compare_compiled and not args.no_compile:
+            H100Benchmark.compare_eager_vs_compiled(
+                trainer.brain,
+                input_shape=(args.batch_size, config.get_model_config()["max_seq_length"])
+            )
+        
+        if not args.eval_only:
+            trainer.train(args.steps)
+        else:
+            print("\n  📊 Evaluation only mode:")
+            eval_results = trainer.evaluator.evaluate()
+            print(f"     Accuracy: {eval_results['accuracy']:.1%}")
 
 
 if __name__ == "__main__":

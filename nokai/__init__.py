@@ -100,6 +100,24 @@ except ImportError:
     _HAS_TOKENIZATION = False
     HAS_TOKENIZERS = False
 
+# H100 Hardware Optimization (NEW in 0.3.1)
+try:
+    from nokai.h100_optimizer import (
+        H100Optimizer,
+        H100Capabilities,
+        MixedPrecisionConfig,
+        H100GradScaler,
+        H100MemoryManager,
+        H100Benchmark,
+        optimize_for_h100,
+        detect_h100_capabilities,
+        configure_cuda_backend_for_h100,
+        compile_model_for_h100,
+    )
+    _HAS_H100_OPTIMIZER = True
+except ImportError:
+    _HAS_H100_OPTIMIZER = False
+
 __all__ = [
     # Version info
     "__version__",
@@ -152,4 +170,18 @@ __all__ = [
     "TokenizerConfig",
     "create_tokenizer",
     "HAS_TOKENIZERS",
+    
+    # H100 Hardware Optimization
+    "H100Optimizer",
+    "H100Capabilities",
+    "MixedPrecisionConfig",
+    "H100GradScaler",
+    "H100MemoryManager",
+    "H100Benchmark",
+    "optimize_for_h100",
+    "detect_h100_capabilities",
+    "configure_cuda_backend_for_h100",
+    "compile_model_for_h100",
+    "_HAS_H100_OPTIMIZER",
 ]
+
