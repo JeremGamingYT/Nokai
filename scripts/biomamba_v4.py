@@ -63,7 +63,7 @@ class Config:
     iters_pretrain = 3000   
     iters_sft = 500         
     
-    batch_size = 32         
+    batch_size = 16         
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     save_path = "biomamba_v4_opt.pth"
 
@@ -183,10 +183,9 @@ class MambaBlock(nn.Module):
         self.act = nn.SiLU() 
         
     @staticmethod
-    @torch.jit.script
-    def pscan_jit(A, B, C, D, x, delta):
+    def pscan(A, B, C, D, x, delta):
         """
-        Sequential Scan JIT-Compiled for Stability & Speed.
+        Sequential Scan (Pure Python) for Checkpoint Compatibility.
         Memory Optimized: Computes terms per-step to avoid (B,L,D,N) materialization.
         """
         bs, L, d_in = x.shape
@@ -240,8 +239,8 @@ class MambaBlock(nn.Module):
         (delta, B_val, C_val) = x_dbl.split([self.dt_rank, self.config.d_state, self.config.d_state], dim=-1)
         delta = F.softplus(self.dt_proj(delta)) 
         
-        # Use JIT-compiled scan
-        out_scan = self.pscan_jit(
+        # Use Pure Python scan
+        out_scan = self.pscan(
             -torch.exp(self.A_log), 
             B_val, 
             C_val, 
