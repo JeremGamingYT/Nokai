@@ -63,7 +63,7 @@ class Config:
     iters_pretrain = 500
     iters_sft = 500         
     
-    batch_size = 16         
+    batch_size = 32         
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     save_path = "biomamba_v4_opt.pth"
 
@@ -183,10 +183,11 @@ class MambaBlock(nn.Module):
         self.act = nn.SiLU() 
         
     @staticmethod
+    @torch.jit.script
     def pscan(A, B, C, D, x, delta):
         """
-        Sequential Scan (Pure Python) for Checkpoint Compatibility.
-        Memory Optimized: Computes terms per-step to avoid (B,L,D,N) materialization.
+        Sequential Scan JIT-Compiled for Stability & Speed.
+        Memory Optimized: Computes terms per-step.
         """
         bs, L, d_in = x.shape
         n = A.shape[1]
@@ -239,7 +240,7 @@ class MambaBlock(nn.Module):
         (delta, B_val, C_val) = x_dbl.split([self.dt_rank, self.config.d_state, self.config.d_state], dim=-1)
         delta = F.softplus(self.dt_proj(delta)) 
         
-        # Use Pure Python scan
+        # Use JIT-compiled scan
         out_scan = self.pscan(
             -torch.exp(self.A_log), 
             B_val, 
@@ -311,11 +312,11 @@ val_data = torch.tensor(encoded_data[int(0.9*len(encoded_data)):], dtype=torch.l
 model = BioMamba(config, vocab_size=len(tokenizer.merges) + 260).to(config.device)
 
 # Compile model
-try:
-    print("Compiling model for H100 boost... (This typically takes 30-60s)")
-    model = torch.compile(model) 
-except Exception as e:
-    print(f"Compilation skipped: {e}")
+# try:
+#     print("Compiling model for H100 boost... (This typically takes 30-60s)")
+#     model = torch.compile(model) 
+# except Exception as e:
+#     print(f"Compilation skipped: {e}")
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr_base)
 
@@ -333,7 +334,7 @@ def get_batch():
 
 # --- 5. TRAINING LOOP ---
 print("\n=== PHASE 1: BIO-PRETRAINING V4.1 (OPTIMIZED) ===")
-print("Starting training with JIT-Scan and Dopamine Integration (Compiled)...")
+print("Starting training with JIT-Scan and Dopamine Integration (No Compile)...")
 
 scaler = torch.amp.GradScaler('cuda', enabled=(config.device == 'cuda'))
 start_time = time.time()
@@ -345,7 +346,8 @@ for iter in range(config.iters_pretrain):
     xb, yb = get_batch()
     
     with torch.amp.autocast('cuda'):
-        logits, loss, conf = model(xb, yb, use_checkpointing=True)
+        # Disable checkpointing for H100 speed
+        logits, loss, conf = model(xb, yb, use_checkpointing=False)
         
     if torch.isnan(loss):
         print(f"NAN DETECTED at step {iter}! Resetting optimizer...")
