@@ -117,6 +117,14 @@ class BPETokenizer:
             self.vocab[idx] = self.vocab[pair[0]] + self.vocab[pair[1]]
         print(f"BPE Training Complete. Vocab size: {len(self.merges) + 259}")
 
+    def load_vocab(self, vocab_data):
+        self.merges = {tuple(p): 259 + i for i, p in enumerate(vocab_data['merges'])}
+        self.vocab = {i: bytes([i]) for i in range(256)}
+        for i, pair in enumerate(vocab_data['merges']):
+            self.vocab[259 + i] = self.vocab[pair[0]] + self.vocab[pair[1]]
+        self.special_tokens = vocab_data['special_tokens']
+        self.vocab_size = vocab_data['vocab_size']
+
     def save(self, path):
         import json
         data = {
@@ -129,12 +137,7 @@ class BPETokenizer:
     def load(self, path):
         import json
         with open(path, 'r') as f: data = json.load(f)
-        self.merges = {tuple(p): 259 + i for i, p in enumerate(data['merges'])}
-        self.vocab = {i: bytes([i]) for i in range(256)}
-        for i, pair in enumerate(data['merges']):
-            self.vocab[259 + i] = self.vocab[pair[0]] + self.vocab[pair[1]]
-        self.special_tokens = data['special_tokens']
-        self.vocab_size = data['vocab_size']
+        self.load_vocab(data)
 
     def encode(self, text):
         ids = list(text.encode("utf-8"))
@@ -184,27 +187,41 @@ class MambaBlock(nn.Module):
     def pscan_jit(A, B, C, D, x, delta):
         """
         Sequential Scan JIT-Compiled for Stability & Speed.
-        Fused kernel via TorchScript avoids Python loop overhead and NaN issues of naive Vectorized Scan.
+        Memory Optimized: Computes terms per-step to avoid (B,L,D,N) materialization.
         """
         bs, L, d_in = x.shape
         n = A.shape[1]
         
-        # A_bar = exp(delta * A)
-        # Input A is negative.
-        # delta (B,L,D), A (D,N) -> (B,L,D,N)
-        A_bar = torch.exp(delta.unsqueeze(-1) * A)
-        
-        # u = (delta * B) * x
-        # B (B,L,N), x (B,L,D), delta (B,L,D) -> (B,L,D,N)
-        u = delta.unsqueeze(-1) * B.unsqueeze(2) * x.unsqueeze(-1)
-        
+        # h state initialization
         h = torch.zeros(bs, d_in, n, device=x.device, dtype=x.dtype)
         y = torch.zeros_like(x)
         
+        # Expand A for broadcasting: (D, N) -> (1, D, N)
+        A_broadcast = A.unsqueeze(0)
+        
         for t in range(L):
-            h = A_bar[:, t] * h + u[:, t]
-            # y_t = (C_t * h_t).sum over N
-            # C (B,L,N) -> C[:,t] -> (B,1,N) * (B,D,N) -> sum(-1) -> (B,D)
+            # 1. Compute current step terms (Memory Efficient)
+            # delta_t: (B, D)
+            delta_t = delta[:, t] 
+            
+            # A_bar_t = exp(delta_t * A)
+            # (B, D, 1) * (1, D, N) -> (B, D, N)
+            A_bar_t = torch.exp(delta_t.unsqueeze(-1) * A_broadcast)
+            
+            # u_t = delta_t * B_t * x_t
+            # B_t: (B, N) -> (B, 1, N)
+            # x_t: (B, D) -> (B, D, 1)
+            # (B, D, 1) * (B, 1, N) * (B, D, 1) -> (B, D, N)
+            u_t = delta_t.unsqueeze(-1) * B[:, t].unsqueeze(1) * x[:, t].unsqueeze(-1)
+            
+            # 2. Update State
+            # h: (B, D, N)
+            h = A_bar_t * h + u_t
+            
+            # 3. Project to Output
+            # y_t = (C_t * h).sum(-1)
+            # C_t: (B, N) -> (B, 1, N)
+            # (B, 1, N) * (B, D, N) -> (B, D, N) -> sum(-1) -> (B, D)
             y[:, t] = (C[:, t].unsqueeze(1) * h).sum(dim=-1)
             
         return y + D * x
@@ -282,7 +299,7 @@ if os.path.exists(tok_path):
     print("Loading BPE Tokenizer...")
     tokenizer.load(tok_path)
 else:
-    tokenizer.train(data[:100000])
+    tokenizer.train(data[:32000]) # Reduced for speed (was 100k)
     tokenizer.save(tok_path)
     
 encoded_data = tokenizer.encode(data)
