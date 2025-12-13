@@ -60,7 +60,7 @@ class Config:
     gradient_noise = 0.0
     max_grad_norm = 1.0     
     
-    iters_pretrain = 3000   
+    iters_pretrain = 500
     iters_sft = 500         
     
     batch_size = 16         
@@ -311,11 +311,11 @@ val_data = torch.tensor(encoded_data[int(0.9*len(encoded_data)):], dtype=torch.l
 model = BioMamba(config, vocab_size=len(tokenizer.merges) + 260).to(config.device)
 
 # Compile model
-# try:
-#     print("Compiling model for H100 boost... (This can take 5-10 mins on Windows)")
-#     # model = torch.compile(model) # DISABLED: Fixes 500s startup delay
-# except Exception as e:
-#     print(f"Compilation skipped: {e}")
+try:
+    print("Compiling model for H100 boost... (This typically takes 30-60s)")
+    model = torch.compile(model) 
+except Exception as e:
+    print(f"Compilation skipped: {e}")
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr_base)
 
@@ -333,10 +333,13 @@ def get_batch():
 
 # --- 5. TRAINING LOOP ---
 print("\n=== PHASE 1: BIO-PRETRAINING V4.1 (OPTIMIZED) ===")
-print("Starting training with JIT-Scan and Dopamine Integration (No Compile)...")
+print("Starting training with JIT-Scan and Dopamine Integration (Compiled)...")
 
 scaler = torch.amp.GradScaler('cuda', enabled=(config.device == 'cuda'))
 start_time = time.time()
+
+# Rolling average for loss normalization
+loss_moving_avg = 7.0 
 
 for iter in range(config.iters_pretrain):
     xb, yb = get_batch()
@@ -350,7 +353,13 @@ for iter in range(config.iters_pretrain):
         continue
         
     loss_val = loss.item()
-    reward_signal = torch.tensor([-loss_val], device=config.device, dtype=torch.float32).unsqueeze(0)
+    loss_moving_avg = 0.99 * loss_moving_avg + 0.01 * loss_val
+    
+    # Calculate RPE-based reward: Improvement is positive, degradation is negative
+    # Relative to moving average to keep signals meaningful
+    relative_performance = loss_moving_avg - loss_val # Positive if loss < avg (good)
+    
+    reward_signal = torch.tensor([relative_performance * 10.0], device=config.device, dtype=torch.float32).unsqueeze(0)
     state_signal = torch.tensor([[loss_val]], device=config.device, dtype=torch.float32)
     
     da_state, meta = dopamine_circuit(state_signal, reward=reward_signal)
@@ -370,7 +379,7 @@ for iter in range(config.iters_pretrain):
         dt = time.time() - start_time
         ips = 100 / (dt + 1e-6)
         start_time = time.time()
-        print(f"Step {iter} | Loss: {loss_val:.4f} | DA: {da_state.level:.2f} | Burst: {da_state.burst:.2f} | Speed: {ips:.1f} it/s")
+        print(f"Step {iter} | Loss: {loss_val:.4f} | RPE: {da_state.rpe:.3f} | DA: {da_state.level:.2f} | Speed: {ips:.1f} it/s")
 
 # --- 6. SFT ---
 print("\n=== PHASE 2: SFT (Persona Injection) ===")
