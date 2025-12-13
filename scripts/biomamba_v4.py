@@ -6,6 +6,7 @@
 # 2. Integrated real `DopamineCircuit` from `nokai.limbic`.
 # 3. Added Gradient Checkpointing for further memory savings.
 # 4. Enhanced Metacognition with Entropy-based Uncertainty.
+# 5. DISABLED torch.compile to fix huge startup delay.
 
 import torch
 import torch.nn as nn
@@ -263,6 +264,7 @@ class BioMamba(nn.Module):
         if targets is not None:
             B, T, C = logits.shape
             logits_flat = logits.view(B*T, C)
+            logits_flat = logits.view(B*T, C)
             targets_flat = targets.view(B*T)
             loss = F.cross_entropy(logits_flat, targets_flat)
             
@@ -293,11 +295,11 @@ val_data = torch.tensor(encoded_data[int(0.9*len(encoded_data)):], dtype=torch.l
 model = BioMamba(config, vocab_size=len(tokenizer.merges) + 260).to(config.device)
 
 # Compile model
-try:
-    print("Compiling model for H100 boost...")
-    model = torch.compile(model)
-except Exception as e:
-    print(f"Compilation skipped: {e}")
+# try:
+#     print("Compiling model for H100 boost... (This can take 5-10 mins on Windows)")
+#     # model = torch.compile(model) # DISABLED: Fixes 500s startup delay
+# except Exception as e:
+#     print(f"Compilation skipped: {e}")
 
 optimizer = torch.optim.AdamW(model.parameters(), lr=config.lr_base)
 
@@ -315,7 +317,7 @@ def get_batch():
 
 # --- 5. TRAINING LOOP ---
 print("\n=== PHASE 1: BIO-PRETRAINING V4.1 (OPTIMIZED) ===")
-print("Starting training with JIT-Scan and Dopamine Integration...")
+print("Starting training with JIT-Scan and Dopamine Integration (No Compile)...")
 
 scaler = torch.amp.GradScaler('cuda', enabled=(config.device == 'cuda'))
 start_time = time.time()
